@@ -34,6 +34,18 @@ This isn't about replacing developers - it's about transforming their role:
 
 Explore our first article: [Beyond Vibe Coding: Introducing AI-Powered SDLC for Real-World Solutions](/blog-series/articles/01-beyond-vibe-coding-draft.md)
 
+## Project Resources
+
+### Wiki
+Visit our [Wiki page](https://github.com/mouimet-infinisoft/AISDLC/wiki) for a quick overview of the project.
+
+### Project Board
+We manage our tasks and timeline through GitHub Projects. You can view our project in different formats:
+
+- [Tasks List](https://github.com/users/mouimet-infinisoft/projects/18/views/1) - All tasks in list format
+- [Roadmap](https://github.com/users/mouimet-infinisoft/projects/18/views/2) - Timeline view with dependencies
+- [Kanban Board](https://github.com/users/mouimet-infinisoft/projects/18/views/3) - Track task status
+
 ## Join the Conversation
 
 We're building a community around this new approach to AI-human collaboration. Here's how you can participate:
