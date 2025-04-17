@@ -10,6 +10,10 @@ The AI-Powered SDLC methodology transforms how developers collaborate with AI to
 
 Using this methodology, we built a complete [Bus Driver Evaluation Report Generator](https://github.com/mouimet-infinisoft/configurable-report-generator) in just 24 hours without writing a single line of code - a project that would have taken 4-6 months with traditional development.
 
+**Important**: This project truly started from an empty folder. We did not write any terminal commands, install any packages, scaffold any frameworks, set up any backend, or configure any development environments. The entire technical implementation - from environment setup to database configuration to coding - was delegated to the large language model under our supervision.
+
+Even the GitHub repository management - including work breakdown structure, issues, epics, content, code reviews, and comments - was entirely handled by the AI. We provided strategic direction and approval, but did not directly implement any technical aspects. This demonstrates that AI-Powered SDLC goes far beyond mere code generation.
+
 ### 🔄 Shift Your Focus from Code to Strategy
 
 This isn't about replacing developers - it's about transforming their role:
