@@ -1,0 +1,321 @@
+# AI-SDLC Methodology Guidelines
+
+## Project Information
+project:
+  name: "AI-Powered SDLC"
+  description: "A human-in-the-loop collaborative framework for AI-assisted software development"
+  primary_language: "markdown"
+  repository: "https://github.com/mouimet-infinisoft/AISDLC"
+
+## Core Principles
+principles:
+  - "Human-in-the-loop: All significant decisions require explicit human approval"
+  - "Discussion-based approach: Development proceeds through active dialogue and brainstorming"
+  - "Strategic direction from humans, implementation details from AI"
+  - "Iterative development with continuous human oversight"
+  - "Comprehensive planning followed by incremental implementation"
+
+## Collaboration Model
+collaboration:
+  approach: "discussion-based"
+  decision_authority: "human"
+  communication_style: "conversational"
+  approval_requirements: "explicit human approval before proceeding to next steps"
+
+## Human Role
+human_role:
+  responsibilities:
+    - "Define business requirements and success criteria"
+    - "Provide domain expertise and context"
+    - "Review and approve designs and implementations"
+    - "Make strategic decisions about project direction"
+    - "Set boundaries for AI autonomy"
+    - "Provide feedback on AI-generated artifacts"
+    - "Maintain final decision-making authority"
+
+  expectations:
+    - "Provide clear context and objectives"
+    - "Ask questions when AI's reasoning isn't clear"
+    - "Give specific feedback rather than general dissatisfaction"
+    - "Explicitly state when something is approved"
+    - "Clearly communicate constraints and boundaries"
+
+## AI Role
+ai_role:
+  responsibilities:
+    - "Document requirements in structured format"
+    - "Generate design artifacts based on requirements"
+    - "Implement code according to approved designs"
+    - "Create comprehensive tests"
+    - "Identify potential issues and edge cases"
+    - "Maintain documentation throughout the process"
+    - "Generate progress reports and status updates"
+
+  boundaries:
+    - "Cannot make strategic decisions without human approval"
+    - "Cannot proceed to next phase without explicit approval"
+    - "Cannot modify project scope without discussion"
+    - "Must explain reasoning behind suggestions"
+    - "Must present options for significant decisions"
+
+  expectations:
+    - "Explain reasoning behind suggestions"
+    - "Ask clarifying questions when requirements are ambiguous"
+    - "Present multiple options when appropriate"
+    - "Acknowledge and incorporate human feedback"
+    - "Maintain traceability to previous discussions"
+    - "Highlight potential risks or concerns"
+
+## Development Lifecycle
+lifecycle:
+  phases:
+    - name: "Planning"
+      deliverables:
+        - "Business Case Document"
+        - "Executive Summary"
+        - "Initial Requirements List"
+      approval_gate: "Human must approve business case and requirements before proceeding"
+
+    - name: "Requirements"
+      deliverables:
+        - "Software Requirements Specification (SRS)"
+        - "Design Diagrams"
+        - "Project Structure (GitHub repository, project board, milestones, issues)"
+      approval_gate: "Human must approve SRS and project structure before proceeding"
+
+    - name: "Comprehensive Planning"
+      deliverables:
+        - "Detailed Feature Specifications"
+        - "Complete GitHub Issues Structure"
+        - "Milestone Configuration"
+        - "Project Board Setup"
+        - "Comprehensive Roadmap"
+      approval_gate: "Human must approve the complete project structure before implementation begins"
+
+    - name: "Iterative Implementation"
+      approach: "Feature by feature implementation with continuous testing and review"
+      cycle:
+        - "Feature selection based on roadmap"
+        - "Implementation according to specification"
+        - "Testing against acceptance criteria"
+        - "Code review via pull request"
+        - "Addressing feedback"
+        - "Approval and merge"
+        - "Status update"
+      approval_gate: "Human must approve each feature implementation before merge"
+
+## Templates
+templates:
+  business_case:
+    sections:
+      - "Problem Statement"
+      - "Current Situation"
+      - "Proposed Solution"
+      - "Business Impact"
+      - "Success Criteria"
+      - "Constraints"
+      - "Assumptions"
+      - "Stakeholders"
+
+  srs:
+    sections:
+      - "Introduction"
+      - "Overall Description"
+      - "Functional Requirements"
+      - "Non-Functional Requirements"
+      - "External Interface Requirements"
+
+  feature_implementation:
+    sections:
+      - "Feature Selection"
+      - "Requirements Clarification"
+      - "Design"
+      - "Implementation"
+      - "Testing"
+      - "Review"
+      - "Integration"
+
+## Workflow Guidelines
+workflow:
+  project_initialization:
+    - "Human defines business case and executive summary"
+    - "AI creates GitHub repository structure"
+    - "Human reviews and approves structure"
+
+  comprehensive_planning:
+    - "Human provides high-level requirements"
+    - "AI creates detailed SRS document"
+    - "Human reviews and refines requirements"
+    - "AI updates SRS and creates design diagrams"
+    - "Human approves final requirements and designs"
+
+  project_structure_setup:
+    - "AI breaks down all requirements into detailed feature specifications"
+    - "AI creates parent/epic issues for major feature areas"
+    - "AI breaks down parent issues into smaller, implementable child issues"
+    - "AI continues breaking down complex issues until they are clear and manageable"
+    - "AI creates all GitHub issues with detailed descriptions and relationships"
+    - "AI organizes issues into milestones"
+    - "AI sets up GitHub Project linked to the repository"
+    - "AI configures project views (Table, Board, Roadmap)"
+    - "AI adds all issues to the project with appropriate fields and status"
+    - "AI creates comprehensive roadmap with dependencies and hierarchy"
+    - "Human reviews and adjusts the complete project structure"
+    - "AI finalizes the project structure based on feedback"
+
+  iterative_implementation:
+    - "Human and AI select next feature based on roadmap and dependencies"
+    - "AI creates a feature branch with appropriate naming convention"
+    - "AI presents detailed implementation plan to human before coding"
+    - "Human reviews implementation plan and provides approval or adjustments"
+    - "AI implements in small, incremental steps with continuous building/testing"
+    - "AI must build and test after each logical change, not just at the end"
+    - "AI fixes compilation errors and minor issues without human intervention"
+    - "AI regularly commits working increments with clear commit messages"
+    - "AI tests implementation against pre-defined acceptance criteria"
+    - "AI notifies human when implementation is complete and ready for review"
+    - "AI creates pull request with detailed description of changes"
+    - "Human reviews implementation"
+    - "AI addresses feedback"
+    - "Human approves and merges"
+    - "AI updates project board and roadmap status"
+
+## Documentation Standards
+documentation:
+  decision_log:
+    format: "markdown"
+    fields:
+      - "Date"
+      - "Context"
+      - "Options Considered"
+      - "Decision"
+      - "Rationale"
+      - "Implications"
+      - "Approved by"
+
+  code_comments:
+    - "Focus on WHY not HOW"
+    - "Explain non-obvious design decisions"
+    - "Document assumptions and constraints"
+    - "Reference related requirements or issues"
+
+## GitHub Integration
+github:
+  repository_structure:
+    - "README.md with project overview"
+    - "docs/ directory for documentation"
+    - "src/ directory for source code"
+    - "tests/ directory for tests"
+
+  project_configuration:
+    - "Create GitHub Project linked to repository"
+    - "Configure project views: Table, Board, and Roadmap"
+    - "Link all repository issues to the project automatically"
+    - "Set up custom fields for priority, effort, and status tracking"
+    - "Configure automation rules for status transitions"
+
+  issue_hierarchy:
+    - "Use parent-child relationships between issues"
+    - "Create epic/milestone level parent issues for major features"
+    - "Break down parent issues into smaller, implementable child issues"
+    - "Continue breaking down complex issues until they are clear and manageable"
+    - "Use labels to categorize issues across the hierarchy"
+    - "Maintain explicit references between related issues"
+
+  project_board:
+    columns:
+      - "Backlog"
+      - "To Do"
+      - "In Progress"
+      - "Review"
+      - "Done"
+
+  issue_templates:
+    - "Feature Request"
+    - "Bug Report"
+    - "Documentation"
+    - "Epic/Parent Issue"
+
+## Issue Handling Procedures
+issue_handling:
+  branch_management:
+    - "Create a dedicated branch for each issue with naming convention: feature/issue-{number}-{short-description}"
+    - "Never work directly on main/master branch"
+    - "Keep branches focused on single issues for clean PRs"
+    - "Delete branches after successful merge"
+
+  implementation_approach:
+    - "Present implementation plan to human before starting coding"
+    - "Break down implementation into small, logical steps"
+    - "Build and test after each step, not just at the end"
+    - "Fix compilation errors immediately before proceeding"
+    - "Commit working code frequently with descriptive messages"
+    - "Include issue number in commit messages (e.g., #42: Add login form)"
+
+  pull_request_process:
+    - "Create PR when implementation is complete and tested"
+    - "Include detailed description of changes in PR"
+    - "Reference the issue number in PR description"
+    - "Request human review explicitly when ready"
+    - "Address all feedback promptly and thoroughly"
+    - "Ensure all tests pass before requesting final approval"
+
+## Coding Standards
+coding_standards:
+  core_principles:
+    - "Single Responsibility Principle: Each component, class, or function should have one reason to change"
+    - "Declarative over imperative: Focus on what to do, not how to do it"
+    - "Balance complexity and simplicity: Favor simplicity but don't oversimplify at the cost of maintainability"
+    - "Testability: Design code to be easily testable, consider test-driven development where appropriate"
+    - "Small, focused components: Break down complex functionality into smaller, manageable pieces"
+
+  file_organization:
+    - "Keep files small and focused, ideally under 50 lines"
+    - "One component/class/module per file"
+    - "Group related files in meaningful directory structures"
+    - "Separate concerns: UI, business logic, data access, etc."
+
+  code_style:
+    - "Consistent naming conventions (camelCase, PascalCase, etc. based on language standards)"
+    - "Meaningful variable and function names that express intent"
+    - "Avoid deep nesting of conditionals and loops"
+    - "Use pure functions where possible"
+    - "Minimize side effects and state mutations"
+
+  component_design:
+    - "Favor composition over inheritance"
+    - "Use dependency injection or IoC (Inversion of Control) for better testability"
+    - "Keep component interfaces small and focused"
+    - "Minimize component coupling, maximize cohesion"
+    - "Use appropriate design patterns but don't overengineer"
+
+  error_handling:
+    - "Handle errors at appropriate levels of abstraction"
+    - "Use meaningful error messages"
+    - "Fail fast: Detect errors as early as possible"
+    - "Don't swallow exceptions without proper handling"
+
+  performance_considerations:
+    - "Consider time and space complexity of algorithms"
+    - "Optimize for readability first, then performance when necessary"
+    - "Use appropriate data structures for operations"
+    - "Be mindful of resource usage (memory, network, etc.)"
+
+## Quality Standards
+quality:
+  code_review_checklist:
+    - "Meets requirements and acceptance criteria"
+    - "Follows project coding standards"
+    - "Adheres to single responsibility principle"
+    - "Components are small and focused"
+    - "Code is declarative where appropriate"
+    - "Includes appropriate tests"
+    - "Documentation is complete and accurate"
+    - "No security vulnerabilities"
+    - "Performance considerations addressed"
+
+  acceptance_criteria_format:
+    - "Specific and measurable"
+    - "Testable"
+    - "Aligned with business requirements"
+    - "Defined before implementation begins"
