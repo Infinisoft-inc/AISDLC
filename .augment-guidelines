@@ -151,27 +151,47 @@ workflow:
 
   project_structure_setup:
     - "AI breaks down all requirements into detailed feature specifications"
-    - "AI creates parent/epic issues for major feature areas"
-    - "AI breaks down parent issues into smaller, implementable child issues"
-    - "AI continues breaking down complex issues until they are clear and manageable"
-    - "AI creates all GitHub issues with detailed descriptions and relationships"
-    - "AI organizes issues into milestones"
+    - "AI presents the breakdown to human for review before proceeding"
+
+    - "AI creates a small batch of parent/epic issues for major feature areas"
+    - "AI stops for human review and approval before continuing"
+
+    - "AI breaks down approved parent issues into smaller, implementable child issues"
+    - "AI stops for human review after each parent issue breakdown"
+
+    - "AI creates GitHub issues with detailed descriptions for the approved breakdown"
+    - "AI uses the scripts/add-sub-issue.sh script to establish parent-child relationships"
+    - "AI stops for human review after creating each set of related issues"
+
+    - "AI organizes issues into milestones in small batches"
+    - "AI stops for human review after each milestone setup"
+
     - "AI sets up GitHub Project linked to the repository"
     - "AI configures project views (Table, Board, Roadmap)"
-    - "AI adds all issues to the project with appropriate fields and status"
-    - "AI creates comprehensive roadmap with dependencies and hierarchy"
-    - "Human reviews and adjusts the complete project structure"
-    - "AI finalizes the project structure based on feedback"
+    - "AI stops for human review of the project configuration"
+
+    - "AI adds issues to the project with appropriate fields and status in small batches"
+    - "AI stops for human review after each batch"
+
+    - "AI creates roadmap sections with dependencies and hierarchy incrementally"
+    - "AI stops for human review after each roadmap section"
+
+    - "Human provides final review of the complete project structure"
+    - "AI makes any final adjustments based on feedback"
 
   iterative_implementation:
     - "Human and AI select next feature based on roadmap and dependencies"
     - "AI creates a feature branch with appropriate naming convention"
     - "AI presents detailed implementation plan to human before coding"
     - "Human reviews implementation plan and provides approval or adjustments"
+
     - "AI implements in small, incremental steps with continuous building/testing"
     - "AI must build and test after each logical change, not just at the end"
     - "AI fixes compilation errors and minor issues without human intervention"
     - "AI regularly commits working increments with clear commit messages"
+    - "AI provides progress updates after significant implementation milestones"
+    - "AI stops for human feedback at logical checkpoints during implementation"
+
     - "AI tests implementation against pre-defined acceptance criteria"
     - "AI notifies human when implementation is complete and ready for review"
     - "AI creates pull request with detailed description of changes"
@@ -201,40 +221,61 @@ documentation:
 
 ## GitHub Integration
 github:
-  repository_structure:
-    - "README.md with project overview"
-    - "docs/ directory for documentation"
-    - "src/ directory for source code"
-    - "tests/ directory for tests"
+  implementation_approach:
+    - "Create 'Project Setup' as the first milestone"
+    - "Create 'Project Management Toolset' as an epic issue within this milestone"
+    - "Break down each aspect of GitHub setup into specific issues under this epic"
+    - "Implement and close these issues early to establish project tracking"
+    - "Use the created project structure to track all subsequent development work"
 
-  project_configuration:
+  repository_structure_tasks:
+    - "Create README.md with project overview"
+    - "Set up docs/ directory for documentation"
+    - "Set up src/ directory for source code"
+    - "Set up tests/ directory for tests"
+    - "Configure branch protection rules"
+
+  project_configuration_tasks:
     - "Create GitHub Project linked to repository"
-    - "Configure project views: Table, Board, and Roadmap"
+    - "Configure Table view for detailed issue tracking"
+    - "Configure Board view for kanban workflow"
+    - "Configure Roadmap view for timeline visualization"
     - "Link all repository issues to the project automatically"
-    - "Set up custom fields for priority, effort, and status tracking"
+    - "Set up custom fields: priority, effort, status, etc."
     - "Configure automation rules for status transitions"
 
-  issue_hierarchy:
-    - "Use parent-child relationships between issues"
-    - "Create epic/milestone level parent issues for major features"
-    - "Break down parent issues into smaller, implementable child issues"
-    - "Continue breaking down complex issues until they are clear and manageable"
-    - "Use labels to categorize issues across the hierarchy"
-    - "Maintain explicit references between related issues"
+  issue_hierarchy_tasks:
+    - "Create milestone structure for major project phases"
+    - "Create epic issues for major feature areas"
+    - "Break down epics into implementable child issues"
+    - "Continue breaking down complex issues until manageable"
+    - "Apply consistent labeling across the hierarchy"
+    - "Establish parent-child relationships using the add-sub-issue.sh script"
+    - "Maintain proper hierarchy with parent issues and sub-tasks"
 
-  project_board:
+  parent_child_relationship_script:
+    description: "Script to add a sub-issue to a parent issue using the GitHub REST API"
+    location: "scripts/add-sub-issue.sh"
+    usage: "./scripts/add-sub-issue.sh <parent_issue_number> <child_issue_number>"
+    note: "This script must be used to create parent-child relationships as the GraphQL API support is limited"
+
+  project_board_configuration:
     columns:
       - "Backlog"
       - "To Do"
       - "In Progress"
       - "Review"
       - "Done"
+    automation:
+      - "Newly created issues go to Backlog"
+      - "Issues with assigned PRs move to In Progress"
+      - "Closed issues with merged PRs move to Done"
 
-  issue_templates:
-    - "Feature Request"
-    - "Bug Report"
-    - "Documentation"
-    - "Epic/Parent Issue"
+  issue_template_tasks:
+    - "Create Feature Request template"
+    - "Create Bug Report template"
+    - "Create Documentation Issue template"
+    - "Create Epic/Parent Issue template"
 
 ## Issue Handling Procedures
 issue_handling:
