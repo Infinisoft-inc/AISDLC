@@ -106,6 +106,18 @@ lifecycle:
 
 ## Templates
 templates:
+  project_context:
+    file_name: "project-context.md"
+    template_location: "templates/project-context.md"
+    sections:
+      - "Project Information"
+      - "Current Phase"
+      - "Completed Steps"
+      - "Next Steps"
+      - "Important Decisions"
+      - "Notes"
+    description: "Tracks project progress until GitHub project structure is complete"
+
   business_case:
     sections:
       - "Problem Statement"
@@ -137,9 +149,18 @@ templates:
 
 ## Workflow Guidelines
 workflow:
+  context_tracking:
+    - "AI maintains project-context.md file during early project phases"
+    - "AI updates project-context.md at the end of each session"
+    - "AI reviews project-context.md at the beginning of each new session"
+    - "AI tracks completed deliverables, current phase, and next steps in project-context.md"
+    - "AI transitions from project-context.md to GitHub project tracking once project structure is complete"
+
   project_initialization:
+    - "AI reviews existing project-context.md file at the beginning of the project"
     - "Human defines business case and executive summary"
     - "AI creates GitHub repository structure"
+    - "AI updates project-context.md with completed steps"
     - "Human reviews and approves structure"
 
   comprehensive_planning:
