@@ -1,18 +1,28 @@
-# AI-Powered SDLC: Transform How You Build with AI
+# AI-SDLC v2: Human-AI Collaborative Development Methodology
 
-![AI-Powered SDLC](https://img.shields.io/badge/AI--Powered-SDLC-blue) ![Status](https://img.shields.io/badge/Status-Active-brightgreen) ![License](https://img.shields.io/badge/License-MIT-green)
+![AI-SDLC](https://img.shields.io/badge/AI--SDLC-v2.0-blue) ![Status](https://img.shields.io/badge/Status-Experimental-orange) ![Proven](https://img.shields.io/badge/Proven-Working-green) ![License](https://img.shields.io/badge/License-MIT-green)
 
-## From Vibe Coding to Production-Ready Solutions
+## Evolution from Simple Project to Structured Methodology
 
-The AI-Powered SDLC methodology transforms how developers collaborate with AI to build real-world applications. Instead of focusing on code generation (the HOW), this approach elevates the developer's role to focus on strategic direction and problem-solving (the WHAT and WHY).
+**AI-SDLC v2** is the structured evolution of our experimental approach that began with the [Si Simple Project](https://github.com/mouimet-infinisoft/si-simple). What started as an exploration of AI-human collaboration has evolved into a documented methodology that's proven to work, but still experimental and evolving.
 
-### 🚀 Build Production Applications in Days, Not Months
+### 🔄 From Experiment to Structured Approach
 
-Using this methodology, we built a complete [Bus Driver Evaluation Report Generator](https://github.com/mouimet-infinisoft/configurable-report-generator) in just 24 hours without writing a single line of code - a project that would have taken 4-6 months with traditional development.
+**Si Simple Project (v1)** was our proof-of-concept that demonstrated AI could handle end-to-end development. **AI-SDLC v2** takes those learnings and creates a structured, documented methodology with:
 
-**Important**: This project truly started from an empty folder. We did not write any terminal commands, install any packages, scaffold any frameworks, set up any backend, or configure any development environments. The entire technical implementation - from environment setup to database configuration to coding - was delegated to the large language model under our supervision.
+- **Formal phase structure** with clear deliverables and approval gates
+- **Specialized AI roles** (Business Analyst, Architect, Developer, QA Engineer)
+- **Complete traceability** from business requirements to delivered code
+- **Domain-driven development** approach for complex applications
+- **Documented templates** and process guidelines
 
-Even the GitHub repository management - including work breakdown structure, issues, epics, content, code reviews, and comments - was entirely handled by the AI. We provided strategic direction and approval, but did not directly implement any technical aspects. This demonstrates that AI-Powered SDLC goes far beyond mere code generation.
+> **⚠️ Experimental Status**: While proven to work in real projects, this methodology is still experimental. We're actively learning, refining, and improving based on real-world usage. Phase 3.2 (Deployment) is particularly experimental and requires human oversight.
+
+### 🚀 Proven Results: From 24 Hours to Production
+
+Our methodology has been validated through real-world applications:
+
+- **Voice-Driven AI-SDLC**: Built a complete Bus Driver Evaluation Report Generator in 24 hours (read the [case study](https://blog.infinisoft.world/posts/voice-driven-ai-sdlc-case-study))
 
 ### 🔄 Shift Your Focus from Code to Strategy
 
@@ -23,39 +33,61 @@ This isn't about replacing developers - it's about transforming their role:
 - **AI Delegation**: Let AI handle implementation details
 - **Quality Oversight**: Maintain control of the final solution
 
-## What You'll Find Here
+## 📚 What You'll Find Here
 
-- **[Blog Series](/blog-series)**: Articles exploring the methodology and its applications
-- **Methodology**: Structured approach based on software engineering principles
-- **Case Studies**: Real-world applications built using this approach
-- **Resources**: Tools and templates for implementing AI-Powered SDLC
+### Core Methodology
+- **[Methodology Overview](methodology/overview.md)**: Complete AI-SDLC v2 methodology with C4 diagrams
+- **[Templates](templates/)**: Experimental templates for all phases (evolving based on usage)
+- **[Phase 1 Planning](templates/phase1-planning/)**: Business Case, BRD, SRS, ADD templates
+- **[Phase 2 Implementation](templates/phase2-implementation/)**: FRS and Implementation Plan templates
 
-## Getting Started
+### Learning Resources
+- **[Blog Series](/blog-series)**: Articles exploring methodology evolution and applications
+- **[Case Study](https://blog.infinisoft.world/posts/voice-driven-ai-sdlc-case-study)**: Real-world 24-hour development example
+- **[Si Simple Project](https://github.com/mouimet-infinisoft/si-simple)**: Original experimental foundation
 
-Explore our first article: [Beyond Vibe Coding: Introducing AI-Powered SDLC for Real-World Solutions](/blog-series/articles/01-beyond-vibe-coding-draft.md)
+### Documentation
+- **[Full Lifecycle Guide](methodology/full-lifecycle.md)**: Simplified development lifecycle overview
+- **[Templates README](templates/README.md)**: Complete template library documentation
 
-## Project Resources
+## 🚀 Getting Started
 
-### Wiki
-Visit our [Wiki page](https://github.com/mouimet-infinisoft/AISDLC/wiki) for a quick overview of the project.
+1. **Read the Methodology**: Start with [Methodology Overview](methodology/overview.md)
+2. **Explore Case Study**: Review our [Voice-Driven AI-SDLC case study](https://blog.infinisoft.world/posts/voice-driven-ai-sdlc-case-study)
+3. **Try the Templates**: Use our [experimental templates](templates/) (feedback welcome!)
+4. **Join the Community**: Participate in [discussions](https://github.com/mouimet-infinisoft/AISDLC/discussions)
 
-### Project Board
-We manage our tasks and timeline through GitHub Projects. You can view our project in different formats:
+## 🔗 Key Links & Resources
 
-- [Tasks List](https://github.com/users/mouimet-infinisoft/projects/18/views/1) - All tasks in list format
-- [Roadmap](https://github.com/users/mouimet-infinisoft/projects/18/views/2) - Timeline view with dependencies
-- [Kanban Board](https://github.com/users/mouimet-infinisoft/projects/18/views/3) - Track task status
+### Essential Reading
+- **[Methodology Overview](methodology/overview.md)** - Complete AI-SDLC v2 documentation
+- **[Voice-Driven AI-SDLC Case Study](https://blog.infinisoft.world/posts/voice-driven-ai-sdlc-case-study)** - 24-hour development story
+- **[Si Simple Project](https://github.com/mouimet-infinisoft/si-simple)** - Original experimental foundation
 
-## Join the Conversation
+### Project Management
+- **[Wiki](https://github.com/mouimet-infinisoft/AISDLC/wiki)** - Quick project overview
+- **[Tasks List](https://github.com/users/mouimet-infinisoft/projects/18/views/1)** - All tasks in list format
+- **[Roadmap](https://github.com/users/mouimet-infinisoft/projects/18/views/2)** - Timeline view with dependencies
+- **[Kanban Board](https://github.com/users/mouimet-infinisoft/projects/18/views/3)** - Track task status
 
-We're building a community around this new approach to AI-human collaboration. Here's how you can participate:
+## 🤝 Join the Community
 
-1. **Open an Issue**: Share your thoughts, experiences, or questions by [opening a new issue](https://github.com/mouimet-infinisoft/AISDLC/issues/new) in this repository
-2. **Start a Discussion**: Initiate or join discussions about AI-Powered SDLC in the [Discussions tab](https://github.com/mouimet-infinisoft/AISDLC/discussions)
-3. **Contribute**: Fork this repository and submit pull requests with your own experiences or improvements
-4. **Connect**: Follow [@mouimet-infinisoft](https://github.com/mouimet-infinisoft) on GitHub for updates
+We're building a community around AI-human collaborative development. Here's how you can participate:
 
-Your insights and experiences are valuable to the community as we explore this new frontier of AI-human collaboration in software development.
+### Contribute & Discuss
+1. **[Open an Issue](https://github.com/mouimet-infinisoft/AISDLC/issues/new)** - Share thoughts, experiences, or questions
+2. **[Start a Discussion](https://github.com/mouimet-infinisoft/AISDLC/discussions)** - Join conversations about AI-SDLC
+3. **Fork & Contribute** - Submit pull requests with improvements or experiences
+4. **Follow [@mouimet-infinisoft](https://github.com/mouimet-infinisoft)** - Stay updated on developments
+
+### Share Your Experience
+Your insights are valuable as we refine this experimental methodology. Whether you're:
+- **Trying the methodology** for the first time
+- **Adapting templates** for your domain
+- **Scaling the approach** for larger projects
+- **Integrating with existing** development processes
+
+We want to hear about your experience and learn from your implementation. This is still experimental - your feedback helps us improve!
 
 ## License
 
