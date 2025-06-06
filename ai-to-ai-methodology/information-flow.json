@@ -1,0 +1,328 @@
+{
+  "informationFlow": {
+    "version": "1.0.0",
+    "author": "Martin Ouimet (mouimet@infinisoft.world)",
+    "created": "June 6th, 2025",
+    "methodology": "AI-to-AI Knowledge Transfer",
+    "description": "Template chains and progressive detail approach for AI-SDLC methodology",
+    
+    "corePhilosophy": {
+      "progressiveDetail": {
+        "description": "Information flows from high-level to detailed through structured templates",
+        "benefits": ["Manageable complexity", "Complete traceability", "Quality control", "AI-friendly processing"]
+      },
+      "templateChaining": {
+        "description": "Each template output becomes the input for the next template",
+        "benefits": ["Structured conversations", "Consistent format", "Automated handoffs", "Error reduction"]
+      },
+      "contextualInformation": {
+        "description": "Each AI role gets exactly the information needed for their responsibilities",
+        "benefits": ["Focused expertise", "Reduced overwhelm", "Efficient processing", "Quality outcomes"]
+      }
+    },
+    
+    "templateChain": {
+      "phase1": {
+        "description": "Strategic Planning - Horizontal approach for complete foundation",
+        "templates": [
+          {
+            "order": 1,
+            "template": "business-case.md",
+            "aiRole": "AI Business Analyst (Alex)",
+            "input": "Business problem and opportunity description",
+            "output": "Business Case Document",
+            "keyElements": {
+              "capabilities": ["CAP-001", "CAP-002", "CAP-003"],
+              "problemStatement": "Clear definition of business problem",
+              "proposedSolution": "High-level solution approach",
+              "businessValue": "Quantified benefits and ROI",
+              "stakeholders": "Key people and roles involved"
+            },
+            "discussionTopics": [
+              "Problem definition and business impact",
+              "Current situation and pain points",
+              "Proposed solution and approach",
+              "Success criteria and constraints",
+              "Stakeholder analysis and requirements"
+            ]
+          },
+          {
+            "order": 2,
+            "template": "brd.md",
+            "aiRole": "AI Business Analyst (Alex)",
+            "input": "Business Case Document (CAP-001, CAP-002, CAP-003)",
+            "output": "Business Requirements Document (BRD)",
+            "keyElements": {
+              "businessRequirements": ["BR-001", "BR-002", "BR-003"],
+              "capabilityMapping": "BR-001 references CAP-001",
+              "priority": "High/Medium/Low for each requirement",
+              "justification": "Why each requirement is needed"
+            },
+            "discussionTopics": [
+              "Business capability breakdown",
+              "Requirement prioritization",
+              "Business justification for each requirement",
+              "Stakeholder requirement validation"
+            ]
+          },
+          {
+            "order": 3,
+            "template": "urd.md",
+            "aiRole": "AI Business Analyst (Alex)",
+            "input": "Business Requirements Document (BR-001, BR-002, BR-003)",
+            "output": "User Requirements Document (URD)",
+            "keyElements": {
+              "userStories": ["US-001", "US-002", "US-003"],
+              "requirementMapping": "US-001 references BR-001",
+              "userRoles": "As a [role], I want [functionality] so that [benefit]",
+              "acceptanceCriteria": "Testable conditions for each story"
+            },
+            "discussionTopics": [
+              "User role identification",
+              "User story creation and validation",
+              "Acceptance criteria definition",
+              "User experience considerations"
+            ]
+          },
+          {
+            "order": 4,
+            "template": "srs.md",
+            "aiRole": "AI Architect (Sarah)",
+            "input": "BRD + URD Documents (BR-001 → US-001 mapping)",
+            "output": "System Requirements Specification (SRS)",
+            "keyElements": {
+              "domains": ["Domain 1", "Domain 2", "Domain 3"],
+              "functionalRequirements": ["FR-D1-001", "FR-D1-002", "FR-D2-001"],
+              "domainMapping": "Domain 1 addresses BR-001, US-001",
+              "breakdown": "High-level FR descriptions for FRS phase"
+            },
+            "discussionTopics": [
+              "Domain identification and boundaries",
+              "Functional requirement breakdown",
+              "System architecture considerations",
+              "Technology and integration requirements"
+            ]
+          },
+          {
+            "order": 5,
+            "template": "add.md",
+            "aiRole": "AI Architect (Sarah)",
+            "input": "System Requirements Specification (Domains + FRs)",
+            "output": "Architectural Design Document (ADD)",
+            "keyElements": {
+              "architecturalStyle": "Layered, MVC, Microservices, etc.",
+              "technologyStack": "Frontend, backend, database choices",
+              "systemComponents": "Major components and responsibilities",
+              "integrations": "External systems and APIs"
+            },
+            "discussionTopics": [
+              "Architectural style selection",
+              "Technology stack decisions",
+              "Component design and responsibilities",
+              "Integration and deployment strategy"
+            ]
+          }
+        ]
+      },
+      
+      "phase2": {
+        "description": "Iterative Implementation - Vertical approach for one FR at a time",
+        "templates": [
+          {
+            "order": 6,
+            "template": "frs.md",
+            "aiRole": "AI Functional Analyst (Taylor)",
+            "input": "Single Functional Requirement (FR-D1-001 from SRS)",
+            "output": "Functional Requirements Specification (FRS)",
+            "keyElements": {
+              "technicalDesign": "Input → Processing → Output flow",
+              "businessRules": "Specific rules for this FR",
+              "dataDesign": "Database schema and entities",
+              "uiDesign": "User interface specifications",
+              "acceptanceCriteria": "Testable conditions for implementation"
+            },
+            "discussionTopics": [
+              "Detailed functional analysis",
+              "Technical design decisions",
+              "Data model and relationships",
+              "User interface requirements",
+              "Integration and service needs"
+            ]
+          },
+          {
+            "order": 7,
+            "template": "implementation-plan.md",
+            "aiRole": "AI Lead Developer (Casey)",
+            "input": "Functional Requirements Specification (FRS)",
+            "output": "Implementation Plan Document",
+            "keyElements": {
+              "taskBreakdown": ["Task 1", "Task 2", "Task 3"],
+              "implementationSteps": "Detailed steps for each task",
+              "deliverables": "Files and components to be created",
+              "dependencies": "Task order and prerequisites",
+              "successCriteria": "When implementation is complete"
+            },
+            "discussionTopics": [
+              "Implementation strategy and approach",
+              "Task breakdown and sizing",
+              "Technical dependencies and order",
+              "Resource requirements and timeline",
+              "Risk identification and mitigation"
+            ]
+          }
+        ]
+      }
+    },
+    
+    "informationLevels": {
+      "level1": {
+        "name": "Strategic",
+        "description": "High-level business capabilities and value",
+        "artifacts": ["Business Case", "BRD", "URD"],
+        "detail": "What and why, not how",
+        "audience": "Business stakeholders and decision makers"
+      },
+      "level2": {
+        "name": "Tactical", 
+        "description": "System domains and functional requirements",
+        "artifacts": ["SRS", "ADD"],
+        "detail": "System structure and architecture",
+        "audience": "Technical architects and lead developers"
+      },
+      "level3": {
+        "name": "Operational",
+        "description": "Detailed implementation specifications",
+        "artifacts": ["FRS", "Implementation Plan"],
+        "detail": "Complete technical specifications",
+        "audience": "Developers and implementers"
+      }
+    },
+    
+    "traceabilityMatrix": {
+      "description": "Complete bidirectional traceability from business needs to code",
+      "chain": [
+        {
+          "level": "Business",
+          "artifact": "Business Case",
+          "element": "CAP-001 (Capability)",
+          "tracesTo": "BR-001 (Business Requirement)"
+        },
+        {
+          "level": "Business",
+          "artifact": "BRD",
+          "element": "BR-001 (Business Requirement)",
+          "tracesTo": "US-001 (User Story)"
+        },
+        {
+          "level": "Business",
+          "artifact": "URD",
+          "element": "US-001 (User Story)",
+          "tracesTo": "FR-D1-001 (Functional Requirement)"
+        },
+        {
+          "level": "System",
+          "artifact": "SRS",
+          "element": "FR-D1-001 (Functional Requirement)",
+          "tracesTo": "FRS Document"
+        },
+        {
+          "level": "Implementation",
+          "artifact": "FRS",
+          "element": "Technical Specification",
+          "tracesTo": "Implementation Plan"
+        },
+        {
+          "level": "Implementation",
+          "artifact": "Implementation Plan",
+          "element": "Task Breakdown",
+          "tracesTo": "GitHub Issues"
+        },
+        {
+          "level": "Code",
+          "artifact": "GitHub Issues",
+          "element": "Development Tasks",
+          "tracesTo": "Code + Pull Requests"
+        }
+      ]
+    },
+    
+    "conversationFlow": {
+      "templateDrivenDiscussion": {
+        "description": "AI uses template structure to guide conversations",
+        "pattern": [
+          "AI introduces template section",
+          "AI asks specific questions from template",
+          "Human provides information and context",
+          "AI clarifies and validates understanding",
+          "AI fills template section with information",
+          "AI moves to next template section",
+          "AI completes template and hands off to next AI"
+        ]
+      },
+      "contextualQuestions": {
+        "description": "AI asks relevant questions based on template requirements",
+        "examples": {
+          "businessCase": [
+            "What specific problem are we trying to solve?",
+            "How are things being handled today?",
+            "What is your proposed solution?",
+            "What business impact do you expect?",
+            "How will we measure success?"
+          ],
+          "technicalDesign": [
+            "What are the input and output requirements?",
+            "What business rules apply to this function?",
+            "What data needs to be stored or retrieved?",
+            "How should users interact with this feature?",
+            "What external systems need integration?"
+          ]
+        }
+      }
+    },
+    
+    "qualityGates": {
+      "templateCompletion": {
+        "description": "Each template must be complete before proceeding",
+        "validation": [
+          "All required sections filled",
+          "Traceability references included",
+          "Human approval obtained",
+          "Next AI role can understand and continue"
+        ]
+      },
+      "informationSufficiency": {
+        "description": "Each AI role has enough information to perform their work",
+        "criteria": [
+          "Clear input from previous phase",
+          "Sufficient detail for current role",
+          "Actionable information for deliverables",
+          "Context for decision making"
+        ]
+      }
+    },
+    
+    "aiProcessingGuidelines": {
+      "informationConsumption": {
+        "description": "How AI should process template information",
+        "steps": [
+          "Read and understand input template",
+          "Identify missing or unclear information",
+          "Ask clarifying questions to human",
+          "Process information through role expertise",
+          "Generate output template with traceability",
+          "Validate completeness and quality",
+          "Hand off to next AI role"
+        ]
+      },
+      "memoryManagement": {
+        "description": "How AI should maintain context and relationships",
+        "components": [
+          "Template history and decisions",
+          "Human preferences and communication style",
+          "Project context and progress",
+          "Learning patterns and improvements"
+        ]
+      }
+    }
+  }
+}

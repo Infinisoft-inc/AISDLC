@@ -1,0 +1,28 @@
+{
+  "name": "ai-sdlc-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Setup scripts for AI-SDLC teammate ecosystem",
+  "type": "module",
+  "scripts": {
+    "build":"echo \"No build step needed\" && exit 0",
+    "setup-teammates": "node --loader tsx/esm setup-ai-teammates.ts",
+    "dev": "tsx --watch setup-ai-teammates.ts"
+  },
+  "dependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "keywords": [
+    "ai-sdlc",
+    "mcp",
+    "ai-teammates",
+    "automation"
+  ],
+  "author": "AI-SDLC Community",
+  "license": "MIT"
+}

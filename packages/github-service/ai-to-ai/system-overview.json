@@ -1,0 +1,146 @@
+{
+  "system": {
+    "name": "GitHub Service - AI-SDLC Integration",
+    "version": "1.0.0",
+    "purpose": "Automated GitHub project creation with enterprise-grade AI-SDLC workflow",
+    "aiReadyLevel": "FULLY_AUTONOMOUS",
+    
+    "whatItDoes": {
+      "primary": "Creates complete GitHub project structures with real parent-child issue relationships and linked branches",
+      "capabilities": [
+        "Repository creation in organization with auto-initialization",
+        "GitHub Project v2 creation and configuration", 
+        "Issue hierarchy creation (Epic → Feature → Task)",
+        "Real GitHub parent-child issue relationships using sub-issue API",
+        "Linked branch creation for all issue types",
+        "Issue type assignment (Epic, Feature, Task) via GraphQL",
+        "Project integration with proper categorization"
+      ],
+      "outputValue": "Production-ready GitHub project with bottom-up development workflow"
+    },
+    
+    "aiUsagePattern": {
+      "complexity": "MEDIUM",
+      "timeToUnderstand": "< 30 seconds",
+      "timeToImplement": "< 5 minutes",
+      "prerequisites": [
+        "GitHub App installation ID",
+        "Organization permissions",
+        "Basic understanding of GitHub concepts"
+      ]
+    },
+    
+    "keyFeatures": {
+      "realGitHubFeatures": {
+        "description": "Uses actual GitHub APIs, not workarounds",
+        "benefits": ["Visible in GitHub UI", "Native GitHub experience", "Professional appearance"]
+      },
+      "bottomUpWorkflow": {
+        "description": "Creates branch hierarchy for proper PR flow",
+        "workflow": "Task PR → Feature PR → Epic PR → Main",
+        "benefits": ["Quality gates at each level", "Proper code review flow", "Enterprise development practices"]
+      },
+      "fullAutomation": {
+        "description": "Single function call creates entire project structure",
+        "automation": "Repository + Project + Issues + Branches + Relationships",
+        "benefits": ["No manual setup", "Consistent structure", "Immediate development readiness"]
+      }
+    },
+    
+    "businessValue": {
+      "forDevelopers": [
+        "Immediate development environment",
+        "Proper branch structure for PRs",
+        "Clear issue hierarchy and relationships"
+      ],
+      "forProjectManagers": [
+        "Professional GitHub Project setup",
+        "Clear epic/feature/task breakdown",
+        "Progress tracking and reporting"
+      ],
+      "forOrganizations": [
+        "Standardized project structure",
+        "Consistent development workflows",
+        "Reduced setup time and errors"
+      ]
+    },
+    
+    "technicalSpecs": {
+      "language": "TypeScript",
+      "runtime": "Node.js",
+      "apis": ["GitHub REST API", "GitHub GraphQL API"],
+      "authentication": "GitHub App with installation tokens",
+      "permissions": ["contents:write", "issues:write", "repository_projects:admin"],
+      "rateLimit": "Handles automatically with backoff",
+      "errorHandling": "Comprehensive with retry logic"
+    },
+    
+    "integrationPoints": {
+      "inputs": {
+        "required": ["projectConfig", "installationId"],
+        "format": "JSON objects with TypeScript interfaces",
+        "validation": "Built-in schema validation"
+      },
+      "outputs": {
+        "format": "Structured JSON with success/error states",
+        "includes": ["URLs", "IDs", "metadata", "branch information"],
+        "machineReadable": true
+      },
+      "sideEffects": [
+        "Creates GitHub repository",
+        "Creates GitHub Project",
+        "Creates GitHub issues",
+        "Creates Git branches",
+        "Establishes relationships"
+      ]
+    },
+    
+    "aiInstructions": {
+      "quickStart": "Read function-contracts.json for precise API, then workflow-patterns.json for usage",
+      "commonPattern": "Call createCompleteProjectStructure() with projectConfig object",
+      "errorHandling": "All functions return {success, data, error} - check success before proceeding",
+      "bestPractices": [
+        "Always wait 3 seconds after repository creation",
+        "Use parallel execution for multiple features/tasks",
+        "Check rate limits in error responses",
+        "Validate inputs before API calls"
+      ]
+    },
+    
+    "learningPath": {
+      "step1": "Read this overview to understand purpose and value",
+      "step2": "Review function-contracts.json for precise API specifications", 
+      "step3": "Study workflow-patterns.json for automation sequences",
+      "step4": "Check examples/ folder for working implementations",
+      "step5": "Run demo-simple.js to see it working",
+      "estimatedTime": "5-10 minutes for full understanding"
+    },
+    
+    "successCriteria": {
+      "aiUnderstanding": [
+        "Can explain what the system creates",
+        "Understands the input/output format",
+        "Knows the automation workflow",
+        "Can handle errors appropriately"
+      ],
+      "implementation": [
+        "Can call functions with correct parameters",
+        "Can handle async operations properly",
+        "Can interpret results correctly",
+        "Can integrate into larger workflows"
+      ]
+    },
+    
+    "metadata": {
+      "author": "Martin Ouimet",
+      "authorEmail": "mouimet@infinisoft.world",
+      "methodology": "AI-to-AI Knowledge Transfer for Autonomous System Integration",
+      "created": "June 6th, 2025",
+      "lastUpdated": "June 6th, 2025",
+      "aiCompatibility": "Claude, GPT-4, and other LLMs",
+      "humanReadable": false,
+      "machineOptimized": true,
+      "updateFrequency": "As needed based on AI feedback"
+    }
+  }
+}

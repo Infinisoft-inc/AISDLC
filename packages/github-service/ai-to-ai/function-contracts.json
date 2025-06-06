@@ -1,0 +1,257 @@
+{
+  "functionContracts": {
+    "version": "1.0.0",
+    "author": "Martin Ouimet (mouimet@infinisoft.world)",
+    "created": "June 6th, 2025",
+    "methodology": "AI-to-AI Knowledge Transfer",
+    "module": "./dist/github-service.js",
+    "description": "Precise function contracts for AI automation",
+    
+    "coreWorkflow": {
+      "createCompleteProjectStructure": {
+        "purpose": "Single function to create entire GitHub project with hierarchy",
+        "signature": "async function(projectConfig: ProjectConfig, installationId: number): Promise<ProjectResult>",
+        "inputContract": {
+          "projectConfig": {
+            "type": "object",
+            "required": ["repository", "epic", "features"],
+            "schema": {
+              "repository": {
+                "name": "string (regex: /^[a-zA-Z0-9-_]+$/)",
+                "description": "string",
+                "private": "boolean (default: false)"
+              },
+              "epic": {
+                "title": "string (should start with [EPIC])",
+                "body": "string (markdown)",
+                "labels": "string[] (optional)"
+              },
+              "features": {
+                "type": "array",
+                "items": {
+                  "title": "string (should start with [FEATURE])",
+                  "body": "string (markdown)",
+                  "labels": "string[] (optional)",
+                  "tasks": {
+                    "type": "array",
+                    "items": {
+                      "title": "string (should start with [TASK])",
+                      "body": "string (markdown)",
+                      "labels": "string[] (optional)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "installationId": "number (GitHub App installation ID)"
+        },
+        "outputContract": {
+          "success": "boolean",
+          "data": {
+            "repository": "RepositoryData",
+            "project": "ProjectData", 
+            "epic": "IssueData with linkedBranch",
+            "features": "IssueData[] with linkedBranch and parent_epic",
+            "tasks": "IssueData[] with linkedBranch and parent_feature"
+          },
+          "error": "string (if success=false)"
+        },
+        "sideEffects": [
+          "Creates GitHub repository",
+          "Creates GitHub Project v2",
+          "Creates Epic/Feature/Task issues",
+          "Creates linked branches for all issues",
+          "Establishes parent-child relationships",
+          "Adds all issues to project"
+        ],
+        "timing": "30-60 seconds depending on hierarchy size"
+      }
+    },
+    
+    "atomicFunctions": {
+      "createRepository": {
+        "purpose": "Create GitHub repository with initialization",
+        "signature": "async function(repoData: RepositoryData, installationId?: number): Promise<RepositoryResult>",
+        "inputContract": {
+          "repoData": {
+            "name": "string (required, regex: /^[a-zA-Z0-9-_]+$/)",
+            "description": "string (optional)",
+            "private": "boolean (optional, default: false)"
+          },
+          "installationId": "number (optional)"
+        },
+        "outputContract": {
+          "success": "boolean",
+          "data": {
+            "id": "number",
+            "name": "string",
+            "full_name": "string (org/repo)",
+            "html_url": "string (GitHub URL)",
+            "default_branch": "string (usually 'main')"
+          }
+        },
+        "criticalNote": "MUST wait 3 seconds after this call before creating issues",
+        "timing": "2-5 seconds + 3 second required wait"
+      },
+      
+      "createEpic": {
+        "purpose": "Create Epic issue with type assignment and linked branch",
+        "signature": "async function(owner: string, repo: string, issueData: IssueData, installationId?: number): Promise<IssueResult>",
+        "inputContract": {
+          "owner": "string (organization name)",
+          "repo": "string (repository name)",
+          "issueData": {
+            "title": "string (should start with [EPIC])",
+            "body": "string (markdown content)",
+            "labels": "string[] (optional)"
+          }
+        },
+        "outputContract": {
+          "success": "boolean",
+          "data": {
+            "id": "number",
+            "number": "number (issue number)",
+            "title": "string",
+            "html_url": "string",
+            "linkedBranch": {
+              "branchName": "string (epic/sanitized-title)",
+              "branchId": "string",
+              "commitOid": "string"
+            }
+          }
+        },
+        "automaticActions": [
+          "Assigns Epic issue type via GraphQL",
+          "Creates linked branch with naming: epic/{sanitized-title}",
+          "Links branch to issue in GitHub UI"
+        ]
+      },
+      
+      "createFeature": {
+        "purpose": "Create Feature issue linked to Epic parent",
+        "signature": "async function(owner: string, repo: string, issueData: IssueData, epicNumber: number, installationId?: number): Promise<IssueResult>",
+        "inputContract": {
+          "epicNumber": "number (parent Epic issue number)"
+        },
+        "outputContract": {
+          "data": {
+            "parent_epic": "number (Epic issue number)",
+            "linkedBranch": {
+              "branchName": "string (feature/sanitized-title)"
+            }
+          }
+        },
+        "automaticActions": [
+          "Creates real parent-child relationship with Epic",
+          "Assigns Feature issue type via GraphQL",
+          "Creates linked branch with naming: feature/{sanitized-title}"
+        ]
+      },
+      
+      "createTask": {
+        "purpose": "Create Task issue linked to Feature parent",
+        "signature": "async function(owner: string, repo: string, taskData: IssueData, featureNumber: number, installationId?: number): Promise<IssueResult>",
+        "inputContract": {
+          "featureNumber": "number (parent Feature issue number)"
+        },
+        "outputContract": {
+          "data": {
+            "parent_feature": "number (Feature issue number)",
+            "linkedBranch": {
+              "branchName": "string (task/sanitized-title)"
+            }
+          }
+        },
+        "automaticActions": [
+          "Creates real parent-child relationship with Feature",
+          "Assigns Task issue type via GraphQL", 
+          "Creates linked branch with naming: task/{sanitized-title}"
+        ]
+      },
+      
+      "createProject": {
+        "purpose": "Create GitHub Project v2 for organization",
+        "signature": "async function(owner: string, title: string, description?: string, installationId?: number): Promise<ProjectResult>",
+        "outputContract": {
+          "data": {
+            "id": "string (GraphQL node ID)",
+            "number": "number",
+            "title": "string",
+            "url": "string (GitHub Project URL)"
+          }
+        }
+      },
+      
+      "addIssueToProject": {
+        "purpose": "Add issue to GitHub Project with categorization",
+        "signature": "async function(projectId: string, owner: string, repo: string, issueNumber: number, issueType: 'epic'|'feature'|'task', parentIssueNumber?: number, installationId?: number): Promise<ProjectItemResult>",
+        "inputContract": {
+          "projectId": "string (GraphQL node ID from createProject)",
+          "issueType": "enum: 'epic' | 'feature' | 'task'",
+          "parentIssueNumber": "number (optional, for hierarchy tracking)"
+        },
+        "outputContract": {
+          "data": {
+            "itemId": "string (project item ID)",
+            "issueNumber": "number",
+            "issueType": "string",
+            "parentIssueNumber": "number (optional)"
+          }
+        }
+      }
+    },
+    
+    "dataTypes": {
+      "RepositoryData": {
+        "name": "string",
+        "description": "string",
+        "private": "boolean"
+      },
+      "IssueData": {
+        "title": "string",
+        "body": "string",
+        "labels": "string[]"
+      },
+      "BranchData": {
+        "branchName": "string",
+        "branchId": "string", 
+        "commitOid": "string"
+      }
+    },
+    
+    "errorHandling": {
+      "allFunctions": {
+        "returnFormat": "{success: boolean, data?: any, error?: string}",
+        "checkPattern": "if (!result.success) { handle error }",
+        "retryableErrors": ["rate_limit", "temporary_failure"],
+        "nonRetryableErrors": ["validation_error", "permission_denied"]
+      },
+      "rateLimitHandling": {
+        "detection": "error message contains 'rate limit'",
+        "response": "wait for x-ratelimit-reset header value",
+        "autoRetry": "built into functions"
+      }
+    },
+    
+    "sequenceConstraints": {
+      "required": [
+        "createRepository MUST be followed by 3-second delay",
+        "Epic must be created before Features",
+        "Features must be created before Tasks",
+        "Project must exist before adding issues to it"
+      ],
+      "optional": [
+        "Multiple Features can be created in parallel after Epic",
+        "Multiple Tasks can be created in parallel after their Feature"
+      ]
+    },
+    
+    "aiUsageNotes": {
+      "importPattern": "import { functionName } from './dist/github-service.js'",
+      "asyncHandling": "All functions return Promises, use await",
+      "errorChecking": "Always check result.success before using result.data",
+      "installationId": "Use organization installation ID, not user ID"
+    }
+  }
+}

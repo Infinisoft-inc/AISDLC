@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "alex-business-analyst": {
+      "command": "node",
+      "args": ["dist/alex-mcp-server.js"],
+      "cwd": "./packages/alex-business-analyst",
+      "env": {}
+    }
+  }
+}

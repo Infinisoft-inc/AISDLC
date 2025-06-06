@@ -1,0 +1,11 @@
+{
+  "ai-lead-developer": {
+    "command": "wsl.exe",
+    "args": [
+      "bash",
+      "-c",
+      "\"cd /home/agent2/AISDLC/mcp-servers/ai-lead-developer/config && ./run.sh\""
+    ],
+    "env": {}
+  }
+}

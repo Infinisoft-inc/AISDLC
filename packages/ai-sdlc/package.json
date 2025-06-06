@@ -1,0 +1,31 @@
+{
+  "name": "@brainstack/ai-sdlc",
+  "version": "0.1.0",
+  "description": "Brainstack AI-SDLC methodology Domain-Specific Language (DSL)",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "engineering",
+    "ai",
+    "sdlc",
+    "brainstack"
+  ],
+  "author": "Martin Ouimet <mouimet@infinisoft.world>",
+  "license": "MIT",
+  "dependencies": {
+    "@brainstack/tool-factory": "*",
+    "@brainstack/mem": "*",
+    "zod": "^3.25.51"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

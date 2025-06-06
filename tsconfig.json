@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": [
+      "ES2021",
+      "DOM"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@brainstack/*": [
+        "packages/*/src"
+      ]
+    }
+  },
+  "references": [
+    {
+      "path": "./packages/awareness"
+    },
+    {
+      "path": "./packages/mem"
+    },
+    {
+      "path": "./packages/conversation"
+    },
+    {
+      "path": "./packages/business-analyst-mcp"
+    },
+    {
+      "path": "./packages/ai-sdlc"
+    },
+    {
+      "path": "./packages/tool-factory"
+    }
+  ]
+}

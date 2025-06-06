@@ -1,0 +1,10 @@
+{
+  "experimental": {
+    "command": "wsl.exe",
+    "args": [
+      "bash",
+      "-c",
+      "\"cd /home/agent2/AISDLC/packages/experimental-teammate/config && ./run.sh \""
+    ]
+  }
+}

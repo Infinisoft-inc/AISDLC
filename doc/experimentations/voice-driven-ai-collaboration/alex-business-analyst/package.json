@@ -1,0 +1,27 @@
+{
+  "name": "@aisdlc/alex-business-analyst",
+  "version": "1.0.0",
+  "description": "Alex - Persistent AI Business Analyst Teammate",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/alex-mcp-server.js",
+    "dev": "tsc && node dist/alex-mcp-server.js",
+    "alex": "tsc && node dist/alex-standalone.js",
+    "mcp": "node dist/src/alex-mcp-server.js"
+  },
+  "keywords": [
+    "ai",
+    "business-analyst",
+    "mcp",
+    "persistent",
+    "teammate"
+  ],
+  "author": "AI-SDLC Framework",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@types/node": "^22.15.29",
+    "typescript": "^5.8.3"
+  }
+}

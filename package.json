@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "ttsconi",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "libs/*",
+    "!mcp-servers/*",
+    "!scripts/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r run build",
+    "dev:web": "pnpm --filter web dev",
+    "dev:cli": "pnpm --filter cli start",
+    "lint": "pnpm -r run lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0"
+  }
+}

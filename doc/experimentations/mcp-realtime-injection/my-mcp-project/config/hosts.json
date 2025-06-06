@@ -1,0 +1,8 @@
+{
+  "mcpHost": {
+    "url": "ws://localhost:4001"
+  },
+  "localMcp": {
+    "url": "ws://localhost:4000"
+  }
+}

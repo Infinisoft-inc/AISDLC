@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "../awareness"
+    },
+    {
+      "path": "../mem"
+    },
+    {
+      "path": "../conversation"
+    },
+    {
+      "path": "../ai-sdlc"
+    },
+    {
+      "path": "../tool-factory"
+    }
+  ]
+}

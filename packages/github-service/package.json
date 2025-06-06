@@ -1,0 +1,38 @@
+{
+  "name": "github-service",
+  "version": "0.1.0",
+  "description": "Simple GitHub App service for AI-SDLC project management",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/webhook-server.ts",
+    "start": "node dist/webhook-server.js",
+    "start:local": "npm run build && node dist/webhook-server.js",
+    "tunnel": "ngrok http 3000",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "dependencies": {
+    "@octokit/auth-app": "^6.0.0",
+    "@octokit/rest": "^20.0.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "jsonwebtoken": "^9.0.0",
+    "ngrok": "^5.0.0-beta.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "github",
+    "api",
+    "webhook",
+    "ai-sdlc"
+  ],
+  "author": "AI-SDLC Community",
+  "license": "MIT"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "mcp-realtime-injection-experiment",
+  "version": "1.0.0",
+  "description": "MCP Real-time Injection Experiment",
+  "type": "module",
+  "main": "direct-stdio-injector.js",
+  "scripts": {
+    "direct": "node direct-stdio-injector.js",
+    "protocol": "node mcp-protocol-injector.js",
+    "tools": "node tool-execution-test.js"
+  },
+  "keywords": [
+    "mcp",
+    "realtime",
+    "experiment",
+    "stdio",
+    "injection"
+  ],
+  "author": "Martin Ouimet <mouimet@infinisoft.world>",
+  "license": "MIT"
+}

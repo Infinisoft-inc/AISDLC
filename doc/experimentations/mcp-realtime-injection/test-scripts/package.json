@@ -1,0 +1,36 @@
+{
+  "name": "mcp-realtime-test-scripts",
+  "version": "1.0.0",
+  "description": "Test automation scripts for MCP real-time injection experiment",
+  "type": "module",
+  "main": "test-runner.js",
+  "scripts": {
+    "test:all": "node test-runner.js all",
+    "test:idle": "node test-runner.js scenario IDLE_STATE",
+    "test:active": "node test-runner.js scenario ACTIVE_CONVERSATION",
+    "test:waiting": "node test-runner.js scenario TOOL_WAITING_STATE",
+    "test:burst": "node test-runner.js scenario BURST_INJECTION",
+    "test:large": "node test-runner.js scenario LARGE_PAYLOAD",
+    "test:mixed": "node test-runner.js scenario MIXED_ROLES",
+    "list": "node test-runner.js list",
+    "round2:polling": "echo 'Round 2: Polling-based injection test' && npm run test:idle",
+    "round2:direct": "node ../direct-stdio-injector.js",
+    "round2:protocol": "node ../mcp-protocol-injector.js",
+    "round3:tools": "node ../tool-execution-test.js",
+    "round2:all": "npm run round2:polling && echo 'Waiting 5 seconds...' && sleep 5 && npm run round2:direct && echo 'Waiting 5 seconds...' && sleep 5 && npm run round2:protocol",
+    "round3:all": "npm run round3:tools"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1"
+  },
+  "keywords": [
+    "mcp",
+    "realtime",
+    "experiment",
+    "testing",
+    "supabase"
+  ],
+  "author": "Martin Ouimet <mouimet@infinisoft.world>",
+  "license": "MIT"
+}

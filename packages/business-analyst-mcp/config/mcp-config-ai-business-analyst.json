@@ -1,0 +1,11 @@
+{
+  "ai-business-analyst": {
+    "command": "wsl.exe",
+    "args": [
+      "bash",
+      "-c",
+      "\"cd /home/agent2/AISDLC/mcp-servers/ai-business-analyst/config && ./run.sh\""
+    ],
+    "env": {}
+  }
+}

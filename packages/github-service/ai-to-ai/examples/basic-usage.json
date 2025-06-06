@@ -1,0 +1,292 @@
+{
+  "basicUsageExamples": {
+    "version": "1.0.0",
+    "author": "Martin Ouimet (mouimet@infinisoft.world)",
+    "created": "June 6th, 2025",
+    "methodology": "AI-to-AI Knowledge Transfer",
+    "description": "Working examples for AI systems to copy and modify",
+    
+    "simpleProject": {
+      "description": "Create a basic project with one epic, one feature, one task",
+      "input": {
+        "projectConfig": {
+          "repository": {
+            "name": "ai-simple-project",
+            "description": "Simple project created by AI",
+            "private": false
+          },
+          "epic": {
+            "title": "[EPIC] User Authentication",
+            "body": "# Epic: User Authentication\n\nComplete user authentication system with login, registration, and password reset.\n\n## Business Value\nEnable secure user access to the application.\n\n## Success Criteria\n- [ ] Users can register accounts\n- [ ] Users can login securely\n- [ ] Password reset functionality works",
+            "labels": ["epic", "authentication"]
+          },
+          "features": [
+            {
+              "title": "[FEATURE] User Login",
+              "body": "# Feature: User Login\n\n**As a** registered user\n**I want** to login to my account\n**So that** I can access the application\n\n## Acceptance Criteria\n- [ ] Login form accepts email and password\n- [ ] Valid credentials log user in\n- [ ] Invalid credentials show error message",
+              "labels": ["feature", "frontend"],
+              "tasks": [
+                {
+                  "title": "[TASK] Create Login API Endpoint",
+                  "body": "# Task: Create Login API Endpoint\n\n## Description\nImplement REST API endpoint for user authentication.\n\n## Implementation Steps\n1. Create POST /api/auth/login endpoint\n2. Validate email and password\n3. Return JWT token on success\n4. Return error on failure\n\n## Definition of Done\n- [ ] API endpoint created\n- [ ] Input validation implemented\n- [ ] JWT token generation working\n- [ ] Error handling complete",
+                  "labels": ["task", "backend", "api"]
+                }
+              ]
+            }
+          ]
+        },
+        "installationId": 70009309
+      },
+      "expectedOutput": {
+        "success": true,
+        "data": {
+          "repository": {
+            "name": "ai-simple-project",
+            "html_url": "https://github.com/Infinisoft-inc/ai-simple-project"
+          },
+          "project": {
+            "title": "AI Simple Project",
+            "url": "https://github.com/orgs/Infinisoft-inc/projects/XX"
+          },
+          "epic": {
+            "number": 1,
+            "title": "[EPIC] User Authentication",
+            "linkedBranch": {
+              "branchName": "epic/user-authentication"
+            }
+          },
+          "features": [
+            {
+              "number": 2,
+              "title": "[FEATURE] User Login",
+              "parent_epic": 1,
+              "linkedBranch": {
+                "branchName": "feature/user-login"
+              }
+            }
+          ],
+          "tasks": [
+            {
+              "number": 3,
+              "title": "[TASK] Create Login API Endpoint",
+              "parent_feature": 2,
+              "linkedBranch": {
+                "branchName": "task/create-login-api-endpoint"
+              }
+            }
+          ]
+        }
+      },
+      "codeExample": {
+        "javascript": [
+          "import { createCompleteProjectStructure } from './dist/github-service.js';",
+          "",
+          "const projectConfig = {",
+          "  repository: {",
+          "    name: 'ai-simple-project',",
+          "    description: 'Simple project created by AI'",
+          "  },",
+          "  epic: {",
+          "    title: '[EPIC] User Authentication',",
+          "    body: 'Complete user authentication system...'",
+          "  },",
+          "  features: [{",
+          "    title: '[FEATURE] User Login',",
+          "    body: 'User login functionality...',",
+          "    tasks: [{",
+          "      title: '[TASK] Create Login API Endpoint',",
+          "      body: 'Implement REST API endpoint...'",
+          "    }]",
+          "  }]",
+          "};",
+          "",
+          "const result = await createCompleteProjectStructure(projectConfig, 70009309);",
+          "",
+          "if (result.success) {",
+          "  console.log('Project created:', result.data.repository.html_url);",
+          "  console.log('Epic branch:', result.data.epic.linkedBranch.branchName);",
+          "} else {",
+          "  console.error('Failed:', result.error);",
+          "}"
+        ]
+      },
+      "timing": "45-60 seconds",
+      "branchesCreated": [
+        "epic/user-authentication",
+        "feature/user-login", 
+        "task/create-login-api-endpoint"
+      ]
+    },
+    
+    "multiFeatureProject": {
+      "description": "Project with multiple features and tasks",
+      "input": {
+        "projectConfig": {
+          "repository": {
+            "name": "ai-multi-feature-project",
+            "description": "Multi-feature project with parallel development"
+          },
+          "epic": {
+            "title": "[EPIC] E-commerce Platform",
+            "body": "Complete e-commerce platform with user management and product catalog"
+          },
+          "features": [
+            {
+              "title": "[FEATURE] User Management",
+              "body": "User registration, login, and profile management",
+              "tasks": [
+                {
+                  "title": "[TASK] User Registration API",
+                  "body": "Create user registration endpoint"
+                },
+                {
+                  "title": "[TASK] User Profile UI",
+                  "body": "Build user profile interface"
+                }
+              ]
+            },
+            {
+              "title": "[FEATURE] Product Catalog",
+              "body": "Product listing, search, and details",
+              "tasks": [
+                {
+                  "title": "[TASK] Product API",
+                  "body": "REST API for product operations"
+                },
+                {
+                  "title": "[TASK] Product Search",
+                  "body": "Search functionality for products"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedBranches": [
+        "epic/e-commerce-platform",
+        "feature/user-management",
+        "feature/product-catalog",
+        "task/user-registration-api",
+        "task/user-profile-ui",
+        "task/product-api",
+        "task/product-search"
+      ],
+      "developmentFlow": [
+        "Developers work on task branches",
+        "Task PRs merge to feature branches",
+        "Feature PRs merge to epic branch",
+        "Epic PR merges to main"
+      ]
+    },
+    
+    "errorHandlingExample": {
+      "description": "How to handle errors properly",
+      "codeExample": {
+        "javascript": [
+          "async function createProjectSafely(config, installationId) {",
+          "  try {",
+          "    // Validate input first",
+          "    if (!config.repository?.name) {",
+          "      return { success: false, error: 'Repository name is required' };",
+          "    }",
+          "",
+          "    // Create project",
+          "    const result = await createCompleteProjectStructure(config, installationId);",
+          "",
+          "    // Check result",
+          "    if (!result.success) {",
+          "      console.error('Project creation failed:', result.error);",
+          "      return result;",
+          "    }",
+          "",
+          "    // Success - log details",
+          "    console.log('✅ Project created successfully');",
+          "    console.log('Repository:', result.data.repository.html_url);",
+          "    console.log('Project:', result.data.project.url);",
+          "    console.log('Issues created:', 1 + result.data.features.length + result.data.tasks.length);",
+          "",
+          "    return result;",
+          "",
+          "  } catch (error) {",
+          "    console.error('Unexpected error:', error.message);",
+          "    return { success: false, error: error.message };",
+          "  }",
+          "}"
+        ]
+      }
+    },
+    
+    "stepByStepExample": {
+      "description": "Manual step-by-step creation for learning",
+      "codeExample": {
+        "javascript": [
+          "// Step 1: Create repository",
+          "const repo = await createRepository({",
+          "  name: 'step-by-step-project',",
+          "  description: 'Learning example'",
+          "}, installationId);",
+          "",
+          "if (!repo.success) {",
+          "  throw new Error('Repository creation failed');",
+          "}",
+          "",
+          "// Step 2: Wait for initialization (CRITICAL)",
+          "console.log('Waiting for repository initialization...');",
+          "await new Promise(resolve => setTimeout(resolve, 3000));",
+          "",
+          "// Step 3: Create project",
+          "const project = await createProject(",
+          "  repo.data.full_name.split('/')[0],",
+          "  'Step by Step Project'",
+          ");",
+          "",
+          "// Step 4: Create epic",
+          "const epic = await createEpic(",
+          "  repo.data.full_name.split('/')[0],",
+          "  repo.data.name,",
+          "  {",
+          "    title: '[EPIC] Learning Project',",
+          "    body: 'Project for learning the API'",
+          "  }",
+          ");",
+          "",
+          "console.log('Epic created with branch:', epic.data.linkedBranch.branchName);",
+          "",
+          "// Step 5: Add epic to project",
+          "await addIssueToProject(",
+          "  project.data.id,",
+          "  repo.data.full_name.split('/')[0],",
+          "  repo.data.name,",
+          "  epic.data.number,",
+          "  'epic'",
+          ");",
+          "",
+          "console.log('✅ Basic project structure created');"
+        ]
+      }
+    },
+    
+    "aiInstructions": {
+      "quickStart": [
+        "1. Copy the simpleProject example",
+        "2. Modify the repository name to be unique",
+        "3. Update the epic/feature/task titles and descriptions",
+        "4. Call createCompleteProjectStructure with your config",
+        "5. Check result.success before using result.data"
+      ],
+      "commonMistakes": [
+        "Forgetting to check result.success",
+        "Not waiting 3 seconds after repository creation (if doing manual steps)",
+        "Using invalid characters in repository name",
+        "Not providing required fields in config"
+      ],
+      "bestPractices": [
+        "Always validate input before API calls",
+        "Use descriptive titles with [EPIC], [FEATURE], [TASK] prefixes",
+        "Include meaningful descriptions in markdown format",
+        "Add appropriate labels for categorization",
+        "Handle errors gracefully with proper logging"
+      ]
+    }
+  }
+}
