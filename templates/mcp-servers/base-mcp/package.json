@@ -1,6 +1,6 @@
 {
   "name": "ai-teammate-template",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "AI-SDLC Teammate Template v2.0 - Intelligent AI teammates with persistent memory and voice-first interaction",
   "type": "module",
   "main": "dist/index.js",

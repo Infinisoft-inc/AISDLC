@@ -1,6 +1,6 @@
 {
   "name": "sarah-business-analyst",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "description": "Sarah - AI Business Analyst with persistent memory and voice-first interaction",
   "type": "module",
   "main": "dist/index.js",

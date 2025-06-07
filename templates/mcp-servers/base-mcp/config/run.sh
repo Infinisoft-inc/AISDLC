@@ -1,19 +1,38 @@
 #!/bin/bash
 
-# AI Teammate MCP Server Runner
-# This script starts the AI teammate MCP server
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo "Script directory: $SCRIPT_DIR"
 
-TEAMMATE_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
-TEAMMATE_NAME="$(basename "$TEAMMATE_DIR")"
+# Change to the parent directory (root of the project)
+cd "$SCRIPT_DIR/.."
+PROJECT_DIR="$(pwd)"
+echo "Project directory: $PROJECT_DIR"
 
-echo "Starting $TEAMMATE_NAME MCP Server..."
-echo "Directory: $TEAMMATE_DIR"
+# Source NVM to ensure the correct Node environment is set up
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# Ensure the index.js file is executable
-chmod +x "$TEAMMATE_DIR/dist/index.js"
+# Read values from .env file if it exists
+if [ -f "$PROJECT_DIR/.env" ]; then
+  echo "Reading configuration from .env file..."
+  export $(grep -v "^#" "$PROJECT_DIR/.env" | xargs)
+else
+  echo "Warning: .env file not found in $PROJECT_DIR"
+  echo "Using default configuration."
+fi
 
-# Start the MCP server
-cd "$TEAMMATE_DIR"
-node dist/index.js
+# Install dependencies if node_modules doesn't exist
+if [ ! -d "$PROJECT_DIR/node_modules" ]; then
+  echo "Installing dependencies..."
+  npm install
+fi
 
-echo "$TEAMMATE_NAME MCP Server stopped."
+# Build the TypeScript code
+echo "Building TypeScript code..."
+# npm run build
+
+# Run the MCP server
+echo "Starting AI Teammate MCP Server with stdio..."
+# npm start
+./dist/index.js
