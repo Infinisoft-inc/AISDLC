@@ -9,6 +9,7 @@
     "!scripts/*"
   ],
   "scripts": {
+    "preinstall": "node .scripts/enforce-pnpm.js",
     "build": "pnpm -r run build",
     "dev:web": "pnpm --filter web dev",
     "dev:cli": "pnpm --filter cli start",

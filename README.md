@@ -52,6 +52,15 @@ This isn't about replacing developers - it's about transforming their role:
 
 ## 🚀 Getting Started
 
+⚠️ **This project uses [pnpm](https://pnpm.io). Do not use `npm install` or `yarn install` or it will break the workspace.**
+
+### Installation
+1. Clone the repository
+2. Install pnpm if you haven't: `npm install -g pnpm`
+3. Install dependencies: `pnpm install`
+4. Build the project: `pnpm run build`
+
+### Learning Path
 1. **Read the Methodology**: Start with [Methodology Overview](methodology/overview.md)
 2. **Explore Case Study**: Review our [Voice-Driven AI-SDLC case study](https://blog.infinisoft.world/posts/voice-driven-ai-sdlc-case-study)
 3. **Try the Templates**: Use our [experimental templates](templates/) (feedback welcome!)
