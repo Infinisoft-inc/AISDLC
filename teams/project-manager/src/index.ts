@@ -1,5 +1,28 @@
 #!/usr/bin/env node
 
+// Load environment variables first
+import { config } from 'dotenv';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+// Get current directory in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load .env from the project directory
+const envPath = resolve(__dirname, '../.env');
+config({ path: envPath });
+
+// Debug: Log environment loading
+console.error(`Jordan: Loading .env from ${envPath}`);
+console.error(`Jordan: GITHUB_APP_ID = ${process.env.GITHUB_APP_ID ? 'SET' : 'NOT SET'}`);
+console.error(`Jordan: GITHUB_INSTALLATION_ID = ${process.env.GITHUB_INSTALLATION_ID || '70009309'}`);
+
+// Ensure installation ID is set
+if (!process.env.GITHUB_INSTALLATION_ID) {
+  process.env.GITHUB_INSTALLATION_ID = '70009309';
+}
+
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
