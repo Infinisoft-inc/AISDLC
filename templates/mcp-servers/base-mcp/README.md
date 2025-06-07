@@ -1,105 +1,143 @@
-# Base MCP Server Template
+# AI-SDLC Teammate Template v2.0
 
-A clean, minimal MCP (Model Context Protocol) server template for quick project starts.
+**Intelligent AI teammates with persistent memory and voice-first interaction**
 
-## What's Included
+A comprehensive template for creating AI teammates that embody the AI-SDLC methodology with advanced capabilities including persistent memory, intelligent conversation, and natural voice interaction.
 
-This template provides **1 example of each MCP capability**:
+## Features
 
-### 🛠️ **1 Example Tool**
-- **`store-data`** - Stores key-value pairs in memory
-- Demonstrates how to handle tool calls and return responses
-
-### 💬 **1 Example Prompt**
-- **`example-prompt`** - Shows how MCP prompts work
-- Demonstrates structured prompt responses with role and content
-
-### 📁 **1 Example Resource**
-- **`example://data/storage`** - Provides access to stored data
-- Demonstrates how to expose data as MCP resources
+- **🧠 Intelligent Responses**: LLM-powered reasoning with role-specific context
+- **💾 Persistent Memory**: Remembers conversations, learnings, and project context across sessions
+- **🎓 AI-SDLC Training**: Complete methodology training system for any AI role
+- **🗣️ Voice-First Interaction**: Seamless integration with speech_response_talk for natural conversation
+- **👥 Role Specialization**: Customizable for any AI teammate role (Project Manager, Developer, QA, etc.)
+- **🔄 Context-Aware**: Builds intelligent prompts with relevant memory and context
+- **🎵 Unique Voices**: Each teammate has distinct voice identification for TTS
 
 ## Quick Start
 
-1. **Clone this template:**
-   ```bash
-   cp -r templates/mcp-servers/ai-lead-developer my-new-mcp-server
-   cd my-new-mcp-server
-   ```
+### 1. Copy Template
+```bash
+cp -r templates/mcp-servers/base-mcp my-ai-teammate
+cd my-ai-teammate
+```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Customize the server:**
-   - Edit `src/index.ts`
-   - Change server name and version
-   - Add your own tools, prompts, and resources
-
-4. **Build and test:**
-   ```bash
-   npm run build
-   npm start
-   ```
-
-## Customization Guide
-
-### Adding Tools
+### 2. Customize for Your Role
 ```typescript
-{
-  name: "your-tool-name",
-  description: "What your tool does",
-  inputSchema: {
-    type: "object",
-    properties: {
-      param1: { type: "string", description: "Parameter description" },
-    },
-    required: ["param1"],
-  },
-}
+// In src/index.ts, update the default instantiation:
+const server = new AITeammateServer("YourTeammateName", "Your Role Description");
 ```
 
-### Adding Prompts
+### 3. Build and Run
+```bash
+npm install
+npm run build
+npm start
+```
+
+### 4. Train Your Teammate
+Use the `complete-training` tool to train your AI teammate on the AI-SDLC methodology.
+
+## Available Tools
+
+### `complete-training`
+Completes the AI teammate's AI-SDLC methodology training
+- **Input**: None required
+- **Output**: Training completion report with full methodology understanding
+
+### `chat-with-[teammate]`
+Natural conversation with your AI teammate
+- **Input**: `message` (required), `context` (optional)
+- **Output**: Intelligent, context-aware response with personality
+
+### `get-status`
+Get current status and teammate's memory context
+- **Input**: None required
+- **Output**: Complete context summary including memory, training, and project status
+
+## Available Resources
+
+### `[teammate]://memory/current`
+View the AI teammate's current memory state and context
+- **Format**: JSON
+- **Content**: Complete memory including conversations, learnings, and project context
+
+### `[teammate]://training/status`
+View the AI teammate's AI-SDLC training completion status
+- **Format**: JSON
+- **Content**: Training progress, methodology understanding, and role knowledge
+
+## Architecture
+
+### Memory System (`src/memory.ts`)
+- **Persistent Storage**: Conversations, learnings, project context
+- **Context Generation**: Intelligent context summaries for LLM prompts
+- **User Profiles**: Communication style, preferences, working relationship
+- **Project Tracking**: Current project phase, status, milestones
+
+### Training System (`src/training.ts`)
+- **AI-SDLC Methodology**: Complete understanding of the methodology
+- **Role Specialization**: Specific knowledge for each AI teammate role
+- **Information Flow**: Template chains and progressive detail approach
+- **Collaboration Patterns**: Human-AI interaction workflows
+
+### Intelligence System
+- **Context Building**: Combines memory, personality, and current situation
+- **Prompt Generation**: Creates intelligent prompts for LLM processing
+- **Voice Integration**: Automatic speech_response_talk integration with unique voice ID
+- **Response Routing**: Returns prompts for Augment Code LLM processing
+
+## Voice-First Integration
+
+The template includes automatic integration with `speech_response_talk` tool for unique voice identification:
+
+1. **User speaks** → Augment Code receives voice/text
+2. **Augment Code routes** → calls AI teammate's MCP tool
+3. **AI teammate processes** → builds intelligent prompt with context
+4. **AI teammate returns prompt** → Augment Code processes with LLM
+5. **Augment Code calls speech_response_talk** → with format "[TeammateName]: [response]"
+6. **TTS assigns unique voice** → based on teammate name
+7. **User hears response** → in teammate's distinct voice
+
+## Customization
+
+### Creating a Specific Role
+1. **Update Constructor**: Change teammate name and role description
+2. **Customize Memory**: Modify default identity and capabilities
+3. **Role Training**: Add role-specific training data to ai-roles-personalities.json
+4. **Specialized Tools**: Add role-specific tools as needed
+
+### Example: Creating "Alex" Business Analyst
 ```typescript
-{
-  name: "your-prompt-name",
-  description: "What your prompt does",
-}
+const server = new AITeammateServer("Alex", "AI Business Analyst");
 ```
 
-### Adding Resources
-```typescript
-{
-  uri: "your-scheme://path/to/resource",
-  name: "Resource Name",
-  description: "What this resource provides",
-  mimeType: "application/json",
-}
-```
+The system will automatically:
+- Look for Alex's role data in ai-roles-personalities.json
+- Create Alex-specific memory and training
+- Generate Alex-specific tools and prompts
+- Enable natural conversation as Alex with unique voice
 
-## File Structure
+## Version History
 
-```
-├── src/
-│   └── index.ts          # Main MCP server implementation
-├── package.json          # Dependencies and scripts
-├── tsconfig.json         # TypeScript configuration
-└── README.md            # This file
-```
+### v2.0.0 (Current)
+- **Intelligent LLM-powered responses** with context-aware reasoning
+- **Persistent memory system** with conversation history and learnings
+- **AI-SDLC training system** for methodology understanding
+- **Voice-first interaction** with speech_response_talk integration
+- **Unique voice identification** for each teammate in TTS
+- **Role specialization** for any AI teammate type
+- **Context-aware prompts** for optimal LLM processing
 
-## Key Features
+### v1.0.0
+- Basic MCP server template with simple tools and prompts
+- Static responses without intelligence or memory
+- Example-based functionality for learning MCP concepts
 
-- ✅ **Clean and minimal** - No unnecessary complexity
-- ✅ **Well-commented** - Easy to understand and modify
-- ✅ **TypeScript** - Full type safety
-- ✅ **MCP compliant** - Follows official MCP standards
-- ✅ **Ready to clone** - Perfect starting point for new projects
+## License
 
-## Next Steps
+MIT License - Part of the AI-SDLC Methodology Project
 
-1. **Rename the server** in `src/index.ts`
-2. **Replace example functionality** with your use case
-3. **Add your tools, prompts, and resources**
-4. **Test with MCP clients** like Claude Desktop or VS Code extensions
+---
 
-This template gives you a solid foundation to build any MCP server quickly!
+**Ready to create intelligent AI teammates with unique voices!** 🚀

@@ -1,11 +1,11 @@
 {
-  "name": "base-mcp-server",
-  "version": "1.0.0",
-  "description": "A clean, minimal MCP server template for quick project starts",
+  "name": "ai-teammate-template",
+  "version": "2.0.0",
+  "description": "AI-SDLC Teammate Template v2.0 - Intelligent AI teammates with persistent memory and voice-first interaction",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "base-mcp-server": "dist/index.js"
+    "ai-teammate-template": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -14,11 +14,13 @@
     "prepare": "npm run build"
   },
   "keywords": [
-    "mcp",
-    "model-context-protocol",
-    "template",
-    "base",
-    "starter"
+    "ai-sdlc",
+    "ai-teammate",
+    "mcp-server",
+    "persistent-memory",
+    "voice-first",
+    "intelligent-ai",
+    "template"
   ],
   "author": "Martin Ouimet <mouimet@infinisoft.world>",
   "license": "MIT",
