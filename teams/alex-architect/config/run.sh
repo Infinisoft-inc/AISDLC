@@ -32,6 +32,6 @@ fi
 echo "Building TypeScript code..."
 npm run build
 
-# Run the MCP server
-echo "Starting AI Teammate MCP Server with stdio..."
-npm start
+# Run the MCP server directly
+echo "Starting Alex AI Architect MCP Server with stdio..."
+node dist/index.js
