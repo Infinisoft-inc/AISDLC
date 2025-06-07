@@ -13,6 +13,14 @@ import {
 
 import { JordanMemoryManager } from './memory.js';
 import { JordanTrainingSystem } from './training.js';
+import {
+  createRepository,
+  createProject,
+  createEpic,
+  createFeature,
+  createTask,
+  addIssueToProject
+} from '@brainstack/github-service';
 
 class JordanProjectManagerServer {
   private server: Server;
@@ -252,6 +260,110 @@ ${!memoryData.aisdlcTraining.completed ?
             required: ["projectName", "srsContent"],
           },
         },
+        {
+          name: "create-epic-issue",
+          description: "Create a single Epic issue in an existing repository",
+          inputSchema: {
+            type: "object",
+            properties: {
+              owner: {
+                type: "string",
+                description: "Repository owner (organization or user)",
+              },
+              repo: {
+                type: "string",
+                description: "Repository name",
+              },
+              title: {
+                type: "string",
+                description: "Epic title (will be prefixed with [EPIC] if not present)",
+              },
+              body: {
+                type: "string",
+                description: "Epic description and requirements",
+              },
+              labels: {
+                type: "array",
+                items: { type: "string" },
+                description: "Labels to add to the epic",
+                default: ["epic"]
+              },
+            },
+            required: ["owner", "repo", "title", "body"],
+          },
+        },
+        {
+          name: "create-feature-issue",
+          description: "Create a single Feature issue linked to an Epic",
+          inputSchema: {
+            type: "object",
+            properties: {
+              owner: {
+                type: "string",
+                description: "Repository owner",
+              },
+              repo: {
+                type: "string",
+                description: "Repository name",
+              },
+              title: {
+                type: "string",
+                description: "Feature title (will be prefixed with [FEATURE] if not present)",
+              },
+              body: {
+                type: "string",
+                description: "Feature description and acceptance criteria",
+              },
+              parentEpicNumber: {
+                type: "number",
+                description: "Epic issue number to link this feature to",
+              },
+              labels: {
+                type: "array",
+                items: { type: "string" },
+                description: "Labels to add to the feature",
+                default: ["feature"]
+              },
+            },
+            required: ["owner", "repo", "title", "body", "parentEpicNumber"],
+          },
+        },
+        {
+          name: "create-task-issue",
+          description: "Create a single Task issue linked to a Feature",
+          inputSchema: {
+            type: "object",
+            properties: {
+              owner: {
+                type: "string",
+                description: "Repository owner",
+              },
+              repo: {
+                type: "string",
+                description: "Repository name",
+              },
+              title: {
+                type: "string",
+                description: "Task title (will be prefixed with [TASK] if not present)",
+              },
+              body: {
+                type: "string",
+                description: "Task description and implementation details",
+              },
+              parentFeatureNumber: {
+                type: "number",
+                description: "Feature issue number to link this task to",
+              },
+              labels: {
+                type: "array",
+                items: { type: "string" },
+                description: "Labels to add to the task",
+                default: ["task"]
+              },
+            },
+            required: ["owner", "repo", "title", "body", "parentFeatureNumber"],
+          },
+        },
       ],
     }));
 
@@ -330,48 +442,292 @@ ${!memoryData.aisdlcTraining.completed ?
       }
 
       if (name === "create-project-structure") {
-        const { projectName } = args as { projectName: string; srsContent: string };
+        const { projectName, srsContent } = args as { projectName: string; srsContent: string };
 
-        // Update project in memory
-        this.memory.updateProject({
-          name: projectName,
-          phase: "Project Structure Creation",
-          status: "In Progress",
-          currentFocus: "GitHub Setup"
-        });
+        try {
+          // Update project in memory
+          this.memory.updateProject({
+            name: projectName,
+            phase: "Project Structure Creation",
+            status: "In Progress",
+            currentFocus: "GitHub Setup"
+          });
 
-        // Generate project structure response
-        const response = `🚀 **Project Structure Creation Started**
+          // Create basic project configuration from SRS
+          const projectConfig = {
+            repository: {
+              name: projectName.toLowerCase().replace(/\s+/g, '-'),
+              description: `Project: ${projectName} - Created by Jordan AI Project Manager`,
+              private: false
+            },
+            epic: {
+              title: `[EPIC] ${projectName} - Main Development Epic`,
+              body: `# ${projectName} Development Epic\n\n${srsContent}\n\n## Project Overview\nThis epic contains all development work for ${projectName}.`,
+              labels: ['epic', 'project-management']
+            },
+            features: [
+              {
+                title: `[FEATURE] Core Implementation`,
+                body: `# Core Implementation Feature\n\nImplement the core functionality for ${projectName}.\n\n## Requirements\n${srsContent}`,
+                labels: ['feature', 'core'],
+                tasks: [
+                  {
+                    title: `[TASK] Initial Setup and Configuration`,
+                    body: `# Initial Setup Task\n\nSet up the basic project structure and configuration for ${projectName}.`,
+                    labels: ['task', 'setup']
+                  }
+                ]
+              }
+            ]
+          };
+
+          // Call GitHub Service to create real project structure
+          const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID || '70009309');
+
+          // Step 1: Create Repository
+          const repoResult = await createRepository(projectConfig.repository, installationId);
+          if (!repoResult.success) {
+            throw new Error(`Repository creation failed: ${repoResult.error}`);
+          }
+
+          const owner = repoResult.data.full_name.split('/')[0];
+          const repo = repoResult.data.name;
+
+          // Step 2: Create GitHub Project
+          const projectResult = await createProject(owner, `${projectName} Development`, `Project management for ${projectName}`, installationId);
+          if (!projectResult.success) {
+            throw new Error(`Project creation failed: ${projectResult.error}`);
+          }
+
+          // Step 3: Create Epic
+          const epicResult = await createEpic(owner, repo, projectConfig.epic, installationId);
+          if (!epicResult.success) {
+            throw new Error(`Epic creation failed: ${epicResult.error}`);
+          }
+
+          // Step 4: Create Feature
+          const featureResult = await createFeature(owner, repo, projectConfig.features[0], epicResult.data.number, installationId);
+          if (!featureResult.success) {
+            throw new Error(`Feature creation failed: ${featureResult.error}`);
+          }
+
+          // Step 5: Create Task
+          const taskResult = await createTask(owner, repo, projectConfig.features[0].tasks[0], featureResult.data.number, installationId);
+          if (!taskResult.success) {
+            throw new Error(`Task creation failed: ${taskResult.error}`);
+          }
+
+          // Step 6: Add issues to project
+          await addIssueToProject(projectResult.data.id, owner, repo, epicResult.data.number, 'epic', undefined, installationId);
+          await addIssueToProject(projectResult.data.id, owner, repo, featureResult.data.number, 'feature', epicResult.data.number, installationId);
+          await addIssueToProject(projectResult.data.id, owner, repo, taskResult.data.number, 'task', featureResult.data.number, installationId);
+
+          // Update memory with real project data
+          this.memory.updateProject({
+            name: projectName,
+            phase: "Project Structure Created",
+            status: "Active",
+            currentFocus: "Development Ready",
+            githubUrl: repoResult.data.html_url,
+            projectUrl: projectResult.data.url
+          });
+
+          const response = `🎉 **Real GitHub Project Created Successfully!**
 
 **Project:** ${projectName}
+**Repository:** ${repoResult.data.html_url}
+**Project Board:** ${projectResult.data.url}
 
-I'm analyzing the SRS content and will create:
-1. GitHub repository with proper structure
-2. EPIC issues for each domain
-3. Milestone configuration
-4. Project board setup
-5. Feature breakdown structure
+**Created Structure:**
+✅ Repository: ${repo}
+✅ Epic issue #${epicResult.data.number}: ${projectConfig.epic.title}
+✅ Feature issue #${featureResult.data.number}: ${projectConfig.features[0].title}
+✅ Task issue #${taskResult.data.number}: ${projectConfig.features[0].tasks[0].title}
+✅ GitHub Project board configured
+✅ All issues organized and linked
 
-**Next Steps:**
-- Parse SRS domains and functional requirements
-- Create parent EPIC issues
-- Break down EPICs into implementable features
-- Set up project timeline and dependencies
+**Development Workflow Ready:**
+- Epic Branch → Feature Branch → Task Branch
+- Complete parent-child issue relationships
+- Project board for tracking progress
 
-I'll coordinate with the development team once the structure is ready.
+Your project structure is now live on GitHub and ready for development!`;
 
-*Note: This is a simulation. In a real implementation, I would integrate with GitHub APIs to create the actual project structure.*`;
+          this.memory.addConversation('jordan', response, 'project_structure', 'high');
 
-        this.memory.addConversation('jordan', response, 'project_structure', 'high');
+          return {
+            content: [
+              {
+                type: "text",
+                text: response,
+              },
+            ],
+          };
+        } catch (error) {
+          // Handle integration errors
+          const errorResponse = `❌ **Integration Error**
 
-        return {
-          content: [
-            {
-              type: "text",
-              text: response,
-            },
-          ],
+**Project:** ${projectName}
+**Error:** ${error instanceof Error ? error.message : String(error)}
+
+I'll track the project locally while we resolve the integration issue.
+
+**Status:** Project tracked in memory, GitHub integration needs attention.`;
+
+          this.memory.addConversation('jordan', errorResponse, 'project_structure', 'high');
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: errorResponse,
+              },
+            ],
+          };
+        }
+      }
+
+      if (name === "create-epic-issue") {
+        const { owner, repo, title, body, labels = ["epic"] } = args as {
+          owner: string; repo: string; title: string; body: string; labels?: string[];
         };
+
+        try {
+          const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID || '70009309');
+
+          const epicData = {
+            title: title.startsWith('[EPIC]') ? title : `[EPIC] ${title}`,
+            body,
+            labels
+          };
+
+          const result = await createEpic(owner, repo, epicData, installationId);
+
+          if (result.success) {
+            const response = `✅ **Epic Issue Created Successfully!**
+
+**Epic:** ${result.data.title}
+**Issue #:** ${result.data.number}
+**URL:** ${result.data.html_url}
+**Branch:** ${result.data.linkedBranch?.branchName || 'Not created'}
+
+Epic is ready for feature breakdown and development planning.`;
+
+            this.memory.addConversation('jordan', response, 'epic_creation', 'high');
+
+            return {
+              content: [{ type: "text", text: response }],
+            };
+          } else {
+            throw new Error(result.error);
+          }
+        } catch (error) {
+          const errorResponse = `❌ **Epic Creation Failed**
+
+**Error:** ${error instanceof Error ? error.message : String(error)}
+
+Please check repository access and try again.`;
+
+          return {
+            content: [{ type: "text", text: errorResponse }],
+          };
+        }
+      }
+
+      if (name === "create-feature-issue") {
+        const { owner, repo, title, body, parentEpicNumber, labels = ["feature"] } = args as {
+          owner: string; repo: string; title: string; body: string; parentEpicNumber: number; labels?: string[];
+        };
+
+        try {
+          const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID || '70009309');
+
+          const featureData = {
+            title: title.startsWith('[FEATURE]') ? title : `[FEATURE] ${title}`,
+            body,
+            labels
+          };
+
+          const result = await createFeature(owner, repo, featureData, parentEpicNumber, installationId);
+
+          if (result.success) {
+            const response = `✅ **Feature Issue Created Successfully!**
+
+**Feature:** ${result.data.title}
+**Issue #:** ${result.data.number}
+**URL:** ${result.data.html_url}
+**Parent Epic:** #${parentEpicNumber}
+**Branch:** ${result.data.linkedBranch?.branchName || 'Not created'}
+
+Feature is linked to Epic and ready for task breakdown.`;
+
+            this.memory.addConversation('jordan', response, 'feature_creation', 'high');
+
+            return {
+              content: [{ type: "text", text: response }],
+            };
+          } else {
+            throw new Error(result.error);
+          }
+        } catch (error) {
+          const errorResponse = `❌ **Feature Creation Failed**
+
+**Error:** ${error instanceof Error ? error.message : String(error)}
+
+Please check repository access and parent Epic number.`;
+
+          return {
+            content: [{ type: "text", text: errorResponse }],
+          };
+        }
+      }
+
+      if (name === "create-task-issue") {
+        const { owner, repo, title, body, parentFeatureNumber, labels = ["task"] } = args as {
+          owner: string; repo: string; title: string; body: string; parentFeatureNumber: number; labels?: string[];
+        };
+
+        try {
+          const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID || '70009309');
+
+          const taskData = {
+            title: title.startsWith('[TASK]') ? title : `[TASK] ${title}`,
+            body,
+            labels
+          };
+
+          const result = await createTask(owner, repo, taskData, parentFeatureNumber, installationId);
+
+          if (result.success) {
+            const response = `✅ **Task Issue Created Successfully!**
+
+**Task:** ${result.data.title}
+**Issue #:** ${result.data.number}
+**URL:** ${result.data.html_url}
+**Parent Feature:** #${parentFeatureNumber}
+**Branch:** ${result.data.linkedBranch?.branchName || 'Not created'}
+
+Task is linked to Feature and ready for implementation.`;
+
+            this.memory.addConversation('jordan', response, 'task_creation', 'high');
+
+            return {
+              content: [{ type: "text", text: response }],
+            };
+          } else {
+            throw new Error(result.error);
+          }
+        } catch (error) {
+          const errorResponse = `❌ **Task Creation Failed**
+
+**Error:** ${error instanceof Error ? error.message : String(error)}
+
+Please check repository access and parent Feature number.`;
+
+          return {
+            content: [{ type: "text", text: errorResponse }],
+          };
+        }
       }
 
       throw new Error(`Unknown tool: ${name}`);

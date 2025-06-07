@@ -32,7 +32,10 @@ fi
 echo "Building TypeScript code..."
 # npm run build
 
+# Set GitHub installation ID
+export GITHUB_INSTALLATION_ID=70009309
+
 # Run the MCP server
-echo "Starting AI Teammate MCP Server with stdio..."
+echo "Starting Jordan Project Manager MCP Server with stdio..."
 # npm start
 ./dist/index.js

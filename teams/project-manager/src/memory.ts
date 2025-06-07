@@ -23,6 +23,8 @@ export interface ProjectContext {
   milestones: string[];
   epics: string[];
   currentFocus: string;
+  githubUrl?: string;
+  projectUrl?: string;
 }
 
 export interface UserProfile {
