@@ -20,7 +20,7 @@ import {
   createFeature,
   createTask,
   addIssueToProject
-} from '@brainstack/github-service';
+} from '../../../packages/github-service/dist/github-service.js';
 
 class JordanProjectManagerServer {
   private server: Server;
