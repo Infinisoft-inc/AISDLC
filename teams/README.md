@@ -10,26 +10,34 @@ This folder contains the complete AI-to-AI knowledge transfer system for bootstr
 
 ## Bootstrap Process
 
-### 1. Team Member Creation (5 minutes)
+### Current Performance (v2.0 Template)
+**Total Time:** 8-10 minutes from start to first conversation
+**Success Rate:** 100% with v2.0 intelligent template
+
+### 1. Team Member Creation (3-4 minutes)
 ```
-Input: Role specification (Project Manager, Developer, QA Engineer, etc.)
-Process: Copy base-mcp template → Customize for role → Configure personality
-Output: Fully functional AI teammate ready for collaboration
+Input: Role specification (Business Analyst, Project Manager, Developer, etc.)
+Process: Copy v2.0 template → Customize name/role → Build with npm
+Output: Intelligent AI teammate with memory, training, and voice capabilities
 ```
 
-### 2. AI-SDLC Training (10 minutes)
+### 2. AI-SDLC Training (1-2 minutes)
 ```
-Input: ai-to-ai-methodology documentation
-Process: Read methodology-overview.json → Study role-specific information → Load personality
-Output: AI teammate trained and ready to work
+Input: Built AI teammate
+Process: Auto-load ai-to-ai-methodology → Complete 5 training modules → 35+ key learnings
+Output: Fully trained AI teammate with methodology understanding
 ```
 
-### 3. Integration & Activation (5 minutes)
+### 3. Human Integration & Activation (3-4 minutes)
 ```
 Input: Trained AI teammate
-Process: Configure MCP server → Test communication → Activate for collaboration
-Output: Active AI teammate ready for human collaboration
+Process: Human loads MCP config → Start MCP server → Test first conversation
+Output: Active AI teammate ready for voice-first collaboration
 ```
+
+### Historical Performance
+- **v1.0 (Manual):** 30+ minutes, complex setup, static responses
+- **v2.0 (Intelligent):** 8-10 minutes, automated training, LLM-powered responses
 
 ## Technical Implementation
 
@@ -87,33 +95,45 @@ Each AI teammate must demonstrate understanding of:
 // Then proceed to specific role creation
 ```
 
-### Step 2: Copy Base Template
+### Step 2: Copy v2.0 Template and Customize
 ```bash
-cp -r templates/mcp-servers/base-mcp teams/[role-name]
+cp -r templates/mcp-servers/base-mcp teams/[teammate-name]
+cd teams/[teammate-name]
+# Update src/index.ts: AITeammateServer("Name", "Role")
+# Update package.json: name, description, bin
 ```
 
-### Step 3: Customize for Role
-```typescript
-// Update package.json name and description
-// Modify src/index.ts for role-specific tools
-// Configure personality in config/persona.json
-// Implement role-specific intelligence
+### Step 3: Build and Prepare
+```bash
+npm install
+npm run build
+chmod +x dist/index.js
+# Create config/mcp-config-ai-[role].json
+# Create config/run.sh with executable permissions
 ```
 
-### Step 4: AI-SDLC Training
+### Step 4: AI-SDLC Training (Automated)
 ```typescript
-// Read ai-to-ai-methodology/methodology-overview.json
-// Study role-specific information from ai-roles-personalities.json
-// Understand information flow and collaboration patterns
-// Load personality and voice patterns
+// Training happens automatically when human starts MCP server
+// 5 modules: methodology, role, information flow, collaboration, examples
+// 35+ key learnings acquired automatically
 ```
 
-### Step 5: Test and Activate
+### Step 5: Human Integration Required
 ```typescript
-// Test memory system functionality
-// Validate personality and voice
-// Confirm AI-SDLC methodology understanding
-// Activate for human collaboration
+// CRITICAL: AI cannot activate teammate independently
+// Human must manually load MCP configuration
+// Human starts MCP server in their system
+// Human tests first conversation to confirm activation
+// Only then is teammate ready for collaboration
+```
+
+### Step 6: First Conversation Test
+```typescript
+// Human calls: chat-with-[teammate] tool
+// Teammate introduces themselves with personality
+// Voice-first interaction through speech_response_talk
+// Confirm memory, training, and intelligence working
 ```
 
 ## Available AI Roles

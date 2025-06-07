@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ai-teammate": {
+      "command": "node",
+      "args": [
+        "/home/agent2/AISDLC/teams/[teammate-folder]/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

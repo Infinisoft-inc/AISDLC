@@ -28,19 +28,15 @@ cd my-ai-teammate
 const server = new AITeammateServer("YourTeammateName", "Your Role Description");
 ```
 
-### 3. Build and Prepare
+### 3. Build and Run
 ```bash
 npm install
-npm run build  # Automatically makes dist/index.js executable
-chmod +x config/run.sh  # Make run script executable
+npm run build
+npm start
 ```
 
-### 4. Human Integration Required
-**IMPORTANT:** AI cannot start the teammate independently. Human must:
-1. Load the MCP configuration: `config/mcp-config-ai-[role].json`
-2. Start the MCP server in their system
-3. Use `complete-training` tool to train the AI teammate
-4. Test first conversation to confirm activation
+### 4. Train Your Teammate
+Use the `complete-training` tool to train your AI teammate on the AI-SDLC methodology.
 
 ## Available Tools
 
