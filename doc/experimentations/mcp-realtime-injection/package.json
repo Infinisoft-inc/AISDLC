@@ -1,6 +1,7 @@
 {
   "name": "mcp-realtime-injection-experiment",
   "version": "1.0.0",
+  "private":true,
   "description": "MCP Real-time Injection Experiment",
   "type": "module",
   "main": "direct-stdio-injector.js",

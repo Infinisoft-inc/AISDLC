@@ -27,6 +27,11 @@
       ]
     }
   },
+  "exclude": [
+    "doc/experimentations/**/*",
+    "node_modules",
+    "dist"
+  ],
   "references": [
     {
       "path": "./packages/awareness"

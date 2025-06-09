@@ -7,17 +7,6 @@ export interface GitHubAppConfig {
   privateKey: string;
 }
 
-export interface InstallationData {
-  installationId: number;
-  accountId: number;
-  accountLogin: string;
-  accountType: 'User' | 'Organization';
-  accessToken?: string;
-  expiresAt?: string;
-  permissions: Record<string, string>;
-  createdAt: string;
-}
-
 export interface RepositoryData {
   name: string;
   description?: string;
@@ -37,22 +26,4 @@ export interface ProjectBoardData {
   name: string;
   description?: string;
   columns?: string[];
-}
-
-export interface WebhookPayload {
-  action: string;
-  installation?: {
-    id: number;
-    account: {
-      id: number;
-      login: string;
-      type: string;
-    };
-    permissions: Record<string, string>;
-  };
-  repositories?: Array<{
-    id: number;
-    name: string;
-    full_name: string;
-  }>;
 }

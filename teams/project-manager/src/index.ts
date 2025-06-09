@@ -4,24 +4,22 @@
 import { config } from 'dotenv';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { dopplerConfig } from './doppler-config.js';
 
 // Get current directory in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Load .env from the project directory
+// Load .env from the project directory as fallback
 const envPath = resolve(__dirname, '../.env');
 config({ path: envPath });
 
 // Debug: Log environment loading
-console.error(`Jordan: Loading .env from ${envPath}`);
-console.error(`Jordan: GITHUB_APP_ID = ${process.env.GITHUB_APP_ID ? 'SET' : 'NOT SET'}`);
-console.error(`Jordan: GITHUB_INSTALLATION_ID = ${process.env.GITHUB_INSTALLATION_ID || '70009309'}`);
+console.error(`Jordan: Loading secrets from Doppler (with .env fallback)`);
+console.error(`Jordan: Environment path: ${envPath}`);
 
-// Ensure installation ID is set
-if (!process.env.GITHUB_INSTALLATION_ID) {
-  process.env.GITHUB_INSTALLATION_ID = '70009309';
-}
+// Initialize Doppler configuration
+console.error(`Jordan: ✅ Doppler SDK initialized for project: ai-sdlc, config: prd`);
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -44,6 +42,33 @@ import {
   createTask,
   addIssueToProject
 } from '../../../packages/github-service/dist/github-service.js';
+import { createClient } from '@supabase/supabase-js';
+
+// Helper function to get installation ID by organization
+async function getInstallationIdByOrg(orgName: string): Promise<number> {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    }
+  );
+
+  const { data, error } = await supabase
+    .from('github_installations')
+    .select('installation_id')
+    .eq('account_login', orgName)
+    .single();
+
+  if (error || !data) {
+    throw new Error(`No GitHub App installation found for organization: ${orgName}`);
+  }
+
+  return data.installation_id;
+}
 
 class JordanProjectManagerServer {
   private server: Server;
@@ -186,8 +211,8 @@ ${trainingCompleted ? '🎓 **Fully Trained & Ready**' : '⚠️ **Training Requ
 - Follow AI-SDLC methodology with complete traceability
 
 ${trainingCompleted ?
-  "I'm ready to organize your project properly! Let's get started. 🚀" :
-  "I need to complete my AI-SDLC training first. Use the 'complete-training' tool to get me ready!"}`,
+                    "I'm ready to organize your project properly! Let's get started. 🚀" :
+                    "I need to complete my AI-SDLC training first. Use the 'complete-training' tool to get me ready!"}`,
               },
             },
           ],
@@ -214,8 +239,8 @@ ${status}
 **Role Knowledge:** ${memoryData.aisdlcTraining.roleSpecificKnowledge.length} skills
 
 ${!memoryData.aisdlcTraining.completed ?
-  "Use the 'complete-training' tool to complete my AI-SDLC training!" :
-  "Training complete! I'm ready to work on your projects."}`,
+                    "Use the 'complete-training' tool to complete my AI-SDLC training!" :
+                    "Training complete! I'm ready to work on your projects."}`,
               },
             },
           ],
@@ -505,7 +530,7 @@ ${!memoryData.aisdlcTraining.completed ?
           };
 
           // Call GitHub Service to create real project structure
-          const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID || '70009309');
+          const installationId = parseInt(await dopplerConfig.getGitHubInstallationId());
 
           // Step 1: Create Repository
           const repoResult = await createRepository(projectConfig.repository, installationId);
@@ -616,7 +641,7 @@ I'll track the project locally while we resolve the integration issue.
         };
 
         try {
-          const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID || '70009309');
+          const installationId = parseInt(await dopplerConfig.getGitHubInstallationId());
 
           const epicData = {
             title: title.startsWith('[EPIC]') ? title : `[EPIC] ${title}`,
@@ -663,7 +688,7 @@ Please check repository access and try again.`;
         };
 
         try {
-          const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID || '70009309');
+          const installationId = parseInt(await dopplerConfig.getGitHubInstallationId());
 
           const featureData = {
             title: title.startsWith('[FEATURE]') ? title : `[FEATURE] ${title}`,
@@ -711,7 +736,7 @@ Please check repository access and parent Epic number.`;
         };
 
         try {
-          const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID || '70009309');
+          const installationId = parseInt(await dopplerConfig.getGitHubInstallationId());
 
           const taskData = {
             title: title.startsWith('[TASK]') ? title : `[TASK] ${title}`,

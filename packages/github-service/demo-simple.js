@@ -21,7 +21,7 @@ async function runSimpleDemo() {
 
   try {
     // Use organization installation ID
-    const orgInstallationId = 70009309;
+    const orgInstallationId = 70228316;
     const timestamp = Date.now();
     
     // Step 1: Create Repository

@@ -33,7 +33,7 @@ echo "Building TypeScript code..."
 # npm run build
 
 # Set GitHub installation ID
-export GITHUB_INSTALLATION_ID=70009309
+export GITHUB_INSTALLATION_ID=70210717
 
 # Run the MCP server
 echo "Starting Jordan Project Manager MCP Server with stdio..."

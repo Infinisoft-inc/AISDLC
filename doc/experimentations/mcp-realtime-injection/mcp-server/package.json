@@ -1,6 +1,7 @@
 {
   "name": "mcp-realtime-experiment",
   "version": "0.1.0",
+  "private":true,
   "description": "MCP Server for real-time data injection experiment",
   "main": "src/index.ts",
   "exports": {
@@ -9,12 +10,7 @@
   "bin": {
     "mcp-realtime": "dist/index.js"
   },
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "start": "node dist/index.js",
-    "prepare": "npm run build"
-  },
+
   "keywords": [
     "mcp",
     "realtime",

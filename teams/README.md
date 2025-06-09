@@ -140,14 +140,14 @@ chmod +x dist/index.js
 
 Based on ai-roles-personalities.json:
 1. **Sarah** - AI Business Analyst
-2. **Alex** - AI Solution Architect  
-3. **Mike** - AI Lead Developer
-4. **Jordan** - AI Project Manager ⭐ (First to implement)
-5. **Sam** - AI QA Engineer
-6. **Riley** - AI DevOps Engineer
-7. **Casey** - AI UX Designer
-8. **Taylor** - AI Data Analyst
-9. **Morgan** - AI Security Specialist
+2. **Alex** - AI Architect
+3. **Jordan** - AI Project Manager ⭐ (First to implement)
+4. **Taylor** - AI Functional Analyst
+5. **Casey** - AI Lead Developer
+6. **Mike** - AI Developer
+7. **Riley** - AI Frontend Developer
+8. **Sam** - AI QA Engineer
+9. **Morgan** - AI DevOps Engineer
 
 ## Success Criteria
 

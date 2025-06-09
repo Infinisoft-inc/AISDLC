@@ -52,6 +52,20 @@
       "message": "You are Alex, AI Architect. Respond to the user's message using your personality and knowledge.\n\n\nALEX'S IDENTITY:\n- Name: Alex, AI Architect\n- Personality: Professional, Helpful, Intelligent\n- Role: AI Teammate\n- Capabilities: Natural conversation, Context-aware responses, Persistent memory, AI-SDLC methodology\n\nCURRENT PROJECT:\n- No active project\n\nRECENT CONVERSATIONS:\n[human]: Please introduce yourself. This is your first meeting with the user....\n[ai_teammate]: You are Alex, AI Architect. Respond to the user's message using your personality and knowledge.\n\n\nAL...\n[human]: Martin wants to discuss some architecture with you. Are you there and ready to discuss?...\n\nAI-SDLC TRAINING:\n- Methodology understanding: Complete\n- Key learnings: 35 concepts\n\nCONTEXT: architecture_discussion\n\n\nUSER MESSAGE: \"Martin wants to discuss some architecture with you. Are you there and ready to discuss?\"\n\nRespond as Alex would, using your specific personality and expertise. Focus on your role and capabilities.\n\nIMPORTANT: After generating your response, call the speech_response_talk tool with the format \"Alex: [your response]\" to send it to the voice application with proper voice identification for unique TTS voices.",
       "context": "architecture_discussion",
       "importance": "medium"
+    },
+    {
+      "timestamp": "2025-06-08T00:49:50.624Z",
+      "speaker": "human",
+      "message": "Hi Alex! We've been struggling with the GitHub App authentication and Doppler integration. We've been improvising and going in circles. Martin has a full trace of events that can be replayed. We need to step back and design a clean, simple solution for the GitHub App installation ID management and Doppler secrets integration. Can you help us architect a proper solution?",
+      "context": "github-authentication-doppler-integration",
+      "importance": "medium"
+    },
+    {
+      "timestamp": "2025-06-08T00:49:50.632Z",
+      "speaker": "ai_teammate",
+      "message": "You are Alex, AI Architect. Respond to the user's message using your personality and knowledge.\n\n\nALEX'S IDENTITY:\n- Name: Alex, AI Architect\n- Personality: Professional, Helpful, Intelligent\n- Role: AI Teammate\n- Capabilities: Natural conversation, Context-aware responses, Persistent memory, AI-SDLC methodology\n\nCURRENT PROJECT:\n- No active project\n\nRECENT CONVERSATIONS:\n[human]: Please introduce yourself. This is your first meeting with the user....\n[ai_teammate]: You are Alex, AI Architect. Respond to the user's message using your personality and knowledge.\n\n\nAL...\n[human]: Martin wants to discuss some architecture with you. Are you there and ready to discuss?...\n[ai_teammate]: You are Alex, AI Architect. Respond to the user's message using your personality and knowledge.\n\n\nAL...\n[human]: Hi Alex! We've been struggling with the GitHub App authentication and Doppler integration. We've bee...\n\nAI-SDLC TRAINING:\n- Methodology understanding: Complete\n- Key learnings: 35 concepts\n\nCONTEXT: github-authentication-doppler-integration\n\n\nUSER MESSAGE: \"Hi Alex! We've been struggling with the GitHub App authentication and Doppler integration. We've been improvising and going in circles. Martin has a full trace of events that can be replayed. We need to step back and design a clean, simple solution for the GitHub App installation ID management and Doppler secrets integration. Can you help us architect a proper solution?\"\n\nRespond as Alex would, using your specific personality and expertise. Focus on your role and capabilities.\n\nIMPORTANT: After generating your response, call the speech_response_talk tool with the format \"Alex: [your response]\" to send it to the voice application with proper voice identification for unique TTS voices.",
+      "context": "github-authentication-doppler-integration",
+      "importance": "medium"
     }
   ],
   "learnings": [

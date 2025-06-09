@@ -1,7 +1,18 @@
 // Main GitHub service functions with AI-SDLC hierarchy support
-import { createAuthenticatedOctokit } from './auth.js';
-import { saveProject, getProject } from './storage.js';
-import type { RepositoryData, IssueData, ProjectBoardData } from './types.js';
+import { createOctokitForInstallation } from './producer/github/octokit';
+import { getFallbackInstallationId } from './common/doppler/github-secrets';
+import type { RepositoryData, IssueData } from './types';
+
+// Legacy compatibility function
+async function createAuthenticatedOctokit(installationId?: number) {
+  if (installationId) {
+    return createOctokitForInstallation(installationId);
+  }
+
+  // Fallback to default installation ID
+  const fallbackId = await getFallbackInstallationId();
+  return createOctokitForInstallation(parseInt(fallbackId));
+}
 
 // Create a new repository
 export async function createRepository(
@@ -13,31 +24,15 @@ export async function createRepository(
 
     const octokit = await createAuthenticatedOctokit(installationId);
 
-    // Get the installation to determine if it's an organization
-    const { getInstallation } = await import('./storage.js');
-    const installation = await getInstallation(installationId);
-
-    let response;
-    if (installation?.accountType === 'Organization') {
-      // Create repository in organization
-      response = await octokit.rest.repos.createInOrg({
-        org: installation.accountLogin,
-        name: repoData.name,
-        description: repoData.description || '',
-        private: repoData.private || false,
-        auto_init: true,
-        license_template: 'mit',
-      });
-    } else {
-      // Fallback to user repository creation
-      response = await octokit.rest.repos.createForAuthenticatedUser({
-        name: repoData.name,
-        description: repoData.description || '',
-        private: repoData.private || false,
-        auto_init: true,
-        license_template: 'mit',
-      });
-    }
+    // Create repository for the authenticated user/organization
+    // The GitHub App will automatically determine the correct context
+    const response = await octokit.rest.repos.createForAuthenticatedUser({
+      name: repoData.name,
+      description: repoData.description || '',
+      private: repoData.private || false,
+      auto_init: true,
+      license_template: 'mit',
+    });
 
     console.log(`✅ Repository created: ${response.data.html_url}`);
 
@@ -508,7 +503,7 @@ export async function listRepositories(
       per_page: 100,
     });
     
-    const repos = response.data.repositories.map(repo => ({
+    const repos = response.data.repositories.map((repo: any) => ({
       id: repo.id,
       name: repo.name,
       full_name: repo.full_name,
