@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "[teammateNameCamelCase]": {
+      "command": "wsl.exe",
+      "args": [
+        "bash",
+        "-c",
+        "\"/home/agent2/AISDLC/teams/[teammate-folder]/config/run.sh\""
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

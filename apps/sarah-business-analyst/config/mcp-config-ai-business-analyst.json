@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "sarahBusinesAnalyst": {
+    "command": "wsl.exe",
+    "args": [
+      "bash",
+      "-c",
+      "\"/home/agent2/AISDLC/apps/sarah-business-analyst/config/run.sh\""
+    ],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
