@@ -11,7 +11,14 @@
     "build": "tsc && chmod +x dist/index.js",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "prepare": "npm run build"
+    "test": "npm run test:unit",
+    "test:unit": "cd tests/unit && ./test-jordan.sh",
+    "test:unit:advanced": "cd tests/unit && node run-tests.js",
+    "test:integration": "cd tests/integration && ./github-integration.sh",
+    "test:integration:validate": "cd tests/integration && node github-validation.js",
+    "test:ui": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "test:all": "npm run build && npm run test:unit && npm run test:integration",
+    "test:safe": "npm run build && npm run test:unit"
   },
   "keywords": [
     "ai-sdlc",
@@ -25,14 +32,18 @@
   "license": "MIT",
   "dependencies": {
     "@brainstack/github-service": "workspace:^",
+    "@brainstack/integration-service": "workspace:^",
     "@dopplerhq/node-sdk": "^1.3.0",
     "@modelcontextprotocol/sdk": "^0.5.0",
     "@supabase/supabase-js": "^2.50.0",
     "dotenv": "^16.5.0"
   },
   "devDependencies": {
+    "@octokit/rest": "^20.1.2",
     "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
+    "mcp-testing-kit": "^0.2.0",
+    "typescript": "^5.0.0",
+    "vitest": "^3.2.3"
   },
   "engines": {
     "node": ">=18.0.0"

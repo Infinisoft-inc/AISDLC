@@ -5,12 +5,12 @@
  */
 
 import type { Octokit } from '@octokit/rest';
-import { createIssue } from '../github/issues/createIssue';
+import { createIssue } from '../github/issues/createIssue.js';
 
-import { setIssueTypeByName } from '../github/issues/setIssueType';
-import { ensureIssueTypes } from '../github/issues/createIssueType';
-import { createLinkedBranch } from '../github/branches/createLinkedBranch';
-import { generateBranchName } from '../github/utils/generateBranchName';
+import { setIssueTypeByName } from '../github/issues/setIssueType.js';
+import { ensureIssueTypes } from '../github/issues/createIssueType.js';
+import { createLinkedBranch } from '../github/branches/createLinkedBranch.js';
+import { generateBranchName } from '../github/utils/generateBranchName.js';
 import type { GitHubIssueData, Result } from '../github/types';
 
 export interface EpicData extends GitHubIssueData {

@@ -1,0 +1,209 @@
+{
+  "testScenarios": [
+    {
+      "name": "Basic Functionality Tests",
+      "tests": [
+        {
+          "name": "List all available tools",
+          "method": "tools/list",
+          "expectedFields": ["name", "description", "inputSchema"]
+        },
+        {
+          "name": "List all available prompts", 
+          "method": "prompts/list",
+          "expectedFields": ["name", "description"]
+        },
+        {
+          "name": "List all available resources",
+          "method": "resources/list", 
+          "expectedFields": ["uri", "name", "description"]
+        }
+      ]
+    },
+    {
+      "name": "Prompt Tests",
+      "tests": [
+        {
+          "name": "Get Jordan introduction prompt",
+          "method": "prompts/get",
+          "args": {
+            "name": "jordan-introduction"
+          },
+          "expectedContent": ["Jordan", "Project Manager", "AI-SDLC"]
+        },
+        {
+          "name": "Get training status prompt",
+          "method": "prompts/get", 
+          "args": {
+            "name": "jordan-training-status"
+          },
+          "expectedContent": ["Training", "Status", "AI-SDLC"]
+        }
+      ]
+    },
+    {
+      "name": "Resource Tests",
+      "tests": [
+        {
+          "name": "Read current memory",
+          "method": "resources/read",
+          "args": {
+            "uri": "jordan://memory/current"
+          },
+          "expectedContent": ["conversations", "aisdlcTraining", "currentProject"]
+        },
+        {
+          "name": "Read training status",
+          "method": "resources/read",
+          "args": {
+            "uri": "jordan://training/status"
+          },
+          "expectedContent": ["completed", "methodologyUnderstanding"]
+        }
+      ]
+    },
+    {
+      "name": "Core Tool Tests",
+      "tests": [
+        {
+          "name": "Complete training",
+          "method": "tools/call",
+          "args": {
+            "name": "complete-training"
+          },
+          "expectedContent": ["Training", "completed", "AI-SDLC"]
+        },
+        {
+          "name": "Process simple message",
+          "method": "tools/call",
+          "args": {
+            "name": "process-message-for-jordan",
+            "arguments": {
+              "message": "Hello Jordan, how are you?",
+              "context": "greeting"
+            }
+          },
+          "expectedContent": ["Jordan", "TEAMMATE", "Project Manager"]
+        },
+        {
+          "name": "Get project status",
+          "method": "tools/call",
+          "args": {
+            "name": "get-project-status"
+          },
+          "expectedContent": ["JORDAN", "MEMORY", "PROJECT"]
+        }
+      ]
+    },
+    {
+      "name": "GitHub Integration Tests (Mock)",
+      "description": "These tests verify tool structure but expect GitHub auth failures",
+      "tests": [
+        {
+          "name": "Create epic issue structure test",
+          "method": "tools/call",
+          "args": {
+            "name": "create-epic-issue",
+            "arguments": {
+              "owner": "test-org",
+              "repo": "test-repo", 
+              "title": "[EPIC] Test Epic for Validation",
+              "body": "# Test Epic\n\nThis is a test epic to validate the tool structure.\n\n## Requirements\n- Test requirement 1\n- Test requirement 2",
+              "labels": ["epic", "test"]
+            }
+          },
+          "expectedContent": ["GitHub setup failed", "DOPPLER_TOKEN"],
+          "expectFailure": true
+        },
+        {
+          "name": "Create feature issue structure test",
+          "method": "tools/call",
+          "args": {
+            "name": "create-feature-issue",
+            "arguments": {
+              "owner": "test-org",
+              "repo": "test-repo",
+              "title": "[FEATURE] Test Feature Implementation", 
+              "body": "# Test Feature\n\nImplement test feature functionality.\n\n## Acceptance Criteria\n- [ ] Criterion 1\n- [ ] Criterion 2",
+              "parentEpicNumber": 1,
+              "labels": ["feature", "test"]
+            }
+          },
+          "expectedContent": ["GitHub setup failed", "DOPPLER_TOKEN"],
+          "expectFailure": true
+        },
+        {
+          "name": "Create task issue structure test",
+          "method": "tools/call",
+          "args": {
+            "name": "create-task-issue",
+            "arguments": {
+              "owner": "test-org",
+              "repo": "test-repo",
+              "title": "[TASK] Implement Test Component",
+              "body": "# Test Task\n\nImplement the test component as specified.\n\n## Implementation Details\n- Use TypeScript\n- Add unit tests\n- Update documentation",
+              "parentFeatureNumber": 2,
+              "labels": ["task", "implementation"]
+            }
+          },
+          "expectedContent": ["GitHub setup failed", "DOPPLER_TOKEN"],
+          "expectFailure": true
+        },
+        {
+          "name": "Create project structure test",
+          "method": "tools/call",
+          "args": {
+            "name": "create-project-structure",
+            "arguments": {
+              "projectName": "Test AI Project",
+              "srsContent": "# Software Requirements Specification\n\n## 1. Introduction\nThis is a test project for validating Jordan's project creation capabilities.\n\n## 2. Functional Requirements\n\n### FR-001: User Authentication\nThe system shall provide secure user authentication.\n\n### FR-002: Data Management\nThe system shall manage user data efficiently.\n\n## 3. Non-Functional Requirements\n\n### NFR-001: Performance\nThe system shall respond within 2 seconds.\n\n### NFR-002: Security\nThe system shall encrypt all sensitive data."
+            }
+          },
+          "expectedContent": ["GitHub setup failed", "DOPPLER_TOKEN"],
+          "expectFailure": true
+        }
+      ]
+    },
+    {
+      "name": "Message Processing Tests",
+      "tests": [
+        {
+          "name": "Process project planning message",
+          "method": "tools/call",
+          "args": {
+            "name": "process-message-for-jordan",
+            "arguments": {
+              "message": "I need help creating a new project structure for an e-commerce platform",
+              "context": "project_planning"
+            }
+          },
+          "expectedContent": ["Jordan", "project", "structure", "TEAMMATE"]
+        },
+        {
+          "name": "Process technical question",
+          "method": "tools/call", 
+          "args": {
+            "name": "process-message-for-jordan",
+            "arguments": {
+              "message": "What's the best way to organize GitHub issues for a large project?",
+              "context": "technical_guidance"
+            }
+          },
+          "expectedContent": ["Jordan", "GitHub", "issues", "EPIC"]
+        },
+        {
+          "name": "Process status inquiry",
+          "method": "tools/call",
+          "args": {
+            "name": "process-message-for-jordan", 
+            "arguments": {
+              "message": "What's the current status of our project?",
+              "context": "status_check"
+            }
+          },
+          "expectedContent": ["Jordan", "project", "status", "MEMORY"]
+        }
+      ]
+    }
+  ]
+}

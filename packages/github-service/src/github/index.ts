@@ -7,33 +7,34 @@
 export type * from './types';
 
 // Issue functions
-export { createIssue } from './issues/createIssue';
-export { getIssue } from './issues/getIssue';
-export { addIssueLabel } from './issues/addIssueLabel';
-export { setIssueType, setIssueTypeByName } from './issues/setIssueType';
-export { addSubIssue } from './issues/addSubIssue';
-export { getIssueTypes } from './issues/getIssueTypes';
-export { resolveIssueTypes, hasIssueTypes, getIssueTypeId, clearIssueTypeCache } from './issues/resolveIssueTypes';
-export { createIssueType, getOrganizationIssueTypes, ensureIssueTypes } from './issues/createIssueType';
+export { createIssue } from './issues/createIssue.js';
+export { getIssue } from './issues/getIssue.js';
+export { addIssueLabel } from './issues/addIssueLabel.js';
+export { setIssueType, setIssueTypeByName } from './issues/setIssueType.js';
+export { addSubIssue } from './issues/addSubIssue.js';
+export { getIssueTypes } from './issues/getIssueTypes.js';
+export { resolveIssueTypes, hasIssueTypes, getIssueTypeId, clearIssueTypeCache } from './issues/resolveIssueTypes.js';
+export { createIssueType, getOrganizationIssueTypes, ensureIssueTypes } from './issues/createIssueType.js';
 
 // Branch functions
-export { createBranch } from './branches/createBranch';
-export { getBranch } from './branches/getBranch';
-export { createLinkedBranch } from './branches/createLinkedBranch';
+export { createBranch } from './branches/createBranch.js';
+export { getBranch } from './branches/getBranch.js';
+export { createLinkedBranch } from './branches/createLinkedBranch.js';
 
 // Repository functions
-export { createRepository } from './repositories/createRepository';
-export { getRepository } from './repositories/getRepository';
-export { listRepositories } from './repositories/listRepositories';
+export { createRepository } from './repositories/createRepository.js';
+export { createOrgRepository } from './repositories/createOrgRepository.js';
+export { getRepository } from './repositories/getRepository.js';
+export { listRepositories } from './repositories/listRepositories.js';
 
 // Comment functions
-export { createComment } from './comments/createComment';
+export { createComment } from './comments/createComment.js';
 
 // Project functions
-export { createProject } from './projects/createProject';
-export { addIssueToProject } from './projects/addIssueToProject';
-export { createProjectV2 } from './projects/createProjectV2';
-export { addIssueToProjectV2 } from './projects/addIssueToProjectV2';
+export { createProject } from './projects/createProject.js';
+export { addIssueToProject } from './projects/addIssueToProject.js';
+export { createProjectV2 } from './projects/createProjectV2.js';
+export { addIssueToProjectV2 } from './projects/addIssueToProjectV2.js';
 
 // Utility functions
-export { generateBranchName } from './utils/generateBranchName';
+export { generateBranchName } from './utils/generateBranchName.js';

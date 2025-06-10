@@ -2,7 +2,7 @@
   "scripts": {
     "preinstall": "node ./scripts/enforce-pnpm.js",
     "build-all": "pnpm -r run build",
-    "clean": "rimraf 'packages/*/{dist,node_modules}' && rimraf node_modules",
+    "clean": "rimraf 'packages/*/{dist,node_modules}' && rimraf 'apps/*/{dist,node_modules}' && rimraf node_modules",
     "watch-all": "pnpm -r run watch",
     "new-app": "bash scripts/new-app.sh",
     "add-package": "bash scripts/add-package.sh"

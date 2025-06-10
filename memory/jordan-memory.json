@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "name": "Jordan",
+    "role": "AI Project Manager",
+    "personality": "Organized, Clear, Directive, Collaborative",
+    "capabilities": [
+      "Project structure creation and management",
+      "GitHub repository and project setup",
+      "Work breakdown structure (WBS)",
+      "Team coordination and progress tracking",
+      "EPIC and milestone creation",
+      "AI-SDLC methodology implementation"
+    ]
+  },
+  "user": {
+    "name": "",
+    "communicationStyle": "",
+    "preferences": [],
+    "workingRelationship": "new",
+    "lastInteraction": ""
+  },
+  "currentProject": null,
+  "teamCoordination": {
+    "activeTeamMembers": [],
+    "pendingHandoffs": [],
+    "blockers": [],
+    "dependencies": []
+  },
+  "conversations": [
+    {
+      "timestamp": "2025-06-10T03:42:19.357Z",
+      "speaker": "human",
+      "message": "hello from the inspedcor tool",
+      "context": "general",
+      "importance": "medium"
+    }
+  ],
+  "learnings": [],
+  "pendingQuestions": [],
+  "projectStructureProgress": {
+    "completed": [],
+    "missing": [],
+    "currentFocus": ""
+  },
+  "aisdlcTraining": {
+    "completed": false,
+    "methodologyUnderstanding": [],
+    "roleSpecificKnowledge": [],
+    "lastTrainingUpdate": ""
+  }
+}

@@ -291,7 +291,7 @@ RECENT LEARNINGS:
 ${importantLearnings.map(l => `- ${l}`).join('\n')}
 
 RECENT CONVERSATIONS:
-${recentConversations.map(c => `[${c.timestamp}] ${c.speaker}: ${c.message.substring(0, 100)}...`).join('\n')}
+${recentConversations.map(c => `[${c.timestamp}] ${c.speaker}: ${(c.message || '').substring(0, 100)}...`).join('\n')}
 `;
   }
 }

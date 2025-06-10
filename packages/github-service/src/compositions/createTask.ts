@@ -5,12 +5,12 @@
  */
 
 import type { Octokit } from '@octokit/rest';
-import { createIssue } from '../github/issues/createIssue';
-import { setIssueTypeByName } from '../github/issues/setIssueType';
-import { ensureIssueTypes } from '../github/issues/createIssueType';
-import { addSubIssue } from '../github/issues/addSubIssue';
-import { createLinkedBranch } from '../github/branches/createLinkedBranch';
-import { generateBranchName } from '../github/utils/generateBranchName';
+import { createIssue } from '../github/issues/createIssue.js';
+import { setIssueTypeByName } from '../github/issues/setIssueType.js';
+import { ensureIssueTypes } from '../github/issues/createIssueType.js';
+import { addSubIssue } from '../github/issues/addSubIssue.js';
+import { createLinkedBranch } from '../github/branches/createLinkedBranch.js';
+import { generateBranchName } from '../github/utils/generateBranchName.js';
 import type { GitHubIssueData, Result } from '../github/types';
 
 export interface TaskData extends GitHubIssueData {

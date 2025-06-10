@@ -4,13 +4,13 @@
  */
 
 // Epic composition
-export { createEpic } from './createEpic';
-export type { EpicData, EpicResponse } from './createEpic';
+export { createEpic } from './createEpic.js';
+export type { EpicData, EpicResponse } from './createEpic.js';
 
 // Feature composition
-export { createFeature } from './createFeature';
-export type { FeatureData, FeatureResponse } from './createFeature';
+export { createFeature } from './createFeature.js';
+export type { FeatureData, FeatureResponse } from './createFeature.js';
 
 // Task composition
-export { createTask } from './createTask';
-export type { TaskData, TaskResponse } from './createTask';
+export { createTask } from './createTask.js';
+export type { TaskData, TaskResponse } from './createTask.js';
