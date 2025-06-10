@@ -10,9 +10,11 @@ export type * from './types';
 export { createIssue } from './issues/createIssue';
 export { getIssue } from './issues/getIssue';
 export { addIssueLabel } from './issues/addIssueLabel';
-export { setIssueType } from './issues/setIssueType';
+export { setIssueType, setIssueTypeByName } from './issues/setIssueType';
 export { addSubIssue } from './issues/addSubIssue';
 export { getIssueTypes } from './issues/getIssueTypes';
+export { resolveIssueTypes, hasIssueTypes, getIssueTypeId, clearIssueTypeCache } from './issues/resolveIssueTypes';
+export { createIssueType, getOrganizationIssueTypes, ensureIssueTypes } from './issues/createIssueType';
 
 // Branch functions
 export { createBranch } from './branches/createBranch';

@@ -2,7 +2,7 @@
   "testScenario": {
     "name": "E-Commerce Platform",
     "description": "Comprehensive test of GitHub Service with realistic project structure",
-    "complexity": "High - 2 Epics, 4 Features, 8 Tasks",
+    "complexity": "High - 2 Epics, 4 Features, 9 Tasks",
     "estimatedTime": "45-60 seconds for complete creation",
     
     "projectConfig": {
@@ -113,28 +113,28 @@
       "issues": {
         "epics": 2,
         "features": 4,
-        "tasks": 8,
-        "totalIssues": 14
+        "tasks": 9,
+        "totalIssues": 15
       },
       "branches": {
         "epicBranches": 2,
         "featureBranches": 4,
-        "taskBranches": 8,
-        "totalBranches": 14
+        "taskBranches": 9,
+        "totalBranches": 15
       },
       "relationships": {
         "epicToFeature": 4,
-        "featureToTask": 8
+        "featureToTask": 9
       }
     },
     
     "validationChecklist": [
       "Repository created successfully",
-      "All 14 issues created with proper titles",
-      "All 14 branches created and linked",
+      "All 15 issues created with proper titles",
+      "All 15 branches created and linked",
       "2 Epic issues have Epic type assigned",
-      "4 Feature issues have Feature type assigned", 
-      "8 Task issues have Task type assigned",
+      "4 Feature issues have Feature type assigned",
+      "9 Task issues have Task type assigned",
       "All parent-child relationships established",
       "GitHub Project created and configured",
       "All issues added to project",

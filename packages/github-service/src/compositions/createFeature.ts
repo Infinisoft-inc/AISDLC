@@ -6,8 +6,8 @@
 
 import type { Octokit } from '@octokit/rest';
 import { createIssue } from '../github/issues/createIssue';
-import { addIssueLabel } from '../github/issues/addIssueLabel';
-import { setIssueType } from '../github/issues/setIssueType';
+import { setIssueTypeByName } from '../github/issues/setIssueType';
+import { ensureIssueTypes } from '../github/issues/createIssueType';
 import { addSubIssue } from '../github/issues/addSubIssue';
 import { createLinkedBranch } from '../github/branches/createLinkedBranch';
 import { generateBranchName } from '../github/utils/generateBranchName';
@@ -38,11 +38,19 @@ export async function createFeature(
   octokit: Octokit,
   owner: string,
   repo: string,
-  featureData: FeatureData,
-  issueTypes?: { Feature?: string }
+  featureData: FeatureData
 ): Promise<Result<FeatureResponse>> {
   try {
     console.log(`📋 Creating FEATURE: ${featureData.title}`);
+
+    // 0. Ensure issue types exist for the organization
+    console.log(`🔧 Ensuring issue types exist for organization: ${owner}`);
+    const issueTypesResult = await ensureIssueTypes(octokit, owner);
+    if (!issueTypesResult.success) {
+      console.log(`⚠️ Could not ensure issue types: ${issueTypesResult.error}`);
+    } else {
+      console.log(`✅ Issue types ready: ${Object.keys(issueTypesResult.data!).join(', ')}`);
+    }
 
     // Ensure Feature has proper labels
     const labels = [...(featureData.labels || [])];
@@ -62,14 +70,13 @@ export async function createFeature(
 
     const issue = issueResult.data;
 
-    // 2. Set issue type to Feature if available
-    if (issueTypes?.Feature) {
-      const typeResult = await setIssueType(octokit, issue.node_id, issueTypes.Feature);
-      if (typeResult.success) {
-        console.log(`✅ FEATURE issue type set: Feature`);
-      } else {
-        console.warn(`⚠️ Could not set issue type: ${typeResult.error}`);
-      }
+    // 2. Set issue type to Feature (using real issue types from repository)
+    const typeResult = await setIssueTypeByName(octokit, owner, repo, issue.number, 'Feature');
+    if (typeResult.success) {
+      console.log(`✅ FEATURE issue type set: Feature`);
+    } else {
+      // This is not an error - issue types might not be configured
+      console.log(`ℹ️ Issue type 'Feature' not available for ${owner}/${repo}`);
     }
 
     // 3. Link to parent Epic if provided

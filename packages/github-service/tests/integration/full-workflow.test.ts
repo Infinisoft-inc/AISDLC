@@ -4,14 +4,14 @@
  */
 
 import '../setup';
-import { testConfig } from '../setup';
+import { testConfig, centralizedConfig } from '../setup';
 import { createGitHubSetup } from '@brainstack/integration-service';
+import { getWorkingRepo, getTimeout, getLabels } from '../config/test-config.js';
 import { createEpic, createFeature, createTask } from '../../src/compositions';
 import {
   createIssue,
   addIssueLabel,
   createComment,
-  getIssueTypes,
   createProjectV2,
   addIssueToProjectV2
 } from '../../src/github';
@@ -22,7 +22,7 @@ describe('Full AI-SDLC Workflow Integration', () => {
   let featureNumber: number;
   let taskNumber: number;
   let projectId: string;
-  let issueTypes: Record<string, string>;
+
 
   beforeAll(async () => {
     // Get GitHub client using integration service
@@ -30,24 +30,15 @@ describe('Full AI-SDLC Workflow Integration', () => {
     expect(result.success).toBe(true);
     octokit = result.data;
 
-    const workingRepo = 'rqrsda-v2';
+    const workingRepo = getWorkingRepo(centralizedConfig);
 
-    // Get available issue types
-    console.log('🔍 Getting available issue types...');
-    const issueTypesResult = await getIssueTypes(octokit, testConfig.organization, workingRepo);
-    if (issueTypesResult.success) {
-      issueTypes = issueTypesResult.data!;
-      console.log('✅ Available issue types:', Object.keys(issueTypes));
-    } else {
-      console.warn('⚠️ Could not get issue types:', issueTypesResult.error);
-      issueTypes = {};
-    }
+
 
     // Create a project for the workflow
     console.log('🔍 Creating project for AI-SDLC workflow...');
     const projectResult = await createProjectV2(octokit, testConfig.organization, {
-      title: 'AI-SDLC Integration Test Project',
-      body: 'Project created by integration tests to demonstrate Epic → Feature → Task workflow'
+      title: centralizedConfig.project.title,
+      body: centralizedConfig.project.description
     });
 
     if (projectResult.success) {
@@ -57,7 +48,7 @@ describe('Full AI-SDLC Workflow Integration', () => {
       console.warn('⚠️ Could not create project:', projectResult.error);
       projectId = '';
     }
-  }, 30000);
+  }, getTimeout(centralizedConfig, 'setup'));
 
   test('should create complete Epic → Feature → Task hierarchy', async () => {
     // Step 1: Create Epic
@@ -84,11 +75,11 @@ Epic → Feature → Task hierarchy with full GitHub integration.
 
 ## Domain
 AI-SDLC Testing Domain`,
-      labels: ['test', 'integration', 'ai-sdlc'],
+      labels: getLabels(centralizedConfig, 'epic'),
     };
 
-    const workingRepo = 'rqrsda-v2'; // Use the working repository
-    const epicResult = await createEpic(octokit, testConfig.organization, workingRepo, epicData, issueTypes);
+    const workingRepo = getWorkingRepo(centralizedConfig);
+    const epicResult = await createEpic(octokit, testConfig.organization, workingRepo, epicData);
     expect(epicResult.success).toBe(true);
     epicNumber = epicResult.data!.number;
 
@@ -136,12 +127,12 @@ This Feature belongs to Epic #${epicNumber}
 - [ ] Users can login with credentials
 - [ ] Password reset emails are sent
 - [ ] MFA can be enabled/disabled`,
-      labels: ['test', 'feature', 'authentication'],
+      labels: getLabels(centralizedConfig, 'feature').concat(['authentication']),
       parentEpicNumber: epicNumber,
       frReference: 'FR-AUTH-001',
     };
 
-    const featureResult = await createFeature(octokit, testConfig.organization, workingRepo, featureData, issueTypes);
+    const featureResult = await createFeature(octokit, testConfig.organization, workingRepo, featureData);
     expect(featureResult.success).toBe(true);
     featureNumber = featureResult.data!.number;
 
@@ -196,11 +187,11 @@ This Task belongs to Feature #${featureNumber}
 
 ## Estimated Effort
 2-3 hours`,
-      labels: ['test', 'task', 'authentication', 'jwt'],
+      labels: getLabels(centralizedConfig, 'task').concat(['authentication', 'jwt']),
       parentFeatureNumber: featureNumber,
     };
 
-    const taskResult = await createTask(octokit, testConfig.organization, workingRepo, taskData, issueTypes);
+    const taskResult = await createTask(octokit, testConfig.organization, workingRepo, taskData);
     expect(taskResult.success).toBe(true);
     taskNumber = taskResult.data!.number;
 
@@ -224,12 +215,12 @@ This Task belongs to Feature #${featureNumber}
     console.log('\n🎯 Complete Hierarchy Created:');
     console.log(`   Epic #${epicNumber} → Feature #${featureNumber} → Task #${taskNumber}`);
     
-  }, 60000);
+  }, getTimeout(centralizedConfig, 'integration'));
 
   test('should demonstrate atomic function reusability', async () => {
     console.log('\n🔧 Demonstrating atomic function reusability...');
 
-    const workingRepo = 'rqrsda-v2'; // Use the working repository
+    const workingRepo = getWorkingRepo(centralizedConfig);
 
     // Use imported atomic functions directly
     
@@ -255,7 +246,7 @@ This Task belongs to Feature #${featureNumber}
     console.log(`✅ Custom workflow completed: #${customIssueNumber} - ${issueResult.data?.html_url}`);
     console.log(`   🏷️ Added labels: custom, atomic, reusable`);
     console.log(`   💬 Added comment using atomic function`);
-  }, 30000);
+  }, getTimeout(centralizedConfig, 'standard'));
 
   afterAll(() => {
     console.log('\n📊 Integration Test Summary:');

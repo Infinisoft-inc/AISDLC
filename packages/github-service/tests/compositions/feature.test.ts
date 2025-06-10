@@ -7,19 +7,24 @@ import '../setup';
 import { testConfig } from '../setup';
 import { createGitHubSetup } from '@brainstack/integration-service';
 import { createEpic, createFeature } from '../../src/compositions';
+import { loadTestConfig, getWorkingRepo } from '../config/test-config';
 
-describe.skip('Feature Composition', () => {
+describe('Feature Composition', () => {
   let octokit: any;
   let parentEpicNumber: number;
+  let config: any;
 
   beforeAll(async () => {
+    // Load centralized test configuration
+    config = loadTestConfig();
+
     // Get GitHub client using integration service
     const result = await createGitHubSetup(testConfig.dopplerToken, testConfig.organization);
     expect(result.success).toBe(true);
     octokit = result.data;
 
     // Create a parent Epic for Feature testing
-    const epicResult = await createEpic(octokit, testConfig.organization, testConfig.repository, {
+    const epicResult = await createEpic(octokit, testConfig.organization, getWorkingRepo(config), {
       title: '[EPIC] Parent Epic for Feature Tests',
       body: 'This Epic serves as a parent for Feature composition tests.',
       labels: ['test', 'parent-epic'],
@@ -52,7 +57,7 @@ Automated test suite`,
       frReference: 'FR-TEST-001',
     };
 
-    const result = await createFeature(octokit, testConfig.organization, testConfig.repository, featureData);
+    const result = await createFeature(octokit, testConfig.organization, getWorkingRepo(config), featureData);
     
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
@@ -81,7 +86,7 @@ Automated test suite`,
       frReference: 'FR-STANDALONE-001',
     };
 
-    const result = await createFeature(octokit, testConfig.organization, testConfig.repository, featureData);
+    const result = await createFeature(octokit, testConfig.organization, getWorkingRepo(config), featureData);
     
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
@@ -97,7 +102,7 @@ Automated test suite`,
       body: 'This is a minimal Feature for testing.',
     };
 
-    const result = await createFeature(octokit, testConfig.organization, testConfig.repository, featureData);
+    const result = await createFeature(octokit, testConfig.organization, getWorkingRepo(config), featureData);
     
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
@@ -114,17 +119,11 @@ Automated test suite`,
       frReference: 'FR-TYPES-001',
     };
 
-    // Mock issue types
-    const issueTypes = {
-      Feature: 'feature-issue-type-id-456'
-    };
-
     const result = await createFeature(
-      octokit, 
-      testConfig.organization, 
-      testConfig.repository, 
-      featureData, 
-      issueTypes
+      octokit,
+      testConfig.organization,
+      getWorkingRepo(config),
+      featureData
     );
     
     expect(result.success).toBe(true);
@@ -140,7 +139,7 @@ Automated test suite`,
       parentEpicNumber: 999999, // Non-existent Epic
     };
 
-    const result = await createFeature(octokit, testConfig.organization, testConfig.repository, featureData);
+    const result = await createFeature(octokit, testConfig.organization, getWorkingRepo(config), featureData);
     
     // Feature creation should succeed, but linking might fail gracefully
     expect(result.success).toBe(true);

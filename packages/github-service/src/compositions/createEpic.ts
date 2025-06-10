@@ -6,8 +6,9 @@
 
 import type { Octokit } from '@octokit/rest';
 import { createIssue } from '../github/issues/createIssue';
-import { addIssueLabel } from '../github/issues/addIssueLabel';
-import { setIssueType } from '../github/issues/setIssueType';
+
+import { setIssueTypeByName } from '../github/issues/setIssueType';
+import { ensureIssueTypes } from '../github/issues/createIssueType';
 import { createLinkedBranch } from '../github/branches/createLinkedBranch';
 import { generateBranchName } from '../github/utils/generateBranchName';
 import type { GitHubIssueData, Result } from '../github/types';
@@ -35,11 +36,19 @@ export async function createEpic(
   octokit: Octokit,
   owner: string,
   repo: string,
-  epicData: EpicData,
-  issueTypes?: { Epic?: string }
+  epicData: EpicData
 ): Promise<Result<EpicResponse>> {
   try {
     console.log(`📋 Creating EPIC: ${epicData.title}`);
+
+    // 0. Ensure issue types exist for the organization
+    console.log(`🔧 Ensuring issue types exist for organization: ${owner}`);
+    const issueTypesResult = await ensureIssueTypes(octokit, owner);
+    if (!issueTypesResult.success) {
+      console.log(`⚠️ Could not ensure issue types: ${issueTypesResult.error}`);
+    } else {
+      console.log(`✅ Issue types ready: ${Object.keys(issueTypesResult.data!).join(', ')}`);
+    }
 
     // Ensure EPIC has proper labels
     const labels = [...(epicData.labels || [])];
@@ -59,14 +68,13 @@ export async function createEpic(
 
     const issue = issueResult.data;
 
-    // 2. Set issue type to Epic if available
-    if (issueTypes?.Epic) {
-      const typeResult = await setIssueType(octokit, issue.node_id, issueTypes.Epic);
-      if (typeResult.success) {
-        console.log(`✅ EPIC issue type set: Epic`);
-      } else {
-        console.warn(`⚠️ Could not set issue type: ${typeResult.error}`);
-      }
+    // 2. Set issue type to Epic (using real issue types from repository)
+    const typeResult = await setIssueTypeByName(octokit, owner, repo, issue.number, 'Epic');
+    if (typeResult.success) {
+      console.log(`✅ EPIC issue type set: Epic`);
+    } else {
+      // This is not an error - issue types might not be configured
+      console.log(`ℹ️ Issue type 'Epic' not available for ${owner}/${repo}`);
     }
 
     // 3. Create linked branch for the epic

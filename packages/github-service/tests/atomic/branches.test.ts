@@ -4,8 +4,9 @@
  */
 
 import '../setup';
-import { testConfig } from '../setup';
+import { testConfig, centralizedConfig } from '../setup';
 import { createGitHubSetup } from '@brainstack/integration-service';
+import { getWorkingRepo } from '../config/test-config.js';
 import { createBranch, getBranch, createLinkedBranch } from '../../src/github';
 import { createIssue } from '../../src/github';
 
@@ -20,19 +21,19 @@ describe('Atomic Branch Functions', () => {
     expect(result.success).toBe(true);
     octokit = result.data;
 
-    // Use the working repository from issue tests
-    const workingRepo = 'rqrsda-v2';
+    // Use the working repository from centralized config
+    const workingRepo = getWorkingRepo(centralizedConfig);
 
-    // Get default branch SHA
-    const branchResult = await getBranch(octokit, testConfig.organization, workingRepo, 'main');
-    if (branchResult.success) {
-      defaultBranchSha = branchResult.data!.sha;
-    } else {
-      // Try 'master' if 'main' doesn't exist
-      const masterResult = await getBranch(octokit, testConfig.organization, workingRepo, 'master');
-      expect(masterResult.success).toBe(true);
-      defaultBranchSha = masterResult.data!.sha;
+    // Get default branch SHA using centralized configuration
+    let branchResult = await getBranch(octokit, testConfig.organization, workingRepo, centralizedConfig.branches.default);
+    if (!branchResult.success) {
+      // Try fallback branch if default doesn't exist
+      branchResult = await getBranch(octokit, testConfig.organization, workingRepo, centralizedConfig.branches.fallback);
+      if (!branchResult.success) {
+        throw new Error(`Failed to get default branch: ${branchResult.error}`);
+      }
     }
+    defaultBranchSha = branchResult.data!.sha;
 
     // Create a test issue for linked branch testing
     const issueResult = await createIssue(octokit, testConfig.organization, workingRepo, {
@@ -45,13 +46,14 @@ describe('Atomic Branch Functions', () => {
   }, 30000);
 
   test('should create a basic branch', async () => {
+    const workingRepo = getWorkingRepo(centralizedConfig);
     const branchName = `test/atomic-branch-${Date.now()}`;
     const branchData = {
       name: branchName,
       sha: defaultBranchSha,
     };
 
-    const result = await createBranch(octokit, testConfig.organization, 'rqrsda-v2', branchData);
+    const result = await createBranch(octokit, testConfig.organization, workingRepo, branchData);
     
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
@@ -62,27 +64,28 @@ describe('Atomic Branch Functions', () => {
   }, 15000);
 
   test('should get branch details', async () => {
-    const result = await getBranch(octokit, testConfig.organization, 'rqrsda-v2', 'main');
+    const workingRepo = getWorkingRepo(centralizedConfig);
 
+    // Try default branch first, then fallback
+    let result = await getBranch(octokit, testConfig.organization, workingRepo, centralizedConfig.branches.default);
     if (!result.success) {
-      // Try 'master' if 'main' doesn't exist
-      const masterResult = await getBranch(octokit, testConfig.organization, 'rqrsda-v2', 'master');
-      expect(masterResult.success).toBe(true);
-      expect(masterResult.data?.name).toBe('master');
-    } else {
-      expect(result.data?.name).toBe('main');
+      result = await getBranch(octokit, testConfig.organization, workingRepo, centralizedConfig.branches.fallback);
     }
-    
-    console.log(`✅ Retrieved default branch details`);
+
+    expect(result.success).toBe(true);
+    expect(result.data?.name).toMatch(/^(main|master)$/);
+
+    console.log(`✅ Retrieved default branch details: ${result.data?.name}`);
   }, 15000);
 
   test('should create linked branch for issue', async () => {
+    const workingRepo = getWorkingRepo(centralizedConfig);
     const branchName = `feature/test-linked-branch-${Date.now()}`;
-    
+
     const result = await createLinkedBranch(
       octokit,
       testConfig.organization,
-      'rqrsda-v2',
+      workingRepo,
       testIssueNumber,
       branchName
     );
@@ -100,12 +103,13 @@ describe('Atomic Branch Functions', () => {
   }, 15000);
 
   test('should handle invalid branch creation', async () => {
+    const workingRepo = getWorkingRepo(centralizedConfig);
     const branchData = {
       name: 'invalid/branch/name/with/too/many/slashes',
       sha: 'invalid-sha',
     };
 
-    const result = await createBranch(octokit, testConfig.organization, 'rqrsda-v2', branchData);
+    const result = await createBranch(octokit, testConfig.organization, workingRepo, branchData);
     
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
@@ -113,7 +117,8 @@ describe('Atomic Branch Functions', () => {
   }, 15000);
 
   test('should handle non-existent branch', async () => {
-    const result = await getBranch(octokit, testConfig.organization, 'rqrsda-v2', 'non-existent-branch');
+    const workingRepo = getWorkingRepo(centralizedConfig);
+    const result = await getBranch(octokit, testConfig.organization, workingRepo, 'non-existent-branch');
     
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();

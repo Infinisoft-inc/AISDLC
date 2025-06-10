@@ -10,7 +10,6 @@ import type { SupabaseCredentials, TenantData, IntegrationResult } from './types
  * Create Supabase client
  */
 export function createSupabaseClient(credentials: SupabaseCredentials): SupabaseClient {
-  console.log(credentials.url);
   return createClient(credentials.url, credentials.serviceRoleKey, {
     auth: {
       autoRefreshToken: false,

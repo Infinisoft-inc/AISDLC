@@ -7,11 +7,16 @@ import '../setup';
 import { testConfig } from '../setup';
 import { createGitHubSetup } from '@brainstack/integration-service';
 import { createEpic } from '../../src/compositions';
+import { loadTestConfig, getWorkingRepo } from '../config/test-config';
 
 describe('Epic Composition', () => {
   let octokit: any;
+  let config: any;
 
   beforeAll(async () => {
+    // Load centralized test configuration
+    config = loadTestConfig();
+
     // Get GitHub client using integration service
     const result = await createGitHubSetup(testConfig.dopplerToken, testConfig.organization);
     expect(result.success).toBe(true);
@@ -41,7 +46,7 @@ Automated test suite`,
       labels: ['test', 'epic-test'],
     };
 
-    const result = await createEpic(octokit, testConfig.organization, 'rqrsda-v2', epicData);
+    const result = await createEpic(octokit, testConfig.organization, getWorkingRepo(config), epicData);
     
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
@@ -66,7 +71,7 @@ Automated test suite`,
       body: 'This is a minimal Epic for testing.',
     };
 
-    const result = await createEpic(octokit, testConfig.organization, 'rqrsda-v2', epicData);
+    const result = await createEpic(octokit, testConfig.organization, getWorkingRepo(config), epicData);
     
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
@@ -82,17 +87,11 @@ Automated test suite`,
       labels: ['test'],
     };
 
-    // Mock issue types (in real scenario, these would come from GitHub API)
-    const issueTypes = {
-      Epic: 'epic-issue-type-id-123'
-    };
-
     const result = await createEpic(
       octokit,
       testConfig.organization,
-      'rqrsda-v2',
-      epicData,
-      issueTypes
+      getWorkingRepo(config),
+      epicData
     );
     
     expect(result.success).toBe(true);
@@ -107,7 +106,7 @@ Automated test suite`,
       body: 'This should fail due to empty title.',
     };
 
-    const result = await createEpic(octokit, testConfig.organization, 'rqrsda-v2', epicData);
+    const result = await createEpic(octokit, testConfig.organization, getWorkingRepo(config), epicData);
     
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();

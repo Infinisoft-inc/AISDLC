@@ -6,8 +6,8 @@
 
 import type { Octokit } from '@octokit/rest';
 import { createIssue } from '../github/issues/createIssue';
-import { addIssueLabel } from '../github/issues/addIssueLabel';
-import { setIssueType } from '../github/issues/setIssueType';
+import { setIssueTypeByName } from '../github/issues/setIssueType';
+import { ensureIssueTypes } from '../github/issues/createIssueType';
 import { addSubIssue } from '../github/issues/addSubIssue';
 import { createLinkedBranch } from '../github/branches/createLinkedBranch';
 import { generateBranchName } from '../github/utils/generateBranchName';
@@ -37,11 +37,19 @@ export async function createTask(
   octokit: Octokit,
   owner: string,
   repo: string,
-  taskData: TaskData,
-  issueTypes?: { Task?: string }
+  taskData: TaskData
 ): Promise<Result<TaskResponse>> {
   try {
     console.log(`📋 Creating TASK: ${taskData.title}`);
+
+    // 0. Ensure issue types exist for the organization
+    console.log(`🔧 Ensuring issue types exist for organization: ${owner}`);
+    const issueTypesResult = await ensureIssueTypes(octokit, owner);
+    if (!issueTypesResult.success) {
+      console.log(`⚠️ Could not ensure issue types: ${issueTypesResult.error}`);
+    } else {
+      console.log(`✅ Issue types ready: ${Object.keys(issueTypesResult.data!).join(', ')}`);
+    }
 
     // Ensure Task has proper labels
     const labels = [...(taskData.labels || [])];
@@ -61,14 +69,13 @@ export async function createTask(
 
     const issue = issueResult.data;
 
-    // 2. Set issue type to Task if available
-    if (issueTypes?.Task) {
-      const typeResult = await setIssueType(octokit, issue.node_id, issueTypes.Task);
-      if (typeResult.success) {
-        console.log(`✅ TASK issue type set: Task`);
-      } else {
-        console.warn(`⚠️ Could not set issue type: ${typeResult.error}`);
-      }
+    // 2. Set issue type to Task (using real issue types from repository)
+    const typeResult = await setIssueTypeByName(octokit, owner, repo, issue.number, 'Task');
+    if (typeResult.success) {
+      console.log(`✅ TASK issue type set: Task`);
+    } else {
+      // This is not an error - issue types might not be configured
+      console.log(`ℹ️ Issue type 'Task' not available for ${owner}/${repo}`);
     }
 
     // 3. Link to parent Feature if provided
