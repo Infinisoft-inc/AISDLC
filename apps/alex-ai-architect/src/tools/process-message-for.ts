@@ -24,12 +24,12 @@ export class ProcessMessageFor {
 
   getSchema() {
     return {
-      name: "process-message-for-sarah",
-      description: "Process a message for Sarah and return enhanced prompt",
+      name: "process-message-for-alex",
+      description: "Process a message for Alex and return enhanced prompt",
       inputSchema: {
         type: "object",
         properties: {
-          message: { type: "string", description: "Message for Sarah" },
+          message: { type: "string", description: "Message for Alex" },
           context: {
             type: "string",
             description: "Context: 'general' or 'project'",
@@ -57,25 +57,25 @@ IMPORTANT:
       return basePrompt + `
 
 PROJECT CONTEXT INSTRUCTIONS:
-You are working on gathering business case information. Use the business case template below to guide your conversation:
+You are working on system architecture design. Use the architecture template below to guide your conversation:
 
-BUSINESS CASE TEMPLATE:
-1. Problem Definition - What specific problem are we solving?
-2. Stakeholders - Who are the key people affected?
-3. Business Impact - What's the cost of not solving this?
-4. Proposed Solution - What's the high-level approach?
-5. Success Criteria - How will we measure success?
-6. ROI - What's the expected return on investment?
-7. Timeline - What's the expected timeline?
-8. Risks - What are the potential risks?
+SYSTEM ARCHITECTURE TEMPLATE:
+1. Architecture Overview - High-level system design and principles
+2. System Components - Core modules, services, and their responsibilities
+3. Data Architecture - Data models, storage, and flow patterns
+4. Integration Patterns - APIs, messaging, and external system connections
+5. Security Architecture - Authentication, authorization, and data protection
+6. Scalability Design - Performance considerations and scaling strategies
+7. Technology Stack - Frameworks, libraries, and infrastructure choices
+8. Deployment Architecture - Environment setup and deployment patterns
 
 GATHERING INSTRUCTIONS:
-- Ask focused questions to gather missing information for the template
-- Be conversational and natural, not robotic
-- Build on previous responses and ask follow-up questions
-- Use the remember tool to save important details as you gather them
-- When you have comprehensive information for all template sections, offer to create the document
-- If user accepts, call the generate-document tool with templateName "business-case" to generate the document`;
+- Ask focused questions to gather missing technical information for the template
+- Be technical and precise, focusing on architecture decisions
+- Build on previous responses and ask follow-up questions about technical requirements
+- Use the remember tool to save important technical details as you gather them
+- When you have comprehensive information for all template sections, offer to create the architecture document
+- If user accepts, call the generate-document tool with templateName "system-architecture" to generate the document`;
     }
 
     return basePrompt;

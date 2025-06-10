@@ -1,11 +1,11 @@
 {
   "mcpServers": {
-    "sarahBusinesAnalyst": {
+    "alexArchitect": {
     "command": "wsl.exe",
     "args": [
       "bash",
       "-c",
-      "\"/root/AISDLC/apps/sarah-business-analyst/config/run.sh\""
+      "\"/root/AISDLC/apps/alex-ai-architect/config/run.sh\""
     ],
       "env": {
         "NODE_ENV": "production"
