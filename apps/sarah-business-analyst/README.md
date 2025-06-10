@@ -1,143 +1,128 @@
-# AI-SDLC Teammate Template v2.0
+# Meet Sarah 👩‍💼
+## Your AI Business Analyst & Project Manager
 
-**Intelligent AI teammates with persistent memory and voice-first interaction**
-
-A comprehensive template for creating AI teammates that embody the AI-SDLC methodology with advanced capabilities including persistent memory, intelligent conversation, and natural voice interaction.
-
-## Features
-
-- **🧠 Intelligent Responses**: LLM-powered reasoning with role-specific context
-- **💾 Persistent Memory**: Remembers conversations, learnings, and project context across sessions
-- **🎓 AI-SDLC Training**: Complete methodology training system for any AI role
-- **🗣️ Voice-First Interaction**: Seamless integration with speech_response_talk for natural conversation
-- **👥 Role Specialization**: Customizable for any AI teammate role (Project Manager, Developer, QA, etc.)
-- **🔄 Context-Aware**: Builds intelligent prompts with relevant memory and context
-- **🎵 Unique Voices**: Each teammate has distinct voice identification for TTS
-
-## Quick Start
-
-### 1. Copy Template
-```bash
-cp -r templates/mcp-servers/base-mcp my-ai-teammate
-cd my-ai-teammate
-```
-
-### 2. Customize for Your Role
-```typescript
-// In src/index.ts, update the default instantiation:
-const server = new AITeammateServer("YourTeammateName", "Your Role Description");
-```
-
-### 3. Build and Run
-```bash
-npm install
-npm run build
-npm start
-```
-
-### 4. Train Your Teammate
-Use the `complete-training` tool to train your AI teammate on the AI-SDLC methodology.
-
-## Available Tools
-
-### `complete-training`
-Completes the AI teammate's AI-SDLC methodology training
-- **Input**: None required
-- **Output**: Training completion report with full methodology understanding
-
-### `chat-with-[teammate]`
-Natural conversation with your AI teammate
-- **Input**: `message` (required), `context` (optional)
-- **Output**: Intelligent, context-aware response with personality
-
-### `get-status`
-Get current status and teammate's memory context
-- **Input**: None required
-- **Output**: Complete context summary including memory, training, and project status
-
-## Available Resources
-
-### `[teammate]://memory/current`
-View the AI teammate's current memory state and context
-- **Format**: JSON
-- **Content**: Complete memory including conversations, learnings, and project context
-
-### `[teammate]://training/status`
-View the AI teammate's AI-SDLC training completion status
-- **Format**: JSON
-- **Content**: Training progress, methodology understanding, and role knowledge
-
-## Architecture
-
-### Memory System (`src/memory.ts`)
-- **Persistent Storage**: Conversations, learnings, project context
-- **Context Generation**: Intelligent context summaries for LLM prompts
-- **User Profiles**: Communication style, preferences, working relationship
-- **Project Tracking**: Current project phase, status, milestones
-
-### Training System (`src/training.ts`)
-- **AI-SDLC Methodology**: Complete understanding of the methodology
-- **Role Specialization**: Specific knowledge for each AI teammate role
-- **Information Flow**: Template chains and progressive detail approach
-- **Collaboration Patterns**: Human-AI interaction workflows
-
-### Intelligence System
-- **Context Building**: Combines memory, personality, and current situation
-- **Prompt Generation**: Creates intelligent prompts for LLM processing
-- **Voice Integration**: Automatic speech_response_talk integration with unique voice ID
-- **Response Routing**: Returns prompts for Augment Code LLM processing
-
-## Voice-First Integration
-
-The template includes automatic integration with `speech_response_talk` tool for unique voice identification:
-
-1. **User speaks** → Augment Code receives voice/text
-2. **Augment Code routes** → calls AI teammate's MCP tool
-3. **AI teammate processes** → builds intelligent prompt with context
-4. **AI teammate returns prompt** → Augment Code processes with LLM
-5. **Augment Code calls speech_response_talk** → with format "[TeammateName]: [response]"
-6. **TTS assigns unique voice** → based on teammate name
-7. **User hears response** → in teammate's distinct voice
-
-## Customization
-
-### Creating a Specific Role
-1. **Update Constructor**: Change teammate name and role description
-2. **Customize Memory**: Modify default identity and capabilities
-3. **Role Training**: Add role-specific training data to ai-roles-personalities.json
-4. **Specialized Tools**: Add role-specific tools as needed
-
-### Example: Creating "Alex" Business Analyst
-```typescript
-const server = new AITeammateServer("Alex", "AI Business Analyst");
-```
-
-The system will automatically:
-- Look for Alex's role data in ai-roles-personalities.json
-- Create Alex-specific memory and training
-- Generate Alex-specific tools and prompts
-- Enable natural conversation as Alex with unique voice
-
-## Version History
-
-### v2.0.0 (Current)
-- **Intelligent LLM-powered responses** with context-aware reasoning
-- **Persistent memory system** with conversation history and learnings
-- **AI-SDLC training system** for methodology understanding
-- **Voice-first interaction** with speech_response_talk integration
-- **Unique voice identification** for each teammate in TTS
-- **Role specialization** for any AI teammate type
-- **Context-aware prompts** for optimal LLM processing
-
-### v1.0.0
-- Basic MCP server template with simple tools and prompts
-- Static responses without intelligence or memory
-- Example-based functionality for learning MCP concepts
-
-## License
-
-MIT License - Part of the AI-SDLC Methodology Project
+> *"Hi! I'm Sarah, your dedicated AI business analyst. I love turning complex business challenges into clear, actionable plans that drive real results. Whether you need a compelling business case, detailed requirements, or complete project management - I'm here to help you succeed!"*
 
 ---
 
-**Ready to create intelligent AI teammates with unique voices!** 🚀
+## 🌟 Who is Sarah?
+
+Sarah is more than just an AI tool - she's your intelligent business partner who combines analytical expertise with genuine care for your project's success. With her warm, professional approach and deep business acumen, Sarah transforms the often overwhelming world of business analysis into clear, manageable steps.
+
+**Sarah's Personality:**
+- 📊 **Analytical Mind** - Loves diving deep into data and financial models
+- 🎯 **Results-Focused** - Always keeps your business goals at the center
+- 💡 **Creative Problem Solver** - Finds innovative solutions to complex challenges
+- 🤝 **Collaborative Spirit** - Works seamlessly with your team
+- 📝 **Detail-Oriented** - Ensures nothing important gets overlooked
+
+---
+
+## 🚀 What Sarah Can Do For You
+
+### 💼 **Business Case Development**
+Sarah creates compelling business cases that get approved. She analyzes costs, benefits, risks, and ROI to build rock-solid arguments for your initiatives.
+
+*"I'll help you tell your project's story in a way that resonates with stakeholders and secures the funding you need."*
+
+### 📋 **Requirements Analysis**
+From gathering stakeholder needs to documenting detailed functional requirements, Sarah ensures everyone is aligned on what needs to be built.
+
+*"I make sure we capture exactly what you need, so there are no surprises down the road."*
+
+### 🏗️ **Architecture Planning**
+Sarah designs clear system architectures and technical roadmaps that guide your development teams toward success.
+
+*"I bridge the gap between business vision and technical reality."*
+
+### 📊 **Project Management**
+With full GitHub integration, Sarah manages your entire project workflow - from document creation to stakeholder notifications.
+
+*"I keep your projects moving forward smoothly, so you can focus on the big picture."*
+
+---
+
+## 🔄 How Sarah Works (Her Workflow)
+
+### **Step 1: Understanding Your Needs** 🎯
+Sarah starts by listening to your project goals, challenges, and requirements. She asks thoughtful questions to ensure she fully understands what you're trying to achieve.
+
+### **Step 2: Research & Analysis** 🔍
+Using her analytical skills, Sarah researches your industry, analyzes your data, and identifies key opportunities and risks.
+
+### **Step 3: Document Creation** ✍️
+Sarah crafts professional, comprehensive documents tailored to your specific needs - whether it's a business case, requirements document, or project plan.
+
+### **Step 4: Collaboration & Review** 🤝
+Sarah automatically saves your documents to GitHub, adds professional comments to your project issues, and notifies the right stakeholders for review.
+
+### **Step 5: Project Management** 📈
+Sarah updates project status, tracks progress, and ensures everyone stays informed throughout the project lifecycle.
+
+---
+
+## 💪 Sarah's Core Skills
+
+### **Financial Analysis** 💰
+- ROI calculations and cost-benefit analysis
+- Budget planning and financial modeling
+- Risk assessment and mitigation strategies
+
+### **Stakeholder Management** 👥
+- Requirement gathering and analysis
+- Stakeholder communication and alignment
+- Change management planning
+
+### **Technical Documentation** 📚
+- System architecture design
+- Technical requirements specification
+- Implementation roadmaps
+
+### **Project Coordination** 🎯
+- Automated workflow management
+- Progress tracking and reporting
+- Team collaboration facilitation
+
+---
+
+## 🛠️ Getting Started with Sarah
+
+### **Quick Setup**
+```bash
+# Install dependencies
+pnpm install
+
+# Build Sarah
+pnpm run build
+
+# Run tests to ensure everything works
+pnpm test
+```
+
+### **Configuration**
+Sarah works best when connected to your GitHub projects. Simply add your Doppler token to the `.env` file, and she'll handle the rest!
+
+### **Working with Sarah**
+Sarah operates through simple, conversational interactions. Just tell her what you need, and she'll guide you through the process step by step.
+
+---
+
+## 🎉 Why Teams Love Working with Sarah
+
+*"Sarah doesn't just create documents - she creates clarity. She takes our messy ideas and turns them into professional, actionable plans."* - Development Team Lead
+
+*"Having Sarah manage our project workflow has been a game-changer. She keeps everyone informed and ensures nothing falls through the cracks."* - Project Manager
+
+*"Sarah's business cases are so well-researched and compelling. We've had a 100% approval rate since she joined our team."* - Business Stakeholder
+
+---
+
+## 🚀 Ready to Meet Sarah?
+
+Sarah is excited to work with you and help make your next project a tremendous success. She's standing by, ready to dive into your business challenges and create solutions that drive real results.
+
+**Let's build something amazing together!** ✨
+
+---
+
+*Sarah is part of the AI-SDLC ecosystem, bringing human-centered AI assistance to business analysis and project management.*

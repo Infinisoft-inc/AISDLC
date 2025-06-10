@@ -31,3 +31,9 @@ Thumbs.db
 # Logs
 logs/
 *.log
+
+# Test output
+test-output/
+
+# Demo output
+demo/test-end-to-end.js

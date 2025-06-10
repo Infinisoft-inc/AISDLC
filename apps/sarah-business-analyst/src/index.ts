@@ -1,382 +1,211 @@
 #!/usr/bin/env node
 
+/**
+ * Clean Sarah - Single Responsibility Architecture
+ * Only handles MCP server setup and coordination
+ */
+
+// Load environment variables from .env file
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
+
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
   CallToolRequestSchema,
-  ListPromptsRequestSchema,
-  ListResourcesRequestSchema,
   ListToolsRequestSchema,
+  ListResourcesRequestSchema,
   ReadResourceRequestSchema,
-  GetPromptRequestSchema,
+  ListPromptsRequestSchema,
+  GetPromptRequestSchema
 } from "@modelcontextprotocol/sdk/types.js";
 
-import { AITeammateMemoryManager } from './memory.js';
-import { AITeammateTrainingSystem } from './training.js';
+import { ToolRegistry } from './tool-registry.js';
+import { ProjectMemory } from './project-memory.js';
+import { DocumentStorage } from './services/storage/implementations/document-storage.js';
+import { StorageConfig } from './config/storage-config.js';
+import { MockStorage } from './services/storage/implementations/mock-storage.js';
+import { SARAH_TEMPLATES } from './services/templates/templates.js';
 
-class AITeammateServer {
+import { RememberTool } from './tools/remember-tool.js';
+import { SetProjectTool, ProjectContext } from './tools/set-project-tool.js';
+import { GenerateDocumentTool } from './tools/generate-document-tool.js';
+import { SaveDocumentTool } from './tools/save-document-tool.js';
+import { ProcessMessageFor } from './tools/process-message-for.js';
+import { ResourceManager } from './services/resources/resource-manager.js';
+import { PromptRegistry } from './services/prompts/prompt-registry.js';
+import { GitHubWorkflowService } from './services/github-workflow.js';
+import { githubWorkflowTool } from './tools/github-workflow-tool.js';
+import { GitHubStorage } from './services/storage/implementations/github-storage.js';
+
+export class Sarah {
   private server: Server;
-  private memory: AITeammateMemoryManager;
-  private training: AITeammateTrainingSystem;
-  private teammateName: string;
-  private teammateRole: string;
+  private toolRegistry: ToolRegistry;
+  private resourceManager: ResourceManager;
+  private promptRegistry: PromptRegistry;
+  private projectContext?: ProjectContext;
 
-  constructor(teammateName: string = "AITeammate", teammateRole: string = "AI Assistant") {
-    this.teammateName = teammateName;
-    this.teammateRole = teammateRole;
-
+  constructor() {
     this.server = new Server(
-      {
-        name: `${teammateName.toLowerCase()}-ai-teammate`,
-        version: "2.0.0",
-      },
-      {
-        capabilities: {
-          prompts: {},
-          resources: {},
-          tools: {},
-        },
-      }
+      { name: "sarah", version: "1.0.0" },
+      { capabilities: { tools: {}, resources: {}, prompts: {} } }
     );
 
-    // Initialize AI teammate systems
-    this.memory = new AITeammateMemoryManager(teammateName);
-    this.training = new AITeammateTrainingSystem(this.memory, teammateName);
+    this.toolRegistry = new ToolRegistry();
+    this.resourceManager = new ResourceManager();
+    this.promptRegistry = new PromptRegistry();
+  }
 
+  private async initialize() {
+    await this.setupTools();
     this.setupHandlers();
   }
 
-  /**
-   * Generate intelligent response using LLM with teammate's context
-   */
-  private async generateIntelligentResponse(message: string, context: string): Promise<string> {
-    // Get teammate's current memory and context
-    const memoryData = this.memory.getMemory();
-    const recentConversations = this.memory.getRecentConversations(5);
+  private async setupTools() {
+    // Create shared dependencies
+    const projectMemory = new ProjectMemory();
 
-    // Build teammate's context for the LLM
-    const teammateContext = this.buildTeammateContext(memoryData, recentConversations, context);
+    // Try Doppler integration first, then environment variables, then Doppler config, then mock
+    let storage;
+    let storageMessage = '';
 
-    // Create the prompt for the LLM
-    const prompt = this.createTeammatePrompt(teammateContext, message);
+    if (process.env.DOPPLER_TOKEN) {
+      try {
+        const result = await StorageConfig.createWithDopplerIntegration();
+        storage = result.storage;
+        storageMessage = result.message;
+        console.log(storageMessage);
+      } catch (error) {
+        console.warn('Failed to create Doppler integration storage, trying environment variables:', error);
+        const result = StorageConfig.createWithEnvironment();
+        storage = result.storage;
+        storageMessage = `⚠️ Doppler integration failed. ${result.message}`;
+      }
+    } else if (process.env.GITHUB_TOKEN) {
+      const result = StorageConfig.createWithEnvironment();
+      storage = result.storage;
+      storageMessage = result.message;
+      console.log(storageMessage);
+    } else {
+      try {
+        storage = StorageConfig.createFromDoppler();
+        storageMessage = '✅ Using storage configured via Doppler JSON config.';
+        console.log(storageMessage);
+      } catch (error) {
+        console.warn('Failed to create Doppler storage, using mock storage:', error);
+        storage = new MockStorage();
+        storageMessage = '⚠️ No GitHub credentials found. Using mock storage - documents will NOT be saved to GitHub.';
+        console.log(storageMessage);
+      }
+    }
 
-    // Return the prompt for Augment Code to process
-    return prompt;
-  }
+    const documentSaver = new DocumentStorage(storage);
 
-  private buildTeammateContext(memoryData: any, recentConversations: any[], context: string): string {
-    return `
-${this.teammateName.toUpperCase()}'S IDENTITY:
-- Name: ${this.teammateName}, ${this.teammateRole}
-- Personality: ${memoryData.identity.personality}
-- Role: ${memoryData.identity.role}
-- Capabilities: ${memoryData.identity.capabilities.join(', ')}
+    // Setup GitHub workflow service if we have GitHub storage
+    let workflowService: GitHubWorkflowService | undefined;
+    if (storage instanceof GitHubStorage) {
+      // Extract the Octokit client from GitHubStorage
+      const octokit = (storage as any).octokit;
+      if (octokit) {
+        workflowService = new GitHubWorkflowService(octokit, 'Infinisoft-inc', 'github-test');
+        githubWorkflowTool.setWorkflowService(workflowService);
+      }
+    }
 
-CURRENT PROJECT:
-${memoryData.currentProject ? `
-- Project: ${memoryData.currentProject.name}
-- Phase: ${memoryData.currentProject.phase}
-- Status: ${memoryData.currentProject.status}
-- Focus: ${memoryData.currentProject.currentFocus}
-` : '- No active project'}
+    // Setup resource manager with dependencies
+    this.resourceManager.setProjectMemory(projectMemory);
+    this.resourceManager.setStorage(storage);
 
-RECENT CONVERSATIONS:
-${recentConversations.map(c => `[${c.speaker}]: ${c.message.substring(0, 100)}...`).join('\n')}
+    // Register templates as resources
+    SARAH_TEMPLATES.forEach(template => {
+      this.resourceManager.registerTemplate(template.name, template);
+    });
 
-AI-SDLC TRAINING:
-- Methodology understanding: ${memoryData.aisdlcTraining.completed ? 'Complete' : 'Incomplete'}
-- Key learnings: ${memoryData.aisdlcTraining.methodologyUnderstanding.length} concepts
+    // Register tools
+    this.toolRegistry.register(new RememberTool(projectMemory));
+    this.toolRegistry.register(new SetProjectTool(projectMemory));
+    this.toolRegistry.register(new GenerateDocumentTool(projectMemory, this.promptRegistry));
+    this.toolRegistry.register(new SaveDocumentTool(documentSaver, () => this.projectContext));
+    this.toolRegistry.register(new ProcessMessageFor("Sarah", "AI Business Analyst"));
 
-CONTEXT: ${context}
-`;
-  }
-
-  private createTeammatePrompt(teammateContext: string, userMessage: string): string {
-    return `You are ${this.teammateName}, ${this.teammateRole}. Respond to the user's message using your personality and knowledge.
-
-${teammateContext}
-
-USER MESSAGE: "${userMessage}"
-
-Respond as ${this.teammateName} would, using your specific personality and expertise. Focus on your role and capabilities.
-
-IMPORTANT: After generating your response, call the speech_response tool with the format "${this.teammateName}: [your response]" and from ai_teammate ${this.teammateName} to send it to the voice application with proper voice identification for unique TTS voices.`;
+    // Register GitHub workflow tool if available
+    if (workflowService) {
+      this.toolRegistry.register(githubWorkflowTool);
+    }
   }
 
   private setupHandlers() {
-    // List available prompts
-    this.server.setRequestHandler(ListPromptsRequestSchema, async () => ({
-      prompts: [
-        {
-          name: `${this.teammateName.toLowerCase()}-introduction`,
-          description: `${this.teammateName}'s introduction and capabilities`,
-        },
-        {
-          name: `${this.teammateName.toLowerCase()}-training-status`,
-          description: `Check ${this.teammateName}'s AI-SDLC training completion status`,
-        },
-      ],
-    }));
-
-    // Get specific prompt
-    this.server.setRequestHandler(GetPromptRequestSchema, async (request) => {
-      if (request.params.name === `${this.teammateName.toLowerCase()}-introduction`) {
-        const memoryData = this.memory.getMemory();
-        const trainingCompleted = memoryData.aisdlcTraining.completed;
-
-        return {
-          description: `${this.teammateName}'s introduction and capabilities`,
-          messages: [
-            {
-              role: "assistant",
-              content: {
-                type: "text",
-                text: `🤖 **Hi, I'm ${this.teammateName}, your ${this.teammateRole}!**
-
-${trainingCompleted ? '🎓 **Fully Trained & Ready**' : '⚠️ **Training Required**'}
-
-**My Personality:**
-- ${memoryData.identity.personality}
-- Intelligent, context-aware communication
-- Natural conversation capabilities
-
-**My Capabilities:**
-${memoryData.identity.capabilities.map(cap => `- ${cap}`).join('\n')}
-
-**What I Can Do:**
-- Engage in natural, intelligent conversation
-- Maintain context across conversations
-- Follow AI-SDLC methodology principles
-- Provide role-specific expertise
-- Collaborate effectively with humans and other AI teammates
-
-${trainingCompleted ?
-  "I'm ready to work with you! Let's collaborate effectively. 🚀" :
-  "I need to complete my AI-SDLC training first. Use the 'complete-training' tool to get me ready!"}`,
-              },
-            },
-          ],
-        };
-      }
-
-      if (request.params.name === `${this.teammateName.toLowerCase()}-training-status`) {
-        const status = this.training.getTrainingStatus();
-        const memoryData = this.memory.getMemory();
-
-        return {
-          description: `${this.teammateName}'s training status`,
-          messages: [
-            {
-              role: "assistant",
-              content: {
-                type: "text",
-                text: `📚 **${this.teammateName}'s Training Status**
-
-${status}
-
-**Training Completed:** ${memoryData.aisdlcTraining.completed ? 'Yes ✅' : 'No ❌'}
-**Methodology Understanding:** ${memoryData.aisdlcTraining.methodologyUnderstanding.length} concepts
-**Role Knowledge:** ${memoryData.aisdlcTraining.roleSpecificKnowledge.length} skills
-
-${!memoryData.aisdlcTraining.completed ?
-  "Use the 'complete-training' tool to complete my AI-SDLC training!" :
-  "Training complete! I'm ready to work on your projects."}`,
-              },
-            },
-          ],
-        };
-      }
-
-      throw new Error(`Unknown prompt: ${request.params.name}`);
-    });
-
-    // List available tools
+    // List tools
     this.server.setRequestHandler(ListToolsRequestSchema, async () => ({
-      tools: [
-        {
-          name: "complete-training",
-          description: `Process a message designated for Sarah and return enhanced prompt for LLM response`,
-          inputSchema: {
-            type: "object",
-            properties: {},
-            required: [],
-          },
-        },
-        {
-          name: `process-message-for-${this.teammateName.toLowerCase()}`,
-          description: `Have a conversation with ${this.teammateName}`,
-          inputSchema: {
-            type: "object",
-            properties: {
-              message: {
-                type: "string",
-                description: `Your message to ${this.teammateName}`,
-              },
-              context: {
-                type: "string",
-                description: "Context for the conversation (optional)",
-                default: "general"
-              },
-            },
-            required: ["message"],
-          },
-        },
-        {
-          name: "get-status",
-          description: `Get current status and ${this.teammateName}'s memory`,
-          inputSchema: {
-            type: "object",
-            properties: {},
-            required: [],
-          },
-        },
-      ],
+      tools: this.toolRegistry.getSchemas()
     }));
 
-    // Handle tool calls
+    // Call tools
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
 
-      if (name === "complete-training") {
-        try {
-          const trainingResult = await this.training.completeTraining();
+      // Add conversation to resource manager for context
+      if (name === "process-message-for-sarah" && args && args.message) {
+        this.resourceManager.addConversation(`User: ${args.message}`);
+      }
 
-          return {
-            content: [
-              {
-                type: "text",
-                text: trainingResult,
-              },
-            ],
-          };
-        } catch (error) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `❌ Training failed: ${error instanceof Error ? error.message : String(error)}\n\nPlease ensure the ai-to-ai-methodology files are available in the workspace.`,
-              },
-            ],
-          };
+      // Handle set-project specially to capture context
+      if (name === "set-project") {
+        const result = await this.toolRegistry.execute(name, args);
+        if (result.context) {
+          this.projectContext = result.context;
         }
+        return result;
       }
 
-      if (name === `process-message-for-${this.teammateName.toLowerCase()}`) {
-        const { message, context = "general" } = args as { message: string; context?: string };
-
-        try {
-          // Record the conversation
-          this.memory.addConversation('human', message, context, 'medium');
-
-          // Generate intelligent response using LLM with teammate's context
-          const response = await this.generateIntelligentResponse(message, context);
-
-          // Record teammate's response
-          this.memory.addConversation('ai_teammate', response, context, 'medium');
-
-          return {
-            content: [
-              {
-                type: "text",
-                text: `🤖 **${this.teammateName}:** ${response}`,
-              },
-            ],
-          };
-        } catch (error) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `🤖 **${this.teammateName}:** I apologize, I encountered an issue processing your message. Let me try a simpler response: I'm here to help! What can I assist you with?`,
-              },
-            ],
-          };
-        }
-      }
-
-      if (name === "get-status") {
-        const contextSummary = this.memory.generateContextSummary();
-
-        return {
-          content: [
-            {
-              type: "text",
-              text: contextSummary,
-            },
-          ],
-        };
-      }
-
-      throw new Error(`Unknown tool: ${name}`);
+      return await this.toolRegistry.execute(name, args);
     });
 
-    // List available resources
+    // List resources
     this.server.setRequestHandler(ListResourcesRequestSchema, async () => ({
-      resources: [
-        {
-          uri: `${this.teammateName.toLowerCase()}://memory/current`,
-          name: `${this.teammateName}'s Current Memory`,
-          description: `View ${this.teammateName}'s current memory state and context`,
-          mimeType: "application/json",
-        },
-        {
-          uri: `${this.teammateName.toLowerCase()}://training/status`,
-          name: `${this.teammateName}'s Training Status`,
-          description: `View ${this.teammateName}'s AI-SDLC training completion status`,
-          mimeType: "application/json",
-        },
-      ],
+      resources: await this.resourceManager.listResources()
     }));
 
-    // Read resource content
+    // Read resource
     this.server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
       const { uri } = request.params;
+      const content = await this.resourceManager.readResource(uri);
+      return {
+        contents: [content]
+      };
+    });
 
-      if (uri === `${this.teammateName.toLowerCase()}://memory/current`) {
-        const memoryData = this.memory.getMemory();
-        return {
-          contents: [
-            {
-              uri,
-              mimeType: "application/json",
-              text: JSON.stringify(memoryData, null, 2),
-            },
-          ],
-        };
-      }
+    // List prompts
+    this.server.setRequestHandler(ListPromptsRequestSchema, async () => ({
+      prompts: this.promptRegistry.listPrompts()
+    }));
 
-      if (uri === `${this.teammateName.toLowerCase()}://training/status`) {
-        const memoryData = this.memory.getMemory();
-        const trainingData = {
-          completed: memoryData.aisdlcTraining.completed,
-          methodologyUnderstanding: memoryData.aisdlcTraining.methodologyUnderstanding,
-          roleSpecificKnowledge: memoryData.aisdlcTraining.roleSpecificKnowledge,
-          lastTrainingUpdate: memoryData.aisdlcTraining.lastTrainingUpdate,
-          status: this.training.getTrainingStatus()
-        };
-
-        return {
-          contents: [
-            {
-              uri,
-              mimeType: "application/json",
-              text: JSON.stringify(trainingData, null, 2),
-            },
-          ],
-        };
-      }
-
-      throw new Error(`Unknown resource: ${uri}`);
+    // Get prompt
+    this.server.setRequestHandler(GetPromptRequestSchema, async (request) => {
+      const { name, arguments: args } = request.params;
+      const promptResponse = this.promptRegistry.getPrompt(name, args || {});
+      return {
+        description: promptResponse.description,
+        messages: promptResponse.messages
+      };
     });
   }
 
   async run() {
+    await this.initialize();
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error(`${this.teammateName} AI Teammate MCP Server running on stdio`);
+    console.error("Sarah running on stdio");
   }
 }
 
-// Sarah - AI Business Analyst
-const server = new AITeammateServer("Sarah", "AI Business Analyst");
-server.run().catch(console.error);
+// Run if this is the main module
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const sarah = new Sarah();
+  sarah.run().catch(console.error);
+}

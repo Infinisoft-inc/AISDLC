@@ -52,11 +52,12 @@ export async function getGitHubCredentials(config: DopplerConfig): Promise<Integ
     const project = config.project || 'ai-sdlc';
     const environment = config.config || 'prd';
 
-    const [appId, clientId, clientSecret, privateKey] = await Promise.all([
+    const [appId, clientId, clientSecret, privateKey, installationId] = await Promise.all([
       doppler.secrets.get(project, environment, 'GITHUB_APP_ID'),
       doppler.secrets.get(project, environment, 'GITHUB_CLIENT_ID'),
       doppler.secrets.get(project, environment, 'GITHUB_CLIENT_SECRET'),
-      doppler.secrets.get(project, environment, 'GITHUB_PRIVATE_KEY')
+      doppler.secrets.get(project, environment, 'GITHUB_PRIVATE_KEY'),
+      doppler.secrets.get(project, environment, 'GITHUB_INSTALLATION_ID').catch(() => null)
     ]);
 
     if (!appId?.value || !clientId?.value || !clientSecret?.value || !privateKey?.value) {
@@ -72,7 +73,8 @@ export async function getGitHubCredentials(config: DopplerConfig): Promise<Integ
         appId: String(appId.value.computed),
         clientId: String(clientId.value.computed),
         clientSecret: String(clientSecret.value.computed),
-        privateKey: String(privateKey.value.computed)
+        privateKey: String(privateKey.value.computed),
+        installationId: installationId?.value?.computed ? Number(installationId.value.computed) : undefined
       }
     };
   } catch (error) {

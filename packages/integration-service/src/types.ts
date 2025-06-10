@@ -18,6 +18,7 @@ export interface GitHubCredentials {
   clientId: string;
   clientSecret: string;
   privateKey: string;
+  installationId?: number;
 }
 
 export interface TenantData {

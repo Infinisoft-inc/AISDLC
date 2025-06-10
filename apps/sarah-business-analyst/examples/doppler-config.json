@@ -1,0 +1,11 @@
+{
+  "storage": {
+    "type": "github"
+  },
+  "github": {
+    "token": "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "owner": "Infinisoft-inc",
+    "repo": "sarah-documents",
+    "branch": "main"
+  }
+}
