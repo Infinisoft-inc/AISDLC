@@ -4,6 +4,7 @@
  */
 
 export { createProjectStructure } from './createProjectStructure.js';
+export { createProjectKickoff } from './createProjectKickoff.js';
 export type { ProjectStructureData, ProjectStructureResult } from './createProjectStructure.js';
 
 export { createEpicIssue } from './createEpicIssue.js';

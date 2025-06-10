@@ -36,5 +36,22 @@ export { addIssueToProject } from './projects/addIssueToProject.js';
 export { createProjectV2 } from './projects/createProjectV2.js';
 export { addIssueToProjectV2 } from './projects/addIssueToProjectV2.js';
 
+// AI Teammate project management
+export {
+  createProjectField,
+  createAITeammateField,
+  getProjectFields,
+  findAITeammateField,
+  assignAITeammate,
+  getAIAssignments,
+  getAllAIAssignments,
+  type AITeammate,
+  type ProjectFieldData,
+  type ProjectFieldOption,
+  type ProjectFieldResponse,
+  type ProjectItemAssignment,
+  type AssignmentResult
+} from './projects/index.js';
+
 // Utility functions
 export { generateBranchName } from './utils/generateBranchName.js';

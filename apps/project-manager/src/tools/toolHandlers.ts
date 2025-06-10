@@ -6,10 +6,13 @@
 import { processMessageForJordan } from '../messaging/index.js';
 import {
   createProjectStructure,
+  createProjectKickoff,
   createEpicIssue,
   createFeatureIssue,
   createTaskIssue
 } from '../github/index.js';
+import { testGraphQLFunctionality } from './testGraphQL.js';
+import { getProjectInfo } from './getProjectInfo.js';
 import type { JordanMemoryManager } from '../memory.js';
 import type { JordanTrainingSystem } from '../training.js';
 
@@ -226,6 +229,107 @@ Task is linked to Feature and ready for implementation.`;
 **Error:** ${error instanceof Error ? error.message : String(error)}
 
 Please check repository access and parent Feature number.`;
+
+        return { content: [{ type: "text", text: errorResponse }] };
+      }
+
+    case "create-project-kickoff":
+      try {
+        const result = await createProjectKickoff(args, memory);
+
+        if (result.success && result.data) {
+          const response = `🎉 **AI-SDLC Project Kickoff Created Successfully!**
+
+**Project:** ${args.projectName}
+**Repository:** ${result.data.repository.html_url}
+**Project Board:** ${result.data.project.url}
+
+**📋 AI-SDLC Workflow Created:**
+✅ **Epic:** ${result.data.epic.title} (#${result.data.epic.number})
+✅ **Tasks Created:** ${result.data.tasks.length} workflow tasks
+
+**🎯 Next Steps:**
+1. **Business Case Creation** - Assign to Sarah (Business Analyst)
+2. **Business & User Requirements** - Assign to Sarah
+3. **Architecture & System Design** - Assign to Alex (Architect)
+4. **Project Structure Creation** - Assign to Jordan
+
+**🚀 AI-SDLC Methodology Active:**
+- Human-AI collaboration framework established
+- Standard workflow tasks ready for assignment
+- GitHub project board configured for tracking
+- Ready to begin Phase 1.1 - Business Case Creation
+
+Your AI-SDLC project is now ready for collaborative development!`;
+
+          memory.addConversation('jordan', response, 'project_kickoff', 'high');
+          return { content: [{ type: "text", text: response }] };
+        } else {
+          throw new Error(result.error);
+        }
+      } catch (error) {
+        const errorResponse = `❌ **Project Kickoff Failed**
+
+**Project:** ${args.projectName}
+**Error:** ${error instanceof Error ? error.message : String(error)}
+
+Please check GitHub permissions and try again.`;
+
+        return { content: [{ type: "text", text: errorResponse }] };
+      }
+
+    case "test-graphql":
+      try {
+        const result = await testGraphQLFunctionality(args.projectId, memory);
+
+        if (result.success && result.data) {
+          const response = `🧪 **GraphQL Functionality Test Results**
+
+**Project ID:** ${args.projectId}
+
+**🔍 Client Analysis:**
+- **Has GraphQL:** ${result.data.hasGraphQL ? '✅ Yes' : '❌ No'}
+- **Viewer Login:** ${result.data.viewerLogin || 'Not available'}
+- **Project Fields Found:** ${result.data.projectFields?.length || 0}
+
+**📋 Test Results:**
+${result.data.testResult}
+
+**🎯 Diagnosis:**
+${result.data.hasGraphQL ?
+  'GraphQL client is working properly. Field creation should be possible.' :
+  'GraphQL client is missing. This explains why field creation fails.'
+}`;
+
+          return { content: [{ type: "text", text: response }] };
+        } else {
+          throw new Error(result.error);
+        }
+      } catch (error) {
+        const errorResponse = `❌ **GraphQL Test Failed**
+
+**Error:** ${error instanceof Error ? error.message : String(error)}
+
+This indicates a fundamental issue with the GitHub GraphQL client setup.`;
+
+        return { content: [{ type: "text", text: errorResponse }] };
+      }
+
+    case "get-project-info":
+      try {
+        const result = await getProjectInfo(args, memory);
+
+        if (result.success && result.data) {
+          return { content: [{ type: "text", text: result.data.summary }] };
+        } else {
+          throw new Error(result.error);
+        }
+      } catch (error) {
+        const errorResponse = `❌ **Project Info Query Failed**
+
+**Error:** ${error instanceof Error ? error.message : String(error)}
+
+Please check organization name and permissions.`;
 
         return { content: [{ type: "text", text: errorResponse }] };
       }

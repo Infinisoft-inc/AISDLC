@@ -183,4 +183,60 @@ export const toolSchemas = [
       required: ["owner", "repo", "title", "body", "parentFeatureNumber"],
     },
   },
+  {
+    name: "create-project-kickoff",
+    description: "Create a new project with AI-SDLC kickoff workflow including repository, Epic, and standard workflow tasks",
+    inputSchema: {
+      type: "object",
+      properties: {
+        projectName: {
+          type: "string",
+          description: "Name of the project to create"
+        },
+        organization: {
+          type: "string",
+          description: "GitHub organization name",
+          default: "Infinisoft-inc"
+        },
+        description: {
+          type: "string",
+          description: "Optional project description"
+        }
+      },
+      required: ["projectName"]
+    }
+  },
+  {
+    name: "test-graphql",
+    description: "Test GraphQL functionality for debugging project field creation",
+    inputSchema: {
+      type: "object",
+      properties: {
+        projectId: {
+          type: "string",
+          description: "GitHub Project V2 ID to test with"
+        }
+      },
+      required: ["projectId"]
+    }
+  },
+  {
+    name: "get-project-info",
+    description: "Get GitHub project information including correct node_id for GraphQL operations",
+    inputSchema: {
+      type: "object",
+      properties: {
+        organization: {
+          type: "string",
+          description: "GitHub organization name",
+          default: "Infinisoft-inc"
+        },
+        projectNumber: {
+          type: "number",
+          description: "Specific project number to get info for (optional)"
+        }
+      },
+      required: ["organization"]
+    }
+  }
 ];
