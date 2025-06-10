@@ -5,7 +5,9 @@
 
 export { createProjectStructure } from './createProjectStructure.js';
 export { createProjectKickoff } from './createProjectKickoff.js';
+export { createDocumentStructure } from './createDocumentStructure.js';
 export type { ProjectStructureData, ProjectStructureResult } from './createProjectStructure.js';
+export type { DocumentStructureData, DocumentStructureResult } from './createDocumentStructure.js';
 
 export { createEpicIssue } from './createEpicIssue.js';
 export type { EpicIssueData, EpicIssueResult } from './createEpicIssue.js';

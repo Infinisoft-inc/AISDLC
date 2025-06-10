@@ -2,6 +2,8 @@
 
 **Project Name:** [Project Name]
 **Date:** [Date]
+**Author:** [Author] ([AuthorEmail])
+**Prepared by:** Sarah - AI Business Analyst
 
 ---
 

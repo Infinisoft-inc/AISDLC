@@ -9,7 +9,8 @@ import {
   createProjectKickoff,
   createEpicIssue,
   createFeatureIssue,
-  createTaskIssue
+  createTaskIssue,
+  createDocumentStructure
 } from '../github/index.js';
 import { testGraphQLFunctionality } from './testGraphQL.js';
 import { getProjectInfo } from './getProjectInfo.js';
@@ -330,6 +331,49 @@ This indicates a fundamental issue with the GitHub GraphQL client setup.`;
 **Error:** ${error instanceof Error ? error.message : String(error)}
 
 Please check organization name and permissions.`;
+
+        return { content: [{ type: "text", text: errorResponse }] };
+      }
+
+    case "create-document-structure":
+      try {
+        const result = await createDocumentStructure(args, memory);
+
+        if (result.success && result.data) {
+          const response = `🎉 **AI-SDLC Document Structure Created Successfully!**
+
+**Project:** ${args.projectName}
+**Repository:** https://github.com/${args.owner}/${args.repo}
+
+**📁 Files Created:** ${result.data.filesCreated.length}
+${result.data.filesCreated.map((file: string) => `- ✅ ${file}`).join('\n')}
+
+**🎯 Ready for AI-SDLC Workflow:**
+- **Professional README** - Showcases AI-SDLC methodology
+- **Complete Templates** - Ready for Sarah and Alex to use
+- **Discussion-Based Workflow** - Human-AI collaboration framework
+- **Phase Structure** - Clear progression from planning to implementation
+
+**🚀 Next Steps:**
+1. **Sarah** can start Business Case discussions using the templates
+2. **Alex** can begin Architecture discussions when ready
+3. **Human oversight** at each phase for approval
+4. **Jordan** tracks progress through GitHub project board
+
+Your AI-SDLC project is now fully structured and ready for collaborative development!`;
+
+          memory.addConversation('jordan', response, 'document_structure', 'high');
+          return { content: [{ type: "text", text: response }] };
+        } else {
+          throw new Error(result.error);
+        }
+      } catch (error) {
+        const errorResponse = `❌ **Document Structure Creation Failed**
+
+**Project:** ${args.projectName}
+**Error:** ${error instanceof Error ? error.message : String(error)}
+
+Please check repository access and try again.`;
 
         return { content: [{ type: "text", text: errorResponse }] };
       }

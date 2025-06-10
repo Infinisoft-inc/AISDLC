@@ -12,6 +12,9 @@ import {
   assignAITeammate,
   type AITeammate
 } from '@brainstack/github-service';
+import { AI_TEAMMATES, getAITeammateFieldOptions, createAITeammateAssignment } from '../config/aiTeamConfig.js';
+import { getTaskDocumentLinks } from './documentLinks.js';
+import { createDocumentStructure } from './createDocumentStructure.js';
 
 export interface ProjectKickoffData {
   projectName: string;
@@ -101,6 +104,22 @@ export async function createProjectKickoff(
     // Small delay to ensure repository is ready
     await new Promise(resolve => setTimeout(resolve, 2000));
 
+    // Step 2.5: Create document structure with templates
+    console.log(`📚 Creating AI-SDLC document structure...`);
+    const documentResult = await createDocumentStructure({
+      owner: organization,
+      repo: actualRepoName,
+      projectName,
+      organization
+    }, memory);
+
+    if (!documentResult.success) {
+      console.warn(`⚠️ Document structure creation failed: ${documentResult.error}`);
+      console.warn(`⚠️ Templates will need to be created manually`);
+    } else {
+      console.log(`✅ Document structure created: ${documentResult.data?.filesCreated.length} files`);
+    }
+
     // Step 3: Create AI-SDLC Workflow Epic
     const epicResult = await createEpic(octokit, organization, actualRepoName, {
       title: `[EPIC] ${projectName} - AI-SDLC Kickoff`,
@@ -137,8 +156,11 @@ Complete each task in sequence with appropriate AI teammate collaboration.`,
         body: `# Business Case Creation
 
 **AI-SDLC Phase:** 1.1 - Business Case Creation
+**Author:** Martin Ouimet (mouimet@infinisoft.world)
 **Assigned AI:** Sarah - AI Business Analyst
 **Human Collaboration:** Required for approval
+
+${createAITeammateAssignment('Sarah')}
 
 ## Objective
 Create comprehensive Business Case document defining the problem and solution approach.
@@ -150,7 +172,9 @@ Create comprehensive Business Case document defining the problem and solution ap
 - [ ] Human review and approval
 
 ## Next Step
-After completion, proceed to Business Requirements Document creation.`,
+After completion, proceed to Business Requirements Document creation.
+
+${getTaskDocumentLinks('[TASK] Business Case Creation', organization, actualRepoName)}`,
         labels: ['task', 'phase1', 'business-case', 'sarah'],
         aiTeammate: 'Sarah - AI Business Analyst' as AITeammate
       },
@@ -159,8 +183,11 @@ After completion, proceed to Business Requirements Document creation.`,
         body: `# Business & User Requirements Creation
 
 **AI-SDLC Phase:** 1.2 - Requirements Definition
+**Author:** Martin Ouimet (mouimet@infinisoft.world)
 **Assigned AI:** Sarah - AI Business Analyst
 **Human Collaboration:** Required for approval
+
+${createAITeammateAssignment('Sarah')}
 
 ## Objective
 Create Business Requirements Document (BRD) and User Requirements Document (URD).
@@ -173,7 +200,9 @@ Create Business Requirements Document (BRD) and User Requirements Document (URD)
 - [ ] Human review and approval
 
 ## Next Step
-After completion, proceed to Architecture Design phase.`,
+After completion, proceed to Architecture Design phase.
+
+${getTaskDocumentLinks('[TASK] Business & User Requirements', organization, actualRepoName)}`,
         labels: ['task', 'phase1', 'requirements', 'sarah'],
         aiTeammate: 'Sarah - AI Business Analyst' as AITeammate
       },
@@ -182,8 +211,11 @@ After completion, proceed to Architecture Design phase.`,
         body: `# Architecture & System Design
 
 **AI-SDLC Phase:** 1.3 - Domain Driven SRS & Architecture Design
+**Author:** Martin Ouimet (mouimet@infinisoft.world)
 **Assigned AI:** Alex - AI Architect
 **Human Collaboration:** Required for approval
+
+${createAITeammateAssignment('Alex')}
 
 ## Objective
 Create System Requirements Specification (SRS) and Architectural Design Document (ADD).
@@ -196,7 +228,9 @@ Create System Requirements Specification (SRS) and Architectural Design Document
 - [ ] Human review and approval
 
 ## Next Step
-After completion, proceed to Project Structure creation.`,
+After completion, proceed to Project Structure creation.
+
+${getTaskDocumentLinks('[TASK] Architecture & System Design', organization, actualRepoName)}`,
         labels: ['task', 'phase1', 'architecture', 'alex'],
         aiTeammate: 'Alex - AI Architect' as AITeammate
       },
@@ -205,8 +239,11 @@ After completion, proceed to Project Structure creation.`,
         body: `# Project Structure Creation
 
 **AI-SDLC Phase:** 1.4 - Project Structure
+**Author:** Martin Ouimet (mouimet@infinisoft.world)
 **Assigned AI:** Jordan - AI Project Manager
 **Human Collaboration:** Required for approval
+
+${createAITeammateAssignment('Jordan')}
 
 ## Objective
 Create comprehensive GitHub project structure with EPICs, Features, and Tasks.
@@ -219,7 +256,9 @@ Create comprehensive GitHub project structure with EPICs, Features, and Tasks.
 - [ ] Development workflow established
 
 ## Next Step
-Begin Phase 2 - Iterative Implementation with selected domain.`,
+Begin Phase 2 - Iterative Implementation with selected domain.
+
+${getTaskDocumentLinks('[TASK] Project Structure Creation', organization, actualRepoName)}`,
         labels: ['task', 'phase1', 'project-structure', 'jordan'],
         aiTeammate: 'Jordan - AI Project Manager' as AITeammate
       }

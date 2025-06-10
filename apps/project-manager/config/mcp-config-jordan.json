@@ -5,7 +5,7 @@
     "args": [
       "bash",
       "-c",
-      "\"/home/agent2/AISDLC/apps/project-manager/config/run.sh\""
+      "\"/root/AISDLC/apps/project-manager/config/run.sh\""
     ],
       "env": {
         "NODE_ENV": "production"

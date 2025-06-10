@@ -238,5 +238,32 @@ export const toolSchemas = [
       },
       required: ["organization"]
     }
+  },
+  {
+    name: "create-document-structure",
+    description: "Create AI-SDLC document structure with templates in an existing repository",
+    inputSchema: {
+      type: "object",
+      properties: {
+        owner: {
+          type: "string",
+          description: "Repository owner (organization or user)"
+        },
+        repo: {
+          type: "string",
+          description: "Repository name"
+        },
+        projectName: {
+          type: "string",
+          description: "Name of the project"
+        },
+        organization: {
+          type: "string",
+          description: "GitHub organization (optional)",
+          default: "Infinisoft-inc"
+        }
+      },
+      required: ["owner", "repo", "projectName"]
+    }
   }
 ];

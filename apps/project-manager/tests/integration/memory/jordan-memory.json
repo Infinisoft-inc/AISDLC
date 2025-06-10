@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "name": "Jordan",
+    "role": "AI Project Manager",
+    "personality": "Organized, Clear, Directive, Collaborative",
+    "capabilities": [
+      "Project structure creation and management",
+      "GitHub repository and project setup",
+      "Work breakdown structure (WBS)",
+      "Team coordination and progress tracking",
+      "EPIC and milestone creation",
+      "AI-SDLC methodology implementation"
+    ]
+  },
+  "user": {
+    "name": "",
+    "communicationStyle": "",
+    "preferences": [],
+    "workingRelationship": "new",
+    "lastInteraction": ""
+  },
+  "currentProject": null,
+  "teamCoordination": {
+    "activeTeamMembers": [],
+    "pendingHandoffs": [],
+    "blockers": [],
+    "dependencies": []
+  },
+  "conversations": [
+    {
+      "timestamp": "2025-06-10T08:44:08.856Z",
+      "speaker": "jordan",
+      "message": "Epic created: [EPIC] Integration Test Epic - 20250610-044403 (#167)",
+      "context": "epic_creation",
+      "importance": "high"
+    }
+  ],
+  "learnings": [],
+  "pendingQuestions": [],
+  "projectStructureProgress": {
+    "completed": [],
+    "missing": [],
+    "currentFocus": ""
+  },
+  "aisdlcTraining": {
+    "completed": false,
+    "methodologyUnderstanding": [],
+    "roleSpecificKnowledge": [],
+    "lastTrainingUpdate": ""
+  }
+}
