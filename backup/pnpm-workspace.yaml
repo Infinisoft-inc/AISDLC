@@ -1,7 +1,0 @@
-packages:
-  - 'apps/*'
-  - 'packages/*'
-  - 'libs/*'
-  - 'teams/*'
-  - '!mcp-servers/*'
-  - '!scripts/*'
