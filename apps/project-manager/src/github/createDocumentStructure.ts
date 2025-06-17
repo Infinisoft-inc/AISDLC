@@ -33,6 +33,15 @@ export async function createDocumentStructure(
   const { owner, repo, projectName, organization = "Infinisoft-inc" } = data;
 
   try {
+  console.log(`📁 Creating document structure for ${projectName}...`);
+
+    // Get authenticated GitHub client
+    const dopplerToken = process.env.DOPPLER_TOKEN;
+    if (!dopplerToken) {
+      throw new Error('DOPPLER_TOKEN environment variable not found');
+    }
+
+    const githubSetupResult = await createGitHubSetup(dopplerToken, organization);
 
 
     if (!githubSetupResult.success) {

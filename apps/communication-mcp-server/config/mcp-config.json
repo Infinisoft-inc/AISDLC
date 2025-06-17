@@ -1,0 +1,10 @@
+{
+  "communication": {
+    "command": "wsl.exe",
+    "args": [
+      "bash",
+      "-c",
+      "\"/home/agent2/AISDLC/apps/communication-mcp-server/config/run.sh \""
+    ]
+  }
+}

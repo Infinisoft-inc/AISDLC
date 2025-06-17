@@ -5,7 +5,7 @@
     "args": [
       "bash",
       "-c",
-      "\"/root/AISDLC/apps/sarah-business-analyst/config/run.sh\""
+      "\"/home/agent2/AISDLC/apps/sarah-business-analyst/config/run.sh\""
     ],
       "env": {
         "NODE_ENV": "production"

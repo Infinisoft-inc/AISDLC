@@ -5,7 +5,7 @@
     "args": [
       "bash",
       "-c",
-      "\"/root/AISDLC/apps/alex-ai-architect/config/run.sh\""
+      "\"/home/agent2/AISDLC/apps/alex-ai-architect/config/run.sh\""
     ],
       "env": {
         "NODE_ENV": "production"

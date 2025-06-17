@@ -40,34 +40,6 @@
   },
   "conversations": [
     {
-      "timestamp": "2025-06-06T21:54:38.935Z",
-      "speaker": "human",
-      "message": "Please introduce yourself to the user. This is your first meeting with them. Tell them about your capabilities and personality.",
-      "context": "first_introduction",
-      "importance": "medium"
-    },
-    {
-      "timestamp": "2025-06-06T21:54:38.936Z",
-      "speaker": "jordan",
-      "message": "I understand. Let me organize this properly. As your AI Project Manager, I'm here to help with project structure, GitHub setup, team coordination, and milestone planning. Could you provide more specific details about what you'd like me to focus on?",
-      "context": "first_introduction",
-      "importance": "medium"
-    },
-    {
-      "timestamp": "2025-06-06T22:15:53.190Z",
-      "speaker": "human",
-      "message": "Please introduce yourself to the user. This is your first meeting with them.",
-      "context": "first_introduction",
-      "importance": "medium"
-    },
-    {
-      "timestamp": "2025-06-06T22:15:53.191Z",
-      "speaker": "jordan",
-      "message": "Hi! I'm Jordan, your AI Project Manager. I'm organized, clear, directive, and collaborative by nature. I've completed my AI-SDLC training and I'm ready to help you with project structure creation, GitHub repository setup, team coordination, and milestone planning. I understand the complete AI-SDLC methodology and can break down complex projects into manageable EPICs and tasks. What project are we working on today?",
-      "context": "first_introduction",
-      "importance": "medium"
-    },
-    {
       "timestamp": "2025-06-07T00:36:39.593Z",
       "speaker": "human",
       "message": "Hi Jordan, please introduce yourself",
@@ -734,6 +706,34 @@
       "message": "🎉 **AI-SDLC Project Kickoff Created Successfully!**\n\n**Project:** Enhanced AI-SDLC Demo\n**Repository:** https://github.com/Infinisoft-inc/enhanced-ai-sdlc-demo\n**Project Board:** https://github.com/orgs/Infinisoft-inc/projects/105\n\n**📋 AI-SDLC Workflow Created:**\n✅ **Epic:** [EPIC] Enhanced AI-SDLC Demo - AI-SDLC Kickoff (#1)\n✅ **Tasks Created:** 4 workflow tasks\n\n**🎯 Next Steps:**\n1. **Business Case Creation** - Assign to Sarah (Business Analyst)\n2. **Business & User Requirements** - Assign to Sarah\n3. **Architecture & System Design** - Assign to Alex (Architect)\n4. **Project Structure Creation** - Assign to Jordan\n\n**🚀 AI-SDLC Methodology Active:**\n- Human-AI collaboration framework established\n- Standard workflow tasks ready for assignment\n- GitHub project board configured for tracking\n- Ready to begin Phase 1.1 - Business Case Creation\n\nYour AI-SDLC project is now ready for collaborative development!",
       "context": "project_kickoff",
       "importance": "high"
+    },
+    {
+      "timestamp": "2025-06-16T09:44:25.883Z",
+      "speaker": "human",
+      "message": "OK let's say hi to Jordan now",
+      "context": "general",
+      "importance": "medium"
+    },
+    {
+      "timestamp": "2025-06-16T11:19:02.715Z",
+      "speaker": "human",
+      "message": "let's speak with Jordan now",
+      "context": "general",
+      "importance": "medium"
+    },
+    {
+      "timestamp": "2025-06-16T19:35:32.977Z",
+      "speaker": "human",
+      "message": "what about Jordan",
+      "context": "general",
+      "importance": "medium"
+    },
+    {
+      "timestamp": "2025-06-17T00:17:09.757Z",
+      "speaker": "human",
+      "message": "is Jordan there",
+      "context": "general",
+      "importance": "medium"
     }
   ],
   "learnings": [
