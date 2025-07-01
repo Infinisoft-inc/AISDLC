@@ -33,7 +33,9 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "clean": "rm -rf dist",
     "dev": "npm run build:watch",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prepublishOnly": "npm run clean && npm run build",
+    "demo": "pnpm build && node dist/demo/main.js",
+    "demo:dev": "tsc && node dist/demo/main.js"
   },
   "keywords": [
     "ai",
