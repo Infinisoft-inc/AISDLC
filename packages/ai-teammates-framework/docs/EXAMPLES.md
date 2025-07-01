@@ -2,12 +2,14 @@
 
 This document provides practical examples and common patterns for using the AI Teammates Framework.
 
+**Part of the AI-SDLC experimental framework by Martin Ouimet**
+
 ## Basic Examples
 
 ### Simple Calculator Tool
 
 ```typescript
-import { createTool, success, failure } from '@ai-teammates/framework/functional';
+import { createTool, success, failure } from '@brainstack/ai-teammates-framework/functional';
 
 const calculatorTool = createTool(
   'calculator',
@@ -50,7 +52,7 @@ const calculatorTool = createTool(
 ### File System Resource
 
 ```typescript
-import { createResource, success, failure } from '@ai-teammates/framework/functional';
+import { createResource, success, failure } from '@brainstack/ai-teammates-framework/functional';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 
@@ -86,7 +88,7 @@ const fileSystemResource = createResource(
 ### Code Generation Prompt
 
 ```typescript
-import { createPrompt, success } from '@ai-teammates/framework/functional';
+import { createPrompt, success } from '@brainstack/ai-teammates-framework/functional';
 
 const codeGenerationPrompt = createPrompt(
   'code-generation',
@@ -124,7 +126,7 @@ Requirements:
 ### Database Query Tool
 
 ```typescript
-import { createTool, success, failure } from '@ai-teammates/framework/functional';
+import { createTool, success, failure } from '@brainstack/ai-teammates-framework/functional';
 
 const databaseQueryTool = createTool(
   'database-query',
@@ -180,7 +182,7 @@ const databaseQueryTool = createTool(
 ### API Integration Resource
 
 ```typescript
-import { createResource, success, failure } from '@ai-teammates/framework/functional';
+import { createResource, success, failure } from '@brainstack/ai-teammates-framework/functional';
 
 const apiResource = createResource(
   'api://{service}/{endpoint}',
@@ -234,7 +236,7 @@ const apiResource = createResource(
 ### Multi-Step Workflow Prompt
 
 ```typescript
-import { createPrompt, success } from '@ai-teammates/framework/functional';
+import { createPrompt, success } from '@brainstack/ai-teammates-framework/functional';
 
 const workflowPrompt = createPrompt(
   'workflow-planner',
@@ -292,7 +294,7 @@ import {
   createMemoryTool,
   createMemoryResource,
   createConversationPrompt
-} from '@ai-teammates/framework/functional';
+} from '@brainstack/ai-teammates-framework/functional';
 
 // Parse configuration from environment
 const configResult = parseEnvironmentConfig();
@@ -321,7 +323,7 @@ import {
   createMemoryTool,
   createMemoryResource,
   createConversationPrompt
-} from '@ai-teammates/framework/functional';
+} from '@brainstack/ai-teammates-framework/functional';
 
 // Custom tools, resources, and prompts
 const customTools = [
@@ -375,7 +377,7 @@ framework.memory.set('agent-version', '1.0.0');
 
 ```typescript
 import { calculatorTool } from './calculator-tool';
-import { isSuccess, isFailure } from '@ai-teammates/framework/functional';
+import { isSuccess, isFailure } from '@brainstack/ai-teammates-framework/functional';
 
 describe('Calculator Tool', () => {
   test('should add two numbers correctly', async () => {
@@ -423,7 +425,7 @@ describe('Calculator Tool', () => {
 
 ```typescript
 import { fileSystemResource } from './filesystem-resource';
-import { isSuccess, isFailure } from '@ai-teammates/framework/functional';
+import { isSuccess, isFailure } from '@brainstack/ai-teammates-framework/functional';
 
 describe('File System Resource', () => {
   test('should read allowed files', async () => {
@@ -447,7 +449,7 @@ describe('File System Resource', () => {
 ### Framework Integration Testing
 
 ```typescript
-import { createFramework, parseEnvironmentConfig } from '@ai-teammates/framework/functional';
+import { createFramework, parseEnvironmentConfig } from '@brainstack/ai-teammates-framework/functional';
 import { calculatorTool } from './calculator-tool';
 
 describe('Framework Integration', () => {

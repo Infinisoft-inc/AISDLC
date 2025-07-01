@@ -1,7 +1,7 @@
 {
   "name": "@brainstack/ai-teammates-framework",
   "version": "0.1.0",
-  "description": "Generic, reusable AI teammates framework with plugin architecture",
+  "description": "Functional AI Teammates Framework for building AI agents with tools, resources, and prompts - Part of the AI-SDLC experimental framework",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,11 +39,17 @@
     "ai",
     "teammates",
     "framework",
+    "functional",
+    "typescript",
     "mcp",
-    "plugin",
-    "agents"
+    "tools",
+    "resources",
+    "prompts",
+    "ai-sdlc",
+    "brainstack",
+    "experimental"
   ],
-  "author": "Brainstack",
+  "author": "Martin Ouimet <mouimet@infinisoft.world>",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.6.0"

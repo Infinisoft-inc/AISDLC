@@ -1,6 +1,7 @@
 /**
- * Functional AI Teammates Framework
+ * Functional AI Teammates Framework (@brainstack/ai-teammates-framework)
  * Pure functional architecture with composition
+ * Part of the AI-SDLC experimental framework by Martin Ouimet
  */
 
 // Types

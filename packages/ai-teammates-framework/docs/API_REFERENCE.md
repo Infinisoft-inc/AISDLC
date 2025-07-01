@@ -1,5 +1,7 @@
 # API Reference: Functional AI Teammates Framework
 
+**Part of the AI-SDLC experimental framework by Martin Ouimet**
+
 ## Core Functions
 
 ### createFramework

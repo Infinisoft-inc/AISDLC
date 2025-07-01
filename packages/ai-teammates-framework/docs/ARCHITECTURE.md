@@ -1,5 +1,7 @@
 # Architecture Deep Dive: Functional AI Teammates Framework
 
+**Part of the AI-SDLC experimental framework by Martin Ouimet**
+
 ## Overview
 
 This document provides a comprehensive analysis of the functional AI Teammates Framework architecture, covering design decisions, patterns, and implementation details.

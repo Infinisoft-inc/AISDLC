@@ -2,10 +2,12 @@
 
 A pure functional TypeScript framework for building AI teammates using the Model Context Protocol (MCP). This framework provides a composable, testable, and maintainable architecture for creating AI agents with tools, resources, and prompts.
 
+**Part of the AI-SDLC experimental framework by Martin Ouimet**
+
 ## 🚀 Quick Start
 
 ```typescript
-import { createFramework, createMemoryTool, createMemoryResource, createConversationPrompt } from '@ai-teammates/framework/functional';
+import { createFramework, createMemoryTool, createMemoryResource, createConversationPrompt } from '@brainstack/ai-teammates-framework/functional';
 
 // Create framework with built-in components
 const framework = createFramework(
@@ -81,7 +83,7 @@ Prompts generate text templates. They have:
 ## Installation
 
 ```bash
-npm install @ai-teammates/framework
+npm install @brainstack/ai-teammates-framework
 ```
 
 ## Configuration
@@ -111,7 +113,7 @@ GITHUB_TOKEN=your-token
 ### Configuration Object
 
 ```typescript
-import { parseEnvironmentConfig } from '@ai-teammates/framework/functional';
+import { parseEnvironmentConfig } from '@brainstack/ai-teammates-framework/functional';
 
 const configResult = parseEnvironmentConfig();
 if (configResult.isSuccess) {
@@ -125,7 +127,7 @@ if (configResult.isSuccess) {
 Tools encapsulate business logic and can be called by AI models:
 
 ```typescript
-import { createTool, success, failure } from '@ai-teammates/framework/functional';
+import { createTool, success, failure } from '@brainstack/ai-teammates-framework/functional';
 
 const calculatorTool = createTool(
   'calculator',
@@ -161,7 +163,7 @@ const calculatorTool = createTool(
 Resources provide access to data and information:
 
 ```typescript
-import { createResource, success } from '@ai-teammates/framework/functional';
+import { createResource, success } from '@brainstack/ai-teammates-framework/functional';
 
 const userProfileResource = createResource(
   'app://users/{userId}',
@@ -184,7 +186,7 @@ const userProfileResource = createResource(
 Prompts generate contextual text for AI interactions:
 
 ```typescript
-import { createPrompt, success } from '@ai-teammates/framework/functional';
+import { createPrompt, success } from '@brainstack/ai-teammates-framework/functional';
 
 const codeReviewPrompt = createPrompt(
   'code-review',
@@ -221,7 +223,7 @@ The framework implements the Model Context Protocol for AI model communication:
 ### Handling Tool Calls
 
 ```typescript
-import { handleToolCall } from '@ai-teammates/framework/functional';
+import { handleToolCall } from '@brainstack/ai-teammates-framework/functional';
 
 const tools = [calculatorTool, memoryTool];
 const request = {
@@ -237,7 +239,7 @@ const response = await handleToolCall(request, tools);
 ### Handling Resource Reads
 
 ```typescript
-import { handleResourceRead } from '@ai-teammates/framework/functional';
+import { handleResourceRead } from '@brainstack/ai-teammates-framework/functional';
 
 const resources = [userProfileResource, memoryResource];
 const request = {
@@ -252,7 +254,7 @@ const response = await handleResourceRead(request, resources);
 ### Handling Prompt Generation
 
 ```typescript
-import { handlePromptGet } from '@ai-teammates/framework/functional';
+import { handlePromptGet } from '@brainstack/ai-teammates-framework/functional';
 
 const prompts = [codeReviewPrompt, conversationPrompt];
 const request = {
@@ -272,7 +274,7 @@ const response = await handlePromptGet(request, prompts);
 Provides persistent memory storage:
 
 ```typescript
-import { createMemoryTool } from '@ai-teammates/framework/functional';
+import { createMemoryTool } from '@brainstack/ai-teammates-framework/functional';
 
 const memoryTool = createMemoryTool('my-agent');
 
@@ -289,7 +291,7 @@ const memoryTool = createMemoryTool('my-agent');
 Provides access to stored memory:
 
 ```typescript
-import { createMemoryResource } from '@ai-teammates/framework/functional';
+import { createMemoryResource } from '@brainstack/ai-teammates-framework/functional';
 
 const memoryResource = createMemoryResource('my-agent');
 // Access via URI: my-agent://memory/{key}
@@ -300,7 +302,7 @@ const memoryResource = createMemoryResource('my-agent');
 Generates conversation prompts:
 
 ```typescript
-import { createConversationPrompt } from '@ai-teammates/framework/functional';
+import { createConversationPrompt } from '@brainstack/ai-teammates-framework/functional';
 
 const conversationPrompt = createConversationPrompt();
 // Arguments: { context: string, style?: string }
@@ -311,7 +313,7 @@ const conversationPrompt = createConversationPrompt();
 The framework includes comprehensive testing utilities:
 
 ```typescript
-import { createTool, success, failure } from '@ai-teammates/framework/functional';
+import { createTool, success, failure } from '@brainstack/ai-teammates-framework/functional';
 
 describe('My Tool', () => {
   test('should handle valid input', async () => {
@@ -374,6 +376,12 @@ describe('My Tool', () => {
 ## License
 
 MIT License - see LICENSE file for details.
+
+## Author
+
+**Martin Ouimet** <mouimet@infinisoft.world>
+
+Part of the AI-SDLC experimental framework.
 
 ## Related Documentation
 

@@ -1,5 +1,7 @@
 # AI-to-AI Knowledge Transfer: Functional AI Teammates Framework
 
+**Part of the AI-SDLC experimental framework by Martin Ouimet**
+
 ## SYSTEM_ARCHITECTURE_OVERVIEW
 
 ```
